@@ -1,10 +1,11 @@
 <template>
-  <div class="seat">
-    <p>{{info.role | getCnName}}</p>
-    <p>{{info.no}}</p>
+  <div class="seat" v-bind:class="roleImage">
+    <!--<p >{{info.role | getCnName}} </p>-->
+    <p class="num">{{info.no}}</p>
   </div>
 </template>
 <script>
+  import '../../assets/style/reset.css'
   export default {
     name: 'seat',
     props: ['info'],
@@ -26,23 +27,64 @@
         }
       }
     },
+
     computed: {
       seatsFull () {
         return this.$store.state.seats.filter(seat => seat.role === 'empty').length
+      },
+      roleImage () {
+        const roleImages = {
+          werewolf: 'werewolf',
+          villager: 'villager',
+          seer: 'seer',
+          hunter: 'hunter',
+          witch: 'witch',
+          moron: 'moron'
+        }
+        return roleImages[this.info.role]
       }
     }
   }
 </script>
 <style>
+  .roleImage{
+
+  }
+  .werewolf{
+     background-image:url("../../assets/images/werewolf.png")
+   }
+  .villager{
+    background-image:url("../../assets/images/villager.png")
+  }
+  .seer{
+    background-image:url("../../assets/images/seer.png")
+  }
+  .hunter{
+    background-image:url("../../assets/images/hunter.png")
+  }
+  .witch{
+    background-image:url("../../assets/images/witch.png")
+  }
+  .moron{
+    background-image:url("../../assets/images/moron.png")
+  }
+  .num{
+    position: absolute;
+    bottom:5px;
+    right:5px;
+  }
   .seat {
-    background-color: azure;
-    border: 1px solid #2c3e50;
-    border-radius: 20px;
-    padding: 10px;
-    width: 200px;
-    height: 200px;
-    display: inline-block;
-    font-size: 40px;
+    position: relative;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    /*border:2px solid #290d05;*/
+    border-radius: 13px;
+    /*padding: 10px;*/
+    width: 100%;
+    height: 100%;
+    /*display: inline-block;*/
+    font-size: 0.4rem;
+    color: white;
   }
 
 </style>
