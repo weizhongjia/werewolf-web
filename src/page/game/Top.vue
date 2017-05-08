@@ -26,7 +26,7 @@
     width:0.5rem;
     background:white;
   }
-  img{
+  .top img{
     height: 0.4rem;
     display: block;
     margin: 0 auto;

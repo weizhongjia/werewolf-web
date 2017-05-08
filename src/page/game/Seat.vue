@@ -68,21 +68,23 @@
   .moron{
     background-image:url("../../assets/images/moron.png")
   }
+  .all{
+    background-image:url("../../assets/images/all.png")
+  }
   .num{
     position: absolute;
     bottom:5px;
     right:5px;
+    font-size: 0.4rem;
+    color: white;
   }
   .seat {
     position: relative;
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    /*border:2px solid #290d05;*/
     border-radius: 13px;
-    /*padding: 10px;*/
     width: 100%;
     height: 100%;
-    /*display: inline-block;*/
     font-size: 0.4rem;
     color: white;
   }
