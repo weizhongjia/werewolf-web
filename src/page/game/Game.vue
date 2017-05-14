@@ -45,13 +45,12 @@
       StartGame
     },
     mounted () {
-      getJudgeInfo('test').then(res => {
-        this.seats = res.data.playerSeatInfoList
-        this.acceptableEventTypes = res.data.acceptableEventTypes
-      })
+      this.roomCode = this.$route.params.roomCode
+      window.setInterval(this.getGameInfo, 5000)
     },
     data () {
       return {
+        roomCode: '',
         seats: [],
         create_room: false,
         disband_game: false,
@@ -64,6 +63,12 @@
         this.disband_game = false
         this.restart_game = false
       },
+      getGameInfo: function () {
+        getJudgeInfo(this.roomCode).then(res => {
+          this.seats = res.data.playerSeatInfoList
+          this.acceptableEventTypes = res.data.acceptableEventTypes
+        })
+      },
       startGame: function () {
         const createEvent = {
           eventType: 'CREATE_ROOM',
@@ -75,9 +80,9 @@
             SEER: 1,
             MORON: 1
           },
-          roomCode: 'test'
+          roomCode: this.roomCode
         }
-        putJudgeEvent('test', createEvent).then(res => {
+        putJudgeEvent(this.roomCode, createEvent).then(res => {
           this.initAcceptableEventType()
           this.seats = res.data.playerSeatInfoList
           this.acceptableEventTypes = res.data.acceptableEventTypes

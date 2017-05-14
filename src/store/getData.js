@@ -10,4 +10,8 @@ var putJudgeEvent = (roomCode, judgeEvent) => instance.put('/room/' + roomCode +
 
 var getJudgeInfo = (roomCode) => instance.get('/room/' + roomCode + '/judge/info')
 
-export {putJudgeEvent, getJudgeInfo}
+var getPlayerInfo = (roomCode, seatNumber) => instance.get('/room/' + roomCode + '/player/' + seatNumber + '/info')
+
+var putPlayerEvent = (roomCode, seatNumber, playerEvent) => instance.put('/room/' + roomCode + '/player/' + seatNumber + '/event', playerEvent)
+
+export {putJudgeEvent, getJudgeInfo, getPlayerInfo, putPlayerEvent}
