@@ -17,7 +17,8 @@
     <!--天亮了-->
     <day v-if="0"></day>
 
-    <start-game v-on:startGame="startGame" v-if="create_room"></start-game>
+    <start-game v-on:startGame="startGame" v-if="complete_create"></start-game>
+    <create-game v-on:createGame="createGame" v-if="create_room"></create-game>
   </div>
 
 </template>
@@ -30,6 +31,7 @@
   import day from './children/Day.vue'
   import night from './children/Night.vue'
   import StartGame from './children/StartGame.vue'
+  import CreateGame from './children/CreateGame.vue'
 //  import { mapState } from 'vuex'
   import {putJudgeEvent, getJudgeInfo} from '../../store/getData'
   export default {
@@ -42,17 +44,19 @@
       judgement,
       day,
       night,
-      StartGame
+      StartGame,
+      CreateGame
     },
     mounted () {
       this.roomCode = this.$route.params.roomCode
-      window.setInterval(this.getGameInfo, 5000)
+      this.getGameInfo()
     },
     data () {
       return {
         roomCode: '',
         seats: [],
         create_room: false,
+        complete_create: false,
         disband_game: false,
         restart_game: false
       }
@@ -62,14 +66,16 @@
         this.create_room = false
         this.disband_game = false
         this.restart_game = false
+        this.complete_create = false
       },
       getGameInfo: function () {
         getJudgeInfo(this.roomCode).then(res => {
           this.seats = res.data.playerSeatInfoList
           this.acceptableEventTypes = res.data.acceptableEventTypes
+          window.setTimeout(this.getGameInfo, 5000)
         })
       },
-      startGame: function () {
+      createGame: function () {
         const createEvent = {
           eventType: 'CREATE_ROOM',
           gameConfig: {
@@ -80,6 +86,17 @@
             SEER: 1,
             MORON: 1
           },
+          roomCode: this.roomCode
+        }
+        putJudgeEvent(this.roomCode, createEvent).then(res => {
+          this.initAcceptableEventType()
+          this.seats = res.data.playerSeatInfoList
+          this.acceptableEventTypes = res.data.acceptableEventTypes
+        })
+      },
+      startGame: function () {
+        const createEvent = {
+          eventType: 'COMPLETE_CREATE',
           roomCode: this.roomCode
         }
         putJudgeEvent(this.roomCode, createEvent).then(res => {

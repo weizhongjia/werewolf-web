@@ -1,16 +1,16 @@
 <template>
   <div class="day">
-    <p>房间人数已满</p>
-    <button class="next" v-on:click="startGame">开始游戏</button>
+    <p>当前房间空闲</p>
+    <button class="next" v-on:click="createGame">创建游戏</button>
   </div>
 </template>
 
 <script>
   export default{
-    name: 'startGame',
+    name: 'createGame',
     methods: {
-      startGame: function () {
-        this.$emit('startGame')
+      createGame: function () {
+        this.$emit('createGame')
       }
     }
   }

@@ -33,15 +33,7 @@
         return this.$store.state.seats.filter(seat => seat.role === 'empty').length
       },
       roleImage () {
-        const roleImages = {
-          werewolf: 'werewolf',
-          villager: 'villager',
-          seer: 'seer',
-          hunter: 'hunter',
-          witch: 'witch',
-          moron: 'moron'
-        }
-        return roleImages[this.info.role]
+        return this.info.role.toLowerCase()
       }
     }
   }
@@ -50,7 +42,7 @@
   .roleImage{
 
   }
-  .werewolf{
+  .werewolves{
      background-image:url("../../../assets/images/werewolf.png")
    }
   .villager{
