@@ -1,6 +1,6 @@
 <template>
   <div class="top">
-    <div class="setup"><img src="../../assets/images/setup.png" alt=""></div>
+    <div class="setup"><img src="../../../assets/images/setup.png" alt=""></div>
     <div class="time">第1天  晚上</div>
     <div class="history"><span>历史</span></div>
   </div>

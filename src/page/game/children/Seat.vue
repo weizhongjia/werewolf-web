@@ -5,7 +5,7 @@
   </div>
 </template>
 <script>
-  import '../../assets/style/reset.css'
+  import '../../../assets/style/reset.css'
   export default {
     name: 'seat',
     props: ['info'],
@@ -51,25 +51,25 @@
 
   }
   .werewolf{
-     background-image:url("../../assets/images/werewolf.png")
+     background-image:url("../../../assets/images/werewolf.png")
    }
   .villager{
-    background-image:url("../../assets/images/villager.png")
+    background-image:url("../../../assets/images/villager.png")
   }
   .seer{
-    background-image:url("../../assets/images/seer.png")
+    background-image:url("../../../assets/images/seer.png")
   }
   .hunter{
-    background-image:url("../../assets/images/hunter.png")
+    background-image:url("../../../assets/images/hunter.png")
   }
   .witch{
-    background-image:url("../../assets/images/witch.png")
+    background-image:url("../../../assets/images/witch.png")
   }
   .moron{
-    background-image:url("../../assets/images/moron.png")
+    background-image:url("../../../assets/images/moron.png")
   }
   .all{
-    background-image:url("../../assets/images/all.png")
+    background-image:url("../../../assets/images/all.png")
   }
   .num{
     position: absolute;

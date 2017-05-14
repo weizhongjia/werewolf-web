@@ -32,10 +32,10 @@
     color: black;
   }
   .good{
-    background-image: url("../assets/images/yes.png");
+    background-image: url("../../../assets/images/yes.png");
   }
   .bad{
-    background-image: url("../assets/images/no.png");
+    background-image: url("../../../assets/images/no.png");
     margin-bottom:-0.2rem;
   }
   .judgement>div>p{

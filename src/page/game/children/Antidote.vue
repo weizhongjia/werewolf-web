@@ -8,8 +8,8 @@
       <p>请给玩家“2”号手势,让女巫选择</p>
     </div>
     <div class="drug">
-      <div id="save"><img src="../assets/images/yes.png" alt=""><p>使用解药</p></div>
-      <div id="no" class="click"><img src="../assets/images/no.png" alt=""><p>不救</p></div>
+      <div id="save"><img src="../../../assets/images/yes.png" alt=""><p>使用解药</p></div>
+      <div id="no" class="click"><img src="../../../assets/images/no.png" alt=""><p>不救</p></div>
     </div>
     <div class="yes">确定</div>
   </div>
