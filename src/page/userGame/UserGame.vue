@@ -1,20 +1,28 @@
 <template>
-  <join-game v-on:joinGame="joinGame" v-if="join_room"></join-game>
+  <div id="night">
+    <join-game v-on:joinGame="joinGame" v-if="join_room"></join-game>
+    <div style="text-align: center; width: 4rem; height: 4rem;margin-top: 30%;">
+      <seat :info="playerInfo"></seat>
+    </div>
+  </div>
 </template>
 
 <script>
   import JoinGame from './children/JoinGame.vue'
+  import Seat from '../game/children/Seat.vue'
   import {getPlayerInfo, putPlayerEvent} from '../../store/getData'
   export default{
     name: 'userGame',
     components: {
-      JoinGame
+      JoinGame,
+      Seat
     },
     data () {
       return {
         roomCode: '',
         userId: '',
         seatNumber: '',
+        playerInfo: {role: 'UNASSIGN'},
         join_room: false
       }
     },
@@ -35,6 +43,9 @@
             this.$data[newValue[value].toLowerCase()] = true
           }
         }
+      },
+      roleImage: function () {
+        return
       }
     },
     methods: {
@@ -44,6 +55,7 @@
       getGameInfo: function () {
         getPlayerInfo(this.roomCode, this.seatNumber).then(res => {
           this.acceptableEventTypeList = res.data.acceptableEventTypeList
+          this.playerInfo = res.data.playerInfo
           window.setTimeout(this.getGameInfo, 5000)
         })
       },
@@ -63,30 +75,10 @@
 </script>
 
 <style>
-  .day{
-    width:100%;
-    height:auto%;
+  #night {
+    background-color: #1e1f1f;
     position: absolute;
-    top: 0;
-    bottom:0;
-    left: 0;
-    padding:2rem 0.4rem 0;
-    background: #d6d6d6;
-    font-size: 0.35rem;
-  }
-  .day p{
-    font-size: 0.6rem;
-    font-style: italic;
-    font-weight: bold;
-    color: #1e1f1f;
-  }
-  .next{
-    width:3rem;
-    height:0.8rem;
-    background: #232423;
-    color:#d6d6d6;
-    font-size: 0.45rem;
-    font-weight: bold;
-    margin-top:5rem
+    width: 100%;
+    height: 100%;
   }
 </style>
