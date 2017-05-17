@@ -1,13 +1,18 @@
 <template>
   <div class="night">
     <p>天黑请闭眼...</p>
-    <button class="next">下一步</button>
+    <button class="next" v-on:click="nightComing">下一步</button>
   </div>
 </template>
 
 <script>
   export default{
-    name: 'night'
+    name: 'night',
+    methods: {
+      nightComing: function () {
+        this.$emit('nightComing')
+      }
+    }
   }
 </script>
 

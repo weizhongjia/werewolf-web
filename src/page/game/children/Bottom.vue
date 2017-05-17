@@ -1,10 +1,10 @@
 <template>
   <div class="bottom">
-    <p >选择要杀的玩家</p>
+    <p >{{title}}</p>
     <div class="left">
-      <p class="tips">无法统一意见为空刀</p>
-      <p class="chose">2</p>
-      <p class="yes empty">空刀</p>
+      <p class="tips">{{tips}}</p>
+      <p class="chose" v-if="selectedSeat !== ''">{{selectedSeat}}</p>
+      <p class="yes" v-if="selectedSeat === ''">空刀</p>
     </div>
     <div class="right yes">确定</div>
   </div>
@@ -12,7 +12,20 @@
 
 <script>
   export default{
-    name: 'bottom'
+    name: 'bottom',
+    props: ['event', 'selectedSeat'],
+    computed: {
+      title: function () {
+        if (this.event.filter(event => event === 'WOLF_KILL').length > 0) {
+          return '选择要杀的玩家'
+        }
+      },
+      tips: function () {
+        if (this.event.filter(event => event === 'WOLF_KILL').length > 0) {
+          return '无法统一意见为空刀'
+        }
+      }
+    }
   }
 </script>
 

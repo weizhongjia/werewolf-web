@@ -3,13 +3,13 @@
     <top></top>
     <div class="room">
       <div v-for="seat in seats" class="position">
-        <seat :info="seat"></seat>
+        <seat :info="seat" :event="acceptableEventTypes"></seat>
       </div>
     </div>
-    <bottom></bottom>
+    <bottom :event="acceptableEventTypes" :selectedSeat="selectedSeat"></bottom>
 
     <!--天黑请闭眼-->
-    <night v-if="0"></night>
+    <night v-on:nightComing="nightComing" v-if="night_coming"></night>
     <!--预言家看牌结果-->
     <judgement v-if="0"></judgement>
     <!--是否使用解药-->
@@ -55,10 +55,8 @@
       return {
         roomCode: '',
         seats: [],
-        create_room: false,
-        complete_create: false,
-        disband_game: false,
-        restart_game: false
+        selectedSeat: '',
+        acceptableEventTypes: []
       }
     },
     methods: {
@@ -67,6 +65,7 @@
         this.disband_game = false
         this.restart_game = false
         this.complete_create = false
+        this.night_coming = false
       },
       getGameInfo: function () {
         getJudgeInfo(this.roomCode).then(res => {
@@ -88,18 +87,32 @@
           },
           roomCode: this.roomCode
         }
-        putJudgeEvent(this.roomCode, createEvent).then(res => {
-          this.initAcceptableEventType()
-          this.seats = res.data.playerSeatInfoList
-          this.acceptableEventTypes = res.data.acceptableEventTypes
-        })
+        this.putEvent(createEvent)
       },
       startGame: function () {
         const createEvent = {
           eventType: 'COMPLETE_CREATE',
           roomCode: this.roomCode
         }
-        putJudgeEvent(this.roomCode, createEvent).then(res => {
+        this.putEvent(createEvent)
+      },
+      nightComing: function () {
+        const nightComingEvent = {
+          eventType: 'NIGHT_COMING',
+          roomCode: this.roomCode
+        }
+        this.putEvent(nightComingEvent)
+      },
+      wolfKill: function () {
+        const wolfKillEvent = {
+          eventType: 'WOLF_KILL',
+          roomCode: this.roomCode,
+          wolfKillNumber: this.selectedSeat
+        }
+        this.putEvent(wolfKillEvent)
+      },
+      putEvent: function (event) {
+        putJudgeEvent(this.roomCode, event).then(res => {
           this.initAcceptableEventType()
           this.seats = res.data.playerSeatInfoList
           this.acceptableEventTypes = res.data.acceptableEventTypes
@@ -107,16 +120,20 @@
       }
     },
     computed: {
-      acceptableEventTypes: {
-        get: function () {
-          return ''
-        },
-        set: function (newValue) {
-          let value
-          for (value in newValue) {
-            this.$data[newValue[value].toLowerCase()] = true
-          }
-        }
+      create_room: function () {
+        return this.acceptableEventTypes.filter(event => event === 'CREATE_ROOM').length
+      },
+      complete_create: function () {
+        return this.acceptableEventTypes.filter(event => event === 'COMPLETE_CREATE').length
+      },
+      night_coming: function () {
+        return this.acceptableEventTypes.filter(event => event === 'NIGHT_COMING').length
+      },
+      disband_game: function () {
+        return this.acceptableEventTypes.filter(event => event === 'DISBAND_GAME').length
+      },
+      restart_game: function () {
+        return this.acceptableEventTypes.filter(event => event === 'RESTART_GAME').length
       }
     }
   }

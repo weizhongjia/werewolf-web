@@ -1,5 +1,5 @@
 <template>
-  <div class="seat" v-bind:class="roleImage">
+  <div class="seat" v-bind:class="roleImage" v-on:click="seatSelected">
     <!--<p >{{info.role | getCnName}} </p>-->
     <p class="num">{{info.no}}</p>
   </div>
@@ -8,26 +8,12 @@
   import '../../../assets/style/reset.css'
   export default {
     name: 'seat',
-    props: ['info'],
-    filters: {
-      getCnName: function (value) {
-        switch (value) {
-          case 'werewolf':
-            return '狼人'
-          case 'villager':
-            return '村民'
-          case 'seer':
-            return '预言家'
-          case 'hunter':
-            return '猎人'
-          case 'witch':
-            return '巫师'
-          case 'moron':
-            return '傻瓜'
-        }
+    props: ['info', 'event'],
+    methods: {
+      seatSelected: function () {
+        this.$emit('seatSelected', this.info.seatNumber)
       }
     },
-
     computed: {
       seatsFull () {
         return this.$store.state.seats.filter(seat => seat.role === 'empty').length
