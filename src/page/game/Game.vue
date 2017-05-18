@@ -3,7 +3,7 @@
     <top></top>
     <div class="room">
       <div v-for="seat in seats" class="position">
-        <seat :info="seat" :event="acceptableEventTypes"></seat>
+        <seat :info="seat" :event="acceptableEventTypes" v-on:seatSelected="chooseSeat"></seat>
       </div>
     </div>
     <bottom :event="acceptableEventTypes" :selectedSeat="selectedSeat"></bottom>
@@ -117,6 +117,9 @@
           this.seats = res.data.playerSeatInfoList
           this.acceptableEventTypes = res.data.acceptableEventTypes
         })
+      },
+      chooseSeat: function (seatNumber) {
+        this.selectedSeat = seatNumber
       }
     },
     computed: {
