@@ -8,16 +8,20 @@
       <p>请给玩家“2”号手势,让女巫选择</p>
     </div>
     <div class="drug">
-      <div id="save"><img src="../../../assets/images/yes.png" alt=""><p>使用解药</p></div>
-      <div id="no" class="click"><img src="../../../assets/images/no.png" alt=""><p>不救</p></div>
+      <div id="save" v-on:click="save(true)"><img src="../../../assets/images/yes.png" alt=""><p>使用解药</p></div>
+      <div id="no" class="click" v-on:click="save(false)"><img src="../../../assets/images/no.png" alt=""><p>不救</p></div>
     </div>
-    <div class="yes">确定</div>
   </div>
 </template>
 
 <script>
   export default{
-    name: 'antidote'
+    name: 'antidote',
+    methods: {
+      save: function (flag) {
+        this.$emit('witchSave', flag)
+      }
+    }
   }
 </script>
 

@@ -4,9 +4,9 @@
     <div class="left">
       <p class="tips">{{tips}}</p>
       <p class="chose" v-if="selectedSeat !== ''">{{selectedSeat}}</p>
-      <p class="yes" v-if="selectedSeat === ''">空刀</p>
+      <p class="yes" v-if="selectedSeat === '' && wolf_kill">空刀</p>
     </div>
-    <div class="right yes">确定</div>
+    <div class="right yes" v-on:click="emitEvent">确定</div>
   </div>
 </template>
 
@@ -14,15 +14,34 @@
   export default{
     name: 'bottom',
     props: ['event', 'selectedSeat'],
+    methods: {
+      emitEvent: function () {
+        this.$emit('bottomConfirm')
+      }
+    },
     computed: {
+      wolf_kill: function () {
+        return this.event.filter(event => event === 'WOLF_KILL').length > 0
+      },
+      seer_verify: function () {
+        return this.event.filter(event => event === 'SEER_VERIFY').length > 0
+      },
       title: function () {
-        if (this.event.filter(event => event === 'WOLF_KILL').length > 0) {
+        if (this.wolf_kill) {
           return '选择要杀的玩家'
+        }
+        if (this.seer_verify) {
+          return '选择预言家要验的玩家'
+        }
+        if (this.witch_save) {
+          return '女巫是否救人'
         }
       },
       tips: function () {
-        if (this.event.filter(event => event === 'WOLF_KILL').length > 0) {
+        if (this.wolf_kill) {
           return '无法统一意见为空刀'
+        } else {
+          return ''
         }
       }
     }

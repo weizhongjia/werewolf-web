@@ -6,14 +6,14 @@
         <seat :info="seat" :event="acceptableEventTypes" v-on:seatSelected="chooseSeat"></seat>
       </div>
     </div>
-    <bottom :event="acceptableEventTypes" :selectedSeat="selectedSeat"></bottom>
+    <bottom :event="acceptableEventTypes" :selectedSeat="selectedSeat" v-on:bottomConfirm="bottomEventConfirm"></bottom>
 
     <!--天黑请闭眼-->
     <night v-on:nightComing="nightComing" v-if="night_coming"></night>
     <!--预言家看牌结果-->
     <judgement v-if="0"></judgement>
     <!--是否使用解药-->
-    <antidote v-if="0"></antidote>
+    <antidote v-if="witch_save" v-on:witchSave="witchSave"></antidote>
     <!--天亮了-->
     <day v-if="0"></day>
 
@@ -103,6 +103,14 @@
         }
         this.putEvent(nightComingEvent)
       },
+      bottomEventConfirm: function () {
+        if (this.wolf_Kill) {
+          this.wolfKill()
+        }
+        if (this.seer_verify) {
+          this.seerVerify()
+        }
+      },
       wolfKill: function () {
         const wolfKillEvent = {
           eventType: 'WOLF_KILL',
@@ -110,6 +118,30 @@
           wolfKillNumber: this.selectedSeat
         }
         this.putEvent(wolfKillEvent)
+      },
+      seerVerify: function () {
+        const seerVerifyEvent = {
+          eventType: 'SEER_VERIFY',
+          roomCode: this.roomCode,
+          seerVerifyNumber: this.selectedSeat
+        }
+        this.putEvent(seerVerifyEvent)
+      },
+      witchSave: function (isSave) {
+        const witchSaveEvent = {
+          eventType: 'WITCH_SAVE',
+          roomCode: this.roomCode,
+          witchSave: isSave
+        }
+        this.putEvent(witchSaveEvent)
+      },
+      fakeWitchPoison: function () {
+        const fakeWitchPoisonEvent = {
+          eventType: 'FAKE_WITCH_POISON',
+          roomCode: this.roomCode,
+          witchPoisonNumber: 0
+        }
+        this.putEvent(fakeWitchPoisonEvent)
       },
       putEvent: function (event) {
         putJudgeEvent(this.roomCode, event).then(res => {
@@ -132,11 +164,30 @@
       night_coming: function () {
         return this.acceptableEventTypes.filter(event => event === 'NIGHT_COMING').length
       },
+      wolf_kill: function () {
+        return this.acceptableEventTypes.filter(event => event === 'WOLF_KILL').length
+      },
+      seer_verify: function () {
+        return this.acceptableEventTypes.filter(event => event === 'SEER_VERIFY').length
+      },
+      witch_save: function () {
+        return this.acceptableEventTypes.filter(event => event === 'WITCH_SAVE').length
+      },
+      fake_witch_poison: function () {
+        return this.acceptableEventTypes.filter(event => event === 'FAKE_WITCH_POISON').length
+      },
       disband_game: function () {
         return this.acceptableEventTypes.filter(event => event === 'DISBAND_GAME').length
       },
       restart_game: function () {
         return this.acceptableEventTypes.filter(event => event === 'RESTART_GAME').length
+      }
+    },
+    watch: {
+      fake_witch_poison: function (value) {
+        if (value) {
+          this.fakeWitchPoison()
+        }
       }
     }
   }
