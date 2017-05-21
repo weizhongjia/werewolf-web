@@ -110,6 +110,9 @@
         if (this.seer_verify) {
           this.seerVerify()
         }
+        if (this.witch_poison) {
+          this.witchPoison()
+        }
       },
       wolfKill: function () {
         const wolfKillEvent = {
@@ -142,6 +145,14 @@
           witchPoisonNumber: 0
         }
         this.putEvent(fakeWitchPoisonEvent)
+      },
+      witchPoison: function () {
+        const witchPoisonEvent = {
+          eventType: 'WITCH_POISON',
+          roomCode: this.roomCode,
+          witchPoisonNumber: this.selectedSeat
+        }
+        this.putEvent(witchPoisonEvent)
       },
       daytimeComing: function () {
         const daytimeComingEvent = {
@@ -179,6 +190,9 @@
       },
       witch_save: function () {
         return this.acceptableEventTypes.filter(event => event === 'WITCH_SAVE').length
+      },
+      witch_poison: function () {
+        return this.acceptableEventTypes.filter(event => event === 'WITCH_POISON').length
       },
       fake_witch_poison: function () {
         return this.acceptableEventTypes.filter(event => event === 'FAKE_WITCH_POISON').length
