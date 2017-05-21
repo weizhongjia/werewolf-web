@@ -1,14 +1,14 @@
 <template>
   <div class="seat" v-bind:class="roleImage" v-on:click="seatSelected">
     <!--<p >{{info.role | getCnName}} </p>-->
-    <p class="num">{{info.no}}</p>
+    <p class="num">{{info.seatNumber}}</p>
     <!--死亡-->
-    <div class="die" v-if="0">
+    <div class="die" v-if="!info.alive || (selectedSeat === info.seatNumber && wolfKill)">
       <img src="../../../assets/images/die2.png" alt="">
       <div></div>
    </div>
     <!--毒药-->
-    <div class="poison" v-if="0">
+    <div class="poison" v-if="selectedSeat === info.seatNumber && witchPoison">
       <img src="../../../assets/images/poison.png" alt="">
       <div></div>
    </div>
@@ -18,15 +18,15 @@
   import '../../../assets/style/reset.css'
   export default {
     name: 'seat',
-    props: ['info', 'event'],
+    props: ['info', 'wolfKill', 'witchPoison', 'selectedSeat'],
     methods: {
       seatSelected: function () {
         this.$emit('seatSelected', this.info.seatNumber)
       }
     },
     computed: {
-      seatsFull () {
-        return this.$store.state.seats.filter(seat => seat.role === 'empty').length
+      wolf_kill () {
+
       },
       roleImage () {
         return this.info.role.toLowerCase()

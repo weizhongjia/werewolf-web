@@ -2,43 +2,35 @@
   <div id="vote">
     <p>请投票</p>
     <ul>
-      <li class="self">1</li>
-      <li>2</li>
-      <li>3</li>
-      <li>4</li>
-      <li>5</li>
-      <li>6</li>
-      <li>7</li>
-      <li class="on">8</li>
-      <li>9</li>
-      <li>10</li>
-      <li>11</li>
-      <li>12</li>
+      <li v-for="player in playerInfoList" v-bind:class="{'on': !player.alive, 'self': selfInfo.seatNumber === player.seatNumber}">
+        {{ player.seatNumber }}
+      </li>
     </ul>
-    <button class="yes">弃权</button>
-    <button class="yes">确定</button>
+    <button class="yes" v-bind:click="vote(false)">弃权</button>
+    <button class="yes" v-bind:click="vote(true)">确定</button>
   </div>
 </template>
 
 <script>
   export default{
-    name: 'vote'
+    name: 'vote',
+    props: ['playerInfoList', 'selfInfo'],
+    methods: {
+      vote: function (vote) {
+        if (vote) {
+          this.$emit('vote', this.selfInfo.seatNumber)
+        } else {
+          this.$emit('vote', 0)
+        }
+      }
+    }
   }
 </script>
 
 <style>
   #vote{
     width:5.8rem;
-    /*margin:2rem auto 0;*/
-    position: absolute;
-    bottom: 0.5rem;
-    left: 0.4rem;
-  }
-  #vote p{
-    width: 100%;
-    height: 0.8rem;
-    font-size: 0.5rem;
-    color: white;
+    margin:2rem auto 0;
   }
   #vote ul{
     display: flex;
@@ -69,7 +61,5 @@
     line-height: 0.76rem;
     border-radius: 5px;
   }
-  #vote .yes{
-    margin:0 0.3rem;
-  }
+
 </style>

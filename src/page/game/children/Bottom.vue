@@ -29,6 +29,9 @@
       witch_poison: function () {
         return this.event.filter(event => event === 'WITCH_POISON').length > 0
       },
+      daytime_voting: function () {
+        return this.event.filter(event => event === 'DAYTIME_VOTING').length > 0
+      },
       title: function () {
         if (this.wolf_kill) {
           return '选择要杀的玩家'
@@ -38,6 +41,9 @@
         }
         if (this.witch_poison) {
           return '请选择女巫要毒的玩家'
+        }
+        if (this.daytime_voting) {
+          return '开始投票'
         }
       },
       tips: function () {

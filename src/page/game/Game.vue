@@ -3,7 +3,7 @@
     <top></top>
     <div class="room">
       <div v-for="seat in seats" class="position">
-        <seat :info="seat" :event="acceptableEventTypes" v-on:seatSelected="chooseSeat"></seat>
+        <seat :info="seat" :selectedSeat="selectedSeat" :wolfKill="wolf_kill" :witchPoison="witch_poison" v-on:seatSelected="chooseSeat"></seat>
       </div>
     </div>
     <bottom :event="acceptableEventTypes" :selectedSeat="selectedSeat" v-on:bottomConfirm="bottomEventConfirm"></bottom>
@@ -113,6 +113,9 @@
         if (this.witch_poison) {
           this.witchPoison()
         }
+        if (this.daytime_voting) {
+          this.daytimeVoting()
+        }
       },
       wolfKill: function () {
         const wolfKillEvent = {
@@ -138,6 +141,14 @@
         }
         this.putEvent(witchSaveEvent)
       },
+      fakeWitchSave: function () {
+        const fakeWitchSaveEvent = {
+          eventType: 'FAKE_WITCH_SAVE',
+          roomCode: this.roomCode,
+          witchSaveNumber: 0
+        }
+        this.putEvent(fakeWitchSaveEvent)
+      },
       fakeWitchPoison: function () {
         const fakeWitchPoisonEvent = {
           eventType: 'FAKE_WITCH_POISON',
@@ -160,6 +171,13 @@
           roomCode: this.roomCode
         }
         this.putEvent(daytimeComingEvent)
+      },
+      daytimeVoting: function () {
+        const daytimeVotingEvent = {
+          eventType: 'DAYTIME_VOTING',
+          roomCode: this.roomCode
+        }
+        this.putEvent(daytimeVotingEvent)
       },
       putEvent: function (event) {
         putJudgeEvent(this.roomCode, event).then(res => {
@@ -197,8 +215,14 @@
       fake_witch_poison: function () {
         return this.acceptableEventTypes.filter(event => event === 'FAKE_WITCH_POISON').length
       },
+      fake_witch_save: function () {
+        return this.acceptableEventTypes.filter(event => event === 'FAKE_WITCH_SAVE').length
+      },
       daytime_coming: function () {
         return this.acceptableEventTypes.filter(event => event === 'DAYTIME_COMING').length
+      },
+      daytime_voting: function () {
+        return this.acceptableEventTypes.filter(event => event === 'DAYTIME_VOTING').length
       },
       disband_game: function () {
         return this.acceptableEventTypes.filter(event => event === 'DISBAND_GAME').length
@@ -211,6 +235,11 @@
       fake_witch_poison: function (value) {
         if (value) {
           this.fakeWitchPoison()
+        }
+      },
+      fake_witch_save: function (value) {
+        if (value) {
+          this.fakeWitchSave()
         }
       }
     }

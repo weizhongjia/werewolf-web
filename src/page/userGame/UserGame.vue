@@ -4,7 +4,7 @@
     <div style="text-align: center; width: 4rem; height: 4rem;margin:2rem auto 0">
       <seat :info="playerInfo"></seat>
     </div>
-    <vote></vote>
+    <vote :playerInfoList="playerInfoList" :selfInfo="playerInfo" v-bind:vote="daytimeVote"></vote>
   </div>
 
 
@@ -28,7 +28,8 @@
         userId: '',
         seatNumber: '',
         playerInfo: {role: 'UNASSIGN'},
-        join_room: false
+        acceptableEventTypeList: [],
+        playerInfoList: []
       }
     },
     mounted () {
@@ -38,29 +39,16 @@
       this.getGameInfo()
     },
     computed: {
-      acceptableEventTypeList: {
-        get: function () {
-          return ''
-        },
-        set: function (newValue) {
-          let value
-          for (value in newValue) {
-            this.$data[newValue[value].toLowerCase()] = true
-          }
-        }
-      },
-      roleImage: function () {
-        return
+      join_room: function () {
+        return this.acceptableEventTypeList.filter(event => event === 'JOIN_GAME').length
       }
     },
     methods: {
-      initAcceptableEventType: function () {
-        this.join_room = false
-      },
       getGameInfo: function () {
         getPlayerInfo(this.roomCode, this.seatNumber).then(res => {
           this.acceptableEventTypeList = res.data.acceptableEventTypeList
           this.playerInfo = res.data.playerInfo
+          this.playerInfoList = res.data.playerSeatInfoList
           window.setTimeout(this.getGameInfo, 5000)
         })
       },
@@ -71,7 +59,18 @@
           userID: this.userId
         }
         putPlayerEvent(this.roomCode, this.seatNumber, createEvent).then(res => {
-          this.initAcceptableEventType()
+          this.acceptableEventTypeList = res.data.acceptableEventTypeList
+          this.playerInfoList = res.data.playerSeatInfoList
+        })
+      },
+      daytimeVote: function (voteNumber) {
+        const daytimeVoteEvent = {
+          eventType: 'DAYTIME_VOTE',
+          seatNumber: this.seatNumber,
+          userID: this.userId,
+          daytimeVoteNumber: voteNumber
+        }
+        putPlayerEvent(this.roomCode, this.seatNumber, daytimeVoteEvent).then(res => {
           this.acceptableEventTypeList = res.data.acceptableEventTypeList
         })
       }
