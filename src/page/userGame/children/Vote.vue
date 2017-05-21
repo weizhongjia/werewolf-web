@@ -33,6 +33,7 @@
     position: absolute;
     bottom: 0.5rem;
     left: 0.4rem;
+    z-index:1;
   }
   #vote p{
     width: 100%;
