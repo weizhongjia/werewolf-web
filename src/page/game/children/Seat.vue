@@ -2,6 +2,16 @@
   <div class="seat" v-bind:class="roleImage" v-on:click="seatSelected">
     <!--<p >{{info.role | getCnName}} </p>-->
     <p class="num">{{info.no}}</p>
+    <!--死亡-->
+    <div class="die" v-if="0">
+      <img src="../../../assets/images/die2.png" alt="">
+      <div></div>
+   </div>
+    <!--毒药-->
+    <div class="poison" v-if="0">
+      <img src="../../../assets/images/poison.png" alt="">
+      <div></div>
+   </div>
   </div>
 </template>
 <script>
@@ -28,6 +38,18 @@
   .roleImage{
 
   }
+  .seat {
+    position: relative;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    width: 100%;
+    height: 100%;
+    font-size: 0.4rem;
+    color: white;
+    box-sizing: border-box;
+    border:13px solid #290d05;
+    border-radius: 20px;
+  }
   .werewolves{
      background-image:url("../../../assets/images/werewolf.png")
    }
@@ -49,6 +71,37 @@
   .all{
     background-image:url("../../../assets/images/all.png")
   }
+  .die,.poison{
+    width:100%;
+    height: 100%;
+    position: relative;
+  }
+  .die div,.poison div{
+    position: absolute;
+    top:0;
+    left: 0;
+    opacity: 0.7;
+    background:gray;
+    width:100%;
+    height: 100%;
+    z-index: 1;
+  }
+  .poison img{
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 60%;
+    height: 60%;
+    z-index: 100;
+  }
+  .die img{
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
   .num{
     position: absolute;
     bottom:5px;
@@ -56,18 +109,8 @@
     font-size: 0.4rem;
     color: white;
   }
-  .seat {
-    position: relative;
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    /*border-radius: 13px;*/
-    width: 100%;
-    height: 100%;
-    font-size: 0.4rem;
-    color: white;
-    box-sizing: border-box;
-    border:13px solid #290d05;
-    border-radius: 20px;
+  /*选中添加效果*/
+  .selected{
+    border:13px solid olivedrab;
   }
-
 </style>
