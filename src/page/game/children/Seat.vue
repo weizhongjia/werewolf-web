@@ -60,11 +60,14 @@
     position: relative;
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    border-radius: 13px;
+    /*border-radius: 13px;*/
     width: 100%;
     height: 100%;
     font-size: 0.4rem;
     color: white;
+    box-sizing: border-box;
+    border:13px solid #290d05;
+    border-radius: 20px;
   }
 
 </style>

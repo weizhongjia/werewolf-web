@@ -1,18 +1,35 @@
 <template>
   <div class="top">
-    <div class="setup"><img src="../../../assets/images/setup.png" alt=""></div>
-    <div class="time">第1天  晚上</div>
+    <div class="setup" >
+      <img src="../../../assets/images/setup.png" alt="" v-on:click="resetGame">
+      <div v-if="reset" class="reset">重启游戏</div>
+    </div>
+    <!--<div class="time">第1天  晚上</div>-->
     <div class="history"><span>历史</span></div>
   </div>
 </template>
 
 <script>
   export default{
-    name: 'top'
+    name: 'top',
+    data () {
+      return {
+        reset: false
+      }
+    },
+    methods: {
+      resetGame: function () {
+        this.reset = !this.reset
+      }
+    }
   }
+
 </script>
 
 <style >
+  /*.bounceInDown{-webkit-animation-name:bounceInDown;animation-name:bounceInDown}*/
+  /*@keyframes bounceInDown{0%{opacity:0;-webkit-transform:translateY(-2000px);-ms-transform:translateY(-2000px);transform:translateY(-2000px)}60%{opacity:1;-webkit-transform:translateY(30px);-ms-transform:translateY(30px);transform:translateY(30px)}80%{-webkit-transform:translateY(-10px);-ms-transform:translateY(-10px);transform:translateY(-10px)}100%{-webkit-transform:translateY(0);-ms-transform:translateY(0);transform:translateY(0)}}*/
+ /**/
   .top{
     height: 0.7rem;
     background: #7c7d7d;
@@ -51,6 +68,14 @@
     background: white;
     width:0.7rem;
 
+  }
+  .reset{
+    font-size: 0.3rem;
+    color: black;
+    width: 1.5rem;
+    z-index: 100;
+    position: absolute;
+    background:white ;
   }
   .top{
     width:100%;

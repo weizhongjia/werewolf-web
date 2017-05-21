@@ -14,12 +14,12 @@
 <style>
   .day{
     width:100%;
-    height:auto%;
+    height:auto;
     position: absolute;
     top: 0;
     bottom:0;
     left: 0;
-    padding:2rem 0.4rem 0;
+    padding:2rem 0 0;
     background: #d6d6d6;
     font-size: 0.35rem;
   }

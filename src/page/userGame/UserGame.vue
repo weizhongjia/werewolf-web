@@ -1,21 +1,26 @@
 <template>
   <div id="night">
     <join-game v-on:joinGame="joinGame" v-if="join_room"></join-game>
-    <div style="text-align: center; width: 4rem; height: 4rem;margin-top: 30%;">
+    <div style="text-align: center; width: 4rem; height: 4rem;margin:2rem auto 0">
       <seat :info="playerInfo"></seat>
     </div>
+    <vote></vote>
   </div>
+
+
 </template>
 
 <script>
   import JoinGame from './children/JoinGame.vue'
   import Seat from '../game/children/Seat.vue'
+  import Vote from './children/Vote.vue'
   import {getPlayerInfo, putPlayerEvent} from '../../store/getData'
   export default{
     name: 'userGame',
     components: {
       JoinGame,
-      Seat
+      Seat,
+      Vote
     },
     data () {
       return {

@@ -104,7 +104,7 @@
         this.putEvent(nightComingEvent)
       },
       bottomEventConfirm: function () {
-        if (this.wolf_Kill) {
+        if (this.wolf_kill) {
           this.wolfKill()
         }
         if (this.seer_verify) {
@@ -200,7 +200,7 @@
     height: 100%;
   }
   .room {
-    width: 5.8rem;
+    width: 5.6rem;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -209,13 +209,14 @@
   .position {
     /*display: inline-block;*/
     width: 1.5rem;
-    box-sizing: border-box;
+    /*box-sizing: border-box;*/
     height: 1.5rem;
-    margin-top:0.3rem;
+    margin-top:0.2rem;
+    margin-left:0.2rem;
     /*padding-top: 30px;*/
     text-align: center;
-    border:13px solid #290d05;
-    border-radius: 20px;
+    /*border:13px solid #290d05;*/
+    /*border-radius: 20px;*/
   }
 
 </style>

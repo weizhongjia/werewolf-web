@@ -63,7 +63,7 @@
     bottom: 2.2rem;
     left: 0;
     color: #b3b3b3;
-    font-size: 0.35rem;
+    font-size: 0.3rem;
     line-height: 0.4rem;
   }
   .tips{
