@@ -2,10 +2,16 @@
   <div class="top">
     <div class="setup" >
       <img src="../../../assets/images/setup.png" alt="" v-on:click="resetGame">
-      <div v-if="reset" class="reset">重启游戏</div>
+
     </div>
     <!--<div class="time">第1天  晚上</div>-->
     <div class="history"><span>历史</span></div>
+    <div v-if="reset" class="reset">
+      <span>请确定是否重启游戏？</span>
+      <p class="yes">重启游戏</p>
+      <div></div>
+
+    </div>
   </div>
 </template>
 
@@ -72,10 +78,47 @@
   .reset{
     font-size: 0.3rem;
     color: black;
-    width: 1.5rem;
+    width:4.6rem;
+    height:6rem;
     z-index: 100;
     position: absolute;
-    background:white ;
+    top:0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    /*background:white ;*/
+  }
+  .reset div{
+    width:100%;
+    height:100%;
+    background: gray;
+    opacity: 0.9;
+    position: absolute;
+    top:0;
+    z-index: 1;
+  }
+  .reset span{
+    position: absolute;
+    top:1.2rem;
+    left: 10%;
+    z-index: 2;
+    font-size: 0.5rem;
+    display: block;
+    /*height: 1rem;*/
+    width: 80%;
+    line-height: 150%;
+    font-style: italic;
+  }
+  .reset p{
+    z-index: 100;
+    position: absolute;
+    top:4.5rem;
+    left: 0;
+    bottom:0;
+    right: 0;
+    margin:0 auto;
+    /*color:gray;*/
   }
   .top{
     width:100%;
