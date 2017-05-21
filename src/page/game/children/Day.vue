@@ -1,13 +1,18 @@
 <template>
   <div class="day">
     <p>天亮了...</p>
-    <button class="next">下一步</button>
+    <button class="next" v-on:click="daytime">下一步</button>
   </div>
 </template>
 
 <script>
   export default{
-    name: 'day'
+    name: 'day',
+    methods: {
+      daytime: function () {
+        this.$emit('daytime')
+      }
+    }
   }
 </script>
 
