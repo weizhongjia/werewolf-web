@@ -1,7 +1,7 @@
 <template>
   <div id="night">
     <join-game v-on:joinGame="joinGame" v-if="join_room"></join-game>
-    <div style="text-align: center; width: 4rem; height: 4rem;margin:2rem auto 0">
+    <div class="userImage">
       <seat :info="playerInfo"></seat>
     </div>
     <vote :playerInfoList="playerInfoList" :selfInfo="playerInfo" v-bind:vote="daytimeVote"></vote>
@@ -84,5 +84,14 @@
     position: absolute;
     width: 100%;
     height: 100%;
+  }
+  .userImage{
+    text-align: center;
+    width: 4.2rem;
+    height: 4.2rem;
+    margin:1rem auto 0
+  }
+  .userImage>div{
+    border-radius: 50%;
   }
 </style>

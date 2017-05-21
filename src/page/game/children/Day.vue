@@ -27,6 +27,7 @@
     padding:2rem 0 0;
     background: #d6d6d6;
     font-size: 0.35rem;
+    z-index: 100;
   }
   .day p{
     font-size: 0.6rem;
