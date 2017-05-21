@@ -26,6 +26,9 @@
       seer_verify: function () {
         return this.event.filter(event => event === 'SEER_VERIFY').length > 0
       },
+      witch_poison: function () {
+        return this.event.filter(event => event === 'WITCH_POISON').length > 0
+      },
       title: function () {
         if (this.wolf_kill) {
           return '选择要杀的玩家'
@@ -33,8 +36,8 @@
         if (this.seer_verify) {
           return '选择预言家要验的玩家'
         }
-        if (this.witch_save) {
-          return '女巫是否救人'
+        if (this.witch_poison) {
+          return '请选择女巫要毒的玩家'
         }
       },
       tips: function () {

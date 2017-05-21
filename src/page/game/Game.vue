@@ -15,7 +15,7 @@
     <!--是否使用解药-->
     <antidote v-if="witch_save" v-on:witchSave="witchSave"></antidote>
     <!--天亮了-->
-    <day v-if="0"></day>
+    <day v-if="daytime_coming" v-on:daytime="daytimeComing"></day>
 
     <start-game v-on:startGame="startGame" v-if="complete_create"></start-game>
     <create-game v-on:createGame="createGame" v-if="create_room"></create-game>
@@ -110,6 +110,9 @@
         if (this.seer_verify) {
           this.seerVerify()
         }
+        if (this.witch_poison) {
+          this.witchPoison()
+        }
       },
       wolfKill: function () {
         const wolfKillEvent = {
@@ -143,6 +146,21 @@
         }
         this.putEvent(fakeWitchPoisonEvent)
       },
+      witchPoison: function () {
+        const witchPoisonEvent = {
+          eventType: 'WITCH_POISON',
+          roomCode: this.roomCode,
+          witchPoisonNumber: this.selectedSeat
+        }
+        this.putEvent(witchPoisonEvent)
+      },
+      daytimeComing: function () {
+        const daytimeComingEvent = {
+          eventType: 'DAYTIME_COMING',
+          roomCode: this.roomCode
+        }
+        this.putEvent(daytimeComingEvent)
+      },
       putEvent: function (event) {
         putJudgeEvent(this.roomCode, event).then(res => {
           this.initAcceptableEventType()
@@ -173,8 +191,14 @@
       witch_save: function () {
         return this.acceptableEventTypes.filter(event => event === 'WITCH_SAVE').length
       },
+      witch_poison: function () {
+        return this.acceptableEventTypes.filter(event => event === 'WITCH_POISON').length
+      },
       fake_witch_poison: function () {
         return this.acceptableEventTypes.filter(event => event === 'FAKE_WITCH_POISON').length
+      },
+      daytime_coming: function () {
+        return this.acceptableEventTypes.filter(event => event === 'DAYTIME_COMING').length
       },
       disband_game: function () {
         return this.acceptableEventTypes.filter(event => event === 'DISBAND_GAME').length
