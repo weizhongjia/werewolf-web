@@ -69,10 +69,10 @@
   .yes{
     width:2rem;
     height:0.6rem;
-    line-height: 0.6rem;
-    background: white;
+    line-height: 0.5rem;
+    background: #f6f5f5;
     margin:0.4rem auto;
-    font-weight: bold;
+    /*font-weight: bold;*/
     border:2px solid #5f5f5f;
     border-radius: 5px;
     font-size: 0.35rem;

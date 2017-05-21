@@ -1,9 +1,13 @@
 <template>
   <div id="night">
     <join-game v-on:joinGame="joinGame" v-if="join_room"></join-game>
+
     <div class="userImage">
+
       <seat :info="playerInfo"></seat>
+      <p>点击头像可显示/隐藏身份牌</p>
     </div>
+    <!--<div class="yes hide">隐藏/显示身份</div>-->
     <vote :playerInfoList="playerInfoList" :selfInfo="playerInfo" v-bind:vote="daytimeVote"></vote>
   </div>
 
@@ -89,9 +93,18 @@
     text-align: center;
     width: 4.2rem;
     height: 4.2rem;
-    margin:1rem auto 0
+    margin:0.9rem auto 0
   }
   .userImage>div{
     border-radius: 50%;
+  }
+  #night .hide{
+    width: 3rem;
+    font-size: 0.3rem;
+  }
+  .userImage>p{
+    font-size: 0.3rem;
+    color: gray;
+    margin-top:0.1rem;
   }
 </style>

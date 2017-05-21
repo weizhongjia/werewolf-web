@@ -49,6 +49,7 @@
     box-sizing: border-box;
     border:8px solid #290d05;
     border-radius: 20px;
+    background-image:url("../../../assets/images/all.png")
   }
   .werewolves{
      background-image:url("../../../assets/images/werewolf.png")
