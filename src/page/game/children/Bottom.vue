@@ -53,17 +53,21 @@
 
 <style>
   .bottom{
+    overflow: hidden;
     width: 6.4rem;
     text-align: center;
     position: absolute;
-    bottom: 0;
     height:3rem;
+    /*top:7.4rem;*/
+    bottom: 0;
     left: 0;
+    background: #1e1f1f;
   }
   .bottom>p{
     width: 6.4rem;
     position: absolute;
-    bottom: 2.2rem;
+    top:0.3rem;
+    height: 0.4rem;
     left: 0;
     color: #b3b3b3;
     font-size: 0.3rem;
@@ -72,28 +76,33 @@
   .tips{
     width: 3rem;
     position: absolute;
-    bottom: 1.5rem;
+    top:0;
+    height: 0.4rem;
+    line-height: 0.4rem;
     left: 0;
     color: #717171;
     font-size: 0.25rem;
   }
   .left{
     position: absolute;
+    top:0.7rem;
+    height: 2rem;
     left: 0;
-    bottom: 0.3rem;
     width: 3rem;
   }
   .right{
     margin: 0;
     position: absolute;
     right: 0.4rem;
-    bottom:0.5rem ;
+    top:1.6rem ;
   }
   .chose{
     width: 3rem;
     height: 1.5rem;
     /*line-height: 0.8rem;*/
-    font-size: 1.5rem;
+    position: absolute;
+    top:0.4rem;
+    font-size: 1.3rem;
     color: #4a2151;
     font-weight: bold;
   }
@@ -101,6 +110,6 @@
     display: none;
   }
   .left .yes{
-    margin: 0 0 0.3rem 0.4rem;
+    margin: 0.9rem 0 0.3rem 0.4rem;
   }
 </style>

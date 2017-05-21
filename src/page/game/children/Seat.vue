@@ -47,7 +47,7 @@
     font-size: 0.4rem;
     color: white;
     box-sizing: border-box;
-    border:13px solid #290d05;
+    border:8px solid #290d05;
     border-radius: 20px;
   }
   .werewolves{

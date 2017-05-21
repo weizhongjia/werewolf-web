@@ -43,4 +43,7 @@
     font-weight: bold;
     margin-top:5rem
   }
+  .none{
+    border:none;
+  }
 </style>
