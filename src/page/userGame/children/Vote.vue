@@ -2,25 +2,46 @@
   <div id="vote">
     <p>请投票</p>
     <ul>
-      <li v-for="player in playerInfoList" v-bind:class="{'on': !player.alive, 'self': selfInfo.seatNumber === player.seatNumber}">
-        {{ player.seatNumber }}
-      </li>
+      <template v-for="player in playerInfoList" >
+        <li v-on:click="selectSeat(player)" v-bind:class="getClass(player)">
+          {{ player.seatNumber }}
+        </li>
+      </template>
     </ul>
-    <button class="yes" v-bind:click="vote(false)">弃权</button>
-    <button class="yes" v-bind:click="vote(true)">确定</button>
+    <button class="yes" v-on:click="vote(false)">弃权</button>
+    <button class="yes" v-on:click="vote(true)">确定</button>
   </div>
 </template>
 
 <script>
   export default{
     name: 'vote',
+    data () {
+      return {
+        selected: 0
+      }
+    },
     props: ['playerInfoList', 'selfInfo'],
     methods: {
       vote: function (vote) {
         if (vote) {
-          this.$emit('vote', this.selfInfo.seatNumber)
+          this.$emit('vote', this.selected)
         } else {
           this.$emit('vote', 0)
+        }
+      },
+      selectSeat: function (player) {
+        let isSelf = this.selfInfo.seatNumber === player.seatNumber || !player.alive
+        if (!isSelf) {
+          this.selected = player.seatNumber
+        }
+      },
+      getClass: function (player) {
+        let isSelf = this.selfInfo.seatNumber === player.seatNumber || !player.alive
+        let isOn = this.selected === player.seatNumber && !isSelf
+        return {
+          self: isSelf,
+          on: isOn
         }
       }
     }

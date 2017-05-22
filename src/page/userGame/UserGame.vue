@@ -8,7 +8,7 @@
       <p>点击头像可显示/隐藏身份牌</p>
     </div>
     <!--<div class="yes hide">隐藏/显示身份</div>-->
-    <vote :playerInfoList="playerInfoList" :selfInfo="playerInfo" v-bind:vote="daytimeVote"></vote>
+    <vote v-if="daytime_vote" :playerInfoList="playerInfoList" :selfInfo="playerInfo" v-on:vote="daytimeVote"></vote>
   </div>
 
 
@@ -45,6 +45,9 @@
     computed: {
       join_room: function () {
         return this.acceptableEventTypeList.filter(event => event === 'JOIN_GAME').length
+      },
+      daytime_vote: function () {
+        return this.acceptableEventTypeList.filter(event => event === 'DAYTIME_VOTE').length
       }
     },
     methods: {
