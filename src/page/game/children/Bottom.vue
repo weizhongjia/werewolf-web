@@ -29,18 +29,33 @@
       witch_poison: function () {
         return this.event.filter(event => event === 'WITCH_POISON').length > 0
       },
+      witch_save: function () {
+        return this.event.filter(event => event === 'WITCH_SAVE').length > 0
+      },
       daytime_voting: function () {
         return this.event.filter(event => event === 'DAYTIME_VOTING').length > 0
+      },
+      fake_seer_verify: function () {
+        return this.event.filter(event => event === 'FAKE_SEER_VERIFY').length > 0
+      },
+      fake_witch_poison: function () {
+        return this.event.filter(event => event === 'FAKE_WITCH_POISON').length > 0
+      },
+      fake_witch_save: function () {
+        return this.event.filter(event => event === 'FAKE_WITCH_SAVE').length > 0
       },
       title: function () {
         if (this.wolf_kill) {
           return '选择要杀的玩家'
         }
-        if (this.seer_verify) {
+        if (this.seer_verify || this.fake_seer_verify) {
           return '选择预言家要验的玩家'
         }
-        if (this.witch_poison) {
+        if (this.witch_poison || this.fake_witch_poison) {
           return '请选择女巫要毒的玩家'
+        }
+        if (this.witch_save || this.fake_witch_save) {
+          return '请选择女巫要救的玩家'
         }
         if (this.daytime_voting) {
           return '开始投票'
@@ -49,6 +64,12 @@
       tips: function () {
         if (this.wolf_kill) {
           return '无法统一意见为空刀'
+        } else if (this.fake_seer_verify) {
+          return '预言家已经死亡'
+        } else if (this.fake_witch_poison) {
+          return '女巫已经无法毒人'
+        } else if (this.fake_witch_save) {
+          return '女巫已经无法救人'
         } else {
           return ''
         }

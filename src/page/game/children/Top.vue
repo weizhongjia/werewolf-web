@@ -1,14 +1,14 @@
 <template>
   <div class="top">
     <div class="setup" >
-      <img src="../../../assets/images/setup.png" alt="" v-on:click="resetGame">
+      <img src="../../../assets/images/setup.png" alt="" v-on:click="showMenu">
 
     </div>
     <!--<div class="time">第1天  晚上</div>-->
     <div class="history"><span>历史</span></div>
-    <div v-if="reset" class="reset animated bounceInDown">
+    <div v-if="menu" class="reset animated bounceInDown">
       <span>请确定是否重启游戏？</span>
-      <p class="yes">重启游戏</p>
+      <p class="yes" v-on:click="resetGame">重启游戏</p>
       <div></div>
 
     </div>
@@ -20,12 +20,15 @@
     name: 'top',
     data () {
       return {
-        reset: false
+        menu: false
       }
     },
     methods: {
+      showMenu: function () {
+        this.menu = !this.menu
+      },
       resetGame: function () {
-        this.reset = !this.reset
+        this.$emit('resetGame')
       }
     }
   }

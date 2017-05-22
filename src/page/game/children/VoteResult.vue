@@ -5,15 +5,15 @@
     <!--投票结果容器-->
     <div class="allVoteResult">
       <!--每个身份投票信息-->
-      <div class="voteResult">
-        <p>2号：</p>
-        <p>&nbsp;8,9</p>
+      <div class="voteResult" v-for="(value, key) in daytimeRecord.votingRecord">
+        <p>{{key}}号：</p>
+        <p><span v-for="n in value">{{ n }}</span></p>
       </div>
     </div>
 
     <div id="outNum">
       <p>最终结果：</p>
-      <p class="outNum">2</p>
+      <p class="outNum" v-for="p in daytimeRecord.voteResult">{{p}}</p>
       <p>&nbsp;号出局</p>
     </div>
   </div>
@@ -24,7 +24,8 @@
     name: 'voteResult',
     data: {
       outNum: 2
-    }
+    },
+    props: ['daytimeRecord']
 
   }
 </script>

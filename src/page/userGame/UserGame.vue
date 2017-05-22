@@ -9,7 +9,7 @@
     </div>
     <!--<div class="yes hide">隐藏/显示身份</div>-->
     <vote v-if="daytime_vote" :playerInfoList="playerInfoList" :selfInfo="playerInfo" v-on:vote="daytimeVote"></vote>
-    <voteResult></voteResult>
+    <voteResult v-if="daytimeRecord" :daytimeRecord="daytimeRecord"></voteResult>
   </div>
 
 
@@ -36,7 +36,8 @@
         seatNumber: '',
         playerInfo: {role: 'UNASSIGN'},
         acceptableEventTypeList: [],
-        playerInfoList: []
+        playerInfoList: [],
+        daytimeRecord: []
       }
     },
     mounted () {
@@ -59,6 +60,7 @@
           this.acceptableEventTypeList = res.data.acceptableEventTypeList
           this.playerInfo = res.data.playerInfo
           this.playerInfoList = res.data.playerSeatInfoList
+          this.daytimeRecord = res.data.daytimeRecord
           window.setTimeout(this.getGameInfo, 5000)
         })
       },

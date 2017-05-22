@@ -1,6 +1,6 @@
 <template>
   <div id="night">
-    <top></top>
+    <top v-on:resetGame="restartGame"></top>
     <div class="room">
       <div v-for="seat in seats" class="position">
         <seat :info="seat" :selectedSeat="selectedSeat" :wolfKill="wolf_kill" :witchPoison="witch_poison" v-on:seatSelected="chooseSeat"></seat>
@@ -19,7 +19,7 @@
 
     <start-game v-on:startGame="startGame" v-if="complete_create"></start-game>
     <create-game v-on:createGame="createGame" v-if="create_room"></create-game>
-    <voteResult></voteResult>
+    <voteResult v-if="daytimeRecord" :daytimeRecord="daytimeRecord"></voteResult>
   </div>
 
 </template>
@@ -59,7 +59,8 @@
         roomCode: '',
         seats: [],
         selectedSeat: '',
-        acceptableEventTypes: []
+        acceptableEventTypes: [],
+        daytimeRecord: []
       }
     },
     methods: {
@@ -74,6 +75,7 @@
         getJudgeInfo(this.roomCode).then(res => {
           this.seats = res.data.playerSeatInfoList
           this.acceptableEventTypes = res.data.acceptableEventTypes
+          this.daytimeRecord = res.data.daytimeRecord
           window.setTimeout(this.getGameInfo, 5000)
         })
       },
@@ -91,6 +93,13 @@
           roomCode: this.roomCode
         }
         this.putEvent(createEvent)
+      },
+      restartGame: function () {
+        const restartGameEvent = {
+          eventType: 'RESTART_GAME',
+          roomCode: this.roomCode
+        }
+        this.putEvent(restartGameEvent)
       },
       startGame: function () {
         const createEvent = {
@@ -119,6 +128,15 @@
         if (this.daytime_voting) {
           this.daytimeVoting()
         }
+        if (this.fake_witch_save) {
+          this.fakeWitchSave()
+        }
+        if (this.fake_witch_poison) {
+          this.fakeWitchPoison()
+        }
+        if (this.fake_seer_verify) {
+          this.fakeSeerVerify()
+        }
       },
       wolfKill: function () {
         const wolfKillEvent = {
@@ -135,6 +153,14 @@
           seerVerifyNumber: this.selectedSeat
         }
         this.putEvent(seerVerifyEvent)
+      },
+      fakeSeerVerify: function () {
+        const fakeSeerVerifyEvent = {
+          eventType: 'FAKE_SEER_VERIFY',
+          roomCode: this.roomCode,
+          seerVerifyNumber: 0
+        }
+        this.putEvent(fakeSeerVerifyEvent)
       },
       witchSave: function (isSave) {
         const witchSaveEvent = {
@@ -209,6 +235,9 @@
       seer_verify: function () {
         return this.acceptableEventTypes.filter(event => event === 'SEER_VERIFY').length
       },
+      fake_seer_verify: function () {
+        return this.acceptableEventTypes.filter(event => event === 'FAKE_SEER_VERIFY').length
+      },
       witch_save: function () {
         return this.acceptableEventTypes.filter(event => event === 'WITCH_SAVE').length
       },
@@ -232,18 +261,6 @@
       },
       restart_game: function () {
         return this.acceptableEventTypes.filter(event => event === 'RESTART_GAME').length
-      }
-    },
-    watch: {
-      fake_witch_poison: function (value) {
-        if (value) {
-          this.fakeWitchPoison()
-        }
-      },
-      fake_witch_save: function (value) {
-        if (value) {
-          this.fakeWitchSave()
-        }
       }
     }
   }
