@@ -9,6 +9,7 @@
     </div>
     <!--<div class="yes hide">隐藏/显示身份</div>-->
     <vote v-if="daytime_vote" :playerInfoList="playerInfoList" :selfInfo="playerInfo" v-on:vote="daytimeVote"></vote>
+    <voteResult></voteResult>
   </div>
 
 
@@ -19,12 +20,14 @@
   import Seat from '../game/children/Seat.vue'
   import Vote from './children/Vote.vue'
   import {getPlayerInfo, putPlayerEvent} from '../../store/getData'
+  import VoteResult from '../game/children/VoteResult.vue'
   export default{
     name: 'userGame',
     components: {
       JoinGame,
       Seat,
-      Vote
+      Vote,
+      VoteResult
     },
     data () {
       return {
@@ -100,6 +103,10 @@
   }
   .userImage>div{
     border-radius: 50%;
+  }
+  .userImage .die{
+    border-radius: 50%;
+    overflow: hidden;
   }
   #night .hide{
     width: 3rem;

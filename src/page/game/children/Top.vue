@@ -6,7 +6,7 @@
     </div>
     <!--<div class="time">第1天  晚上</div>-->
     <div class="history"><span>历史</span></div>
-    <div v-if="reset" class="reset">
+    <div v-if="reset" class="reset animated bounceInDown">
       <span>请确定是否重启游戏？</span>
       <p class="yes">重启游戏</p>
       <div></div>
@@ -40,6 +40,8 @@
     background: #7c7d7d;
     display: flex;
     justify-content: space-between;
+    width:100%;
+    height: 0.6rem;
   }
   .setup{
     margin:auto 0;
@@ -91,7 +93,7 @@
   .reset div{
     width:100%;
     height:100%;
-    background: gray;
+    background: #c4c4c4;
     opacity: 0.9;
     position: absolute;
     top:0;
@@ -119,8 +121,65 @@
     margin:0 auto;
     /*color:gray;*/
   }
-  .top{
-    width:100%;
-    height: 0.6rem;
+
+  .animated {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both
   }
+  .infinite {
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite
+  }@-webkit-keyframes bounceInDown {
+     0% {
+       opacity: 0;
+       -webkit-transform: translateY(-2000px);
+       transform: translateY(-2000px)
+     }
+     60% {
+       opacity: 1;
+       -webkit-transform: translateY(30px);
+       transform: translateY(30px)
+     }
+     80% {
+       -webkit-transform: translateY(-10px);
+       transform: translateY(-10px)
+     }
+     100% {
+       -webkit-transform: translateY(0);
+       transform: translateY(0)
+     }
+   }
+
+  @keyframes bounceInDown {
+    0% {
+      opacity: 0;
+      -webkit-transform: translateY(-2000px);
+      -ms-transform: translateY(-2000px);
+      transform: translateY(-2000px)
+    }
+    60% {
+      opacity: 1;
+      -webkit-transform: translateY(30px);
+      -ms-transform: translateY(30px);
+      transform: translateY(30px)
+    }
+    80% {
+      -webkit-transform: translateY(-10px);
+      -ms-transform: translateY(-10px);
+      transform: translateY(-10px)
+    }
+    100% {
+      -webkit-transform: translateY(0);
+      -ms-transform: translateY(0);
+      transform: translateY(0)
+    }
+  }
+
+  .bounceInDown {
+    -webkit-animation-name: bounceInDown;
+    animation-name: bounceInDown
+  }
+
 </style>

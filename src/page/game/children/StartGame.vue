@@ -1,5 +1,5 @@
 <template>
-  <div class="startGame">
+  <div class="startGame animated bounceInDow">
     <p>房间人数已满</p>
     <button class="next" v-on:click="startGame">开始游戏</button>
   </div>

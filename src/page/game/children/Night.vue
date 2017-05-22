@@ -19,7 +19,7 @@
 <style>
   .night{
     width:100%;
-    height:auto%;
+    height:auto;
     position: absolute;
     top: 0;
     bottom:0;
@@ -27,6 +27,7 @@
     padding:2rem 0.4rem 0;
     background: #030000;
     font-size: 0.35rem;
+    z-index: 100;
   }
   .night p{
     font-size: 0.6rem;

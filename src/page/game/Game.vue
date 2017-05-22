@@ -19,6 +19,7 @@
 
     <start-game v-on:startGame="startGame" v-if="complete_create"></start-game>
     <create-game v-on:createGame="createGame" v-if="create_room"></create-game>
+    <voteResult></voteResult>
   </div>
 
 </template>
@@ -32,6 +33,7 @@
   import night from './children/Night.vue'
   import StartGame from './children/StartGame.vue'
   import CreateGame from './children/CreateGame.vue'
+  import VoteResult from './children/VoteResult.vue'
 //  import { mapState } from 'vuex'
   import {putJudgeEvent, getJudgeInfo} from '../../store/getData'
   export default {
@@ -45,7 +47,8 @@
       day,
       night,
       StartGame,
-      CreateGame
+      CreateGame,
+      VoteResult
     },
     mounted () {
       this.roomCode = this.$route.params.roomCode
