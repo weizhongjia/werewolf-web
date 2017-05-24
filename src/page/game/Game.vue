@@ -17,7 +17,7 @@
     <!--天亮了-->
     <day v-if="daytime_coming" v-on:daytime="daytimeComing"></day>
 
-    <start-game v-on:startGame="startGame" v-if="complete_create"></start-game>
+    <start-game v-on:handleClick="handleClick" v-if="complete_create || ending_game" :endingGame="ending_game" :startGame="complete_create"></start-game>
     <create-game v-on:createGame="createGame" v-if="create_room"></create-game>
     <voteResult v-if="daytimeRecord" :daytimeRecord="daytimeRecord"></voteResult>
   </div>
@@ -115,6 +115,14 @@
         }
         this.putEvent(nightComingEvent)
       },
+      handleClick: function () {
+        if (this.complete_create) {
+          this.startGame()
+        }
+        if (this.ending_game) {
+          this.endingGame()
+        }
+      },
       bottomEventConfirm: function () {
         if (this.wolf_kill) {
           this.wolfKill()
@@ -208,6 +216,13 @@
         }
         this.putEvent(daytimeVotingEvent)
       },
+      endingGame: function () {
+        const endingGameEvent = {
+          eventType: 'GAME_ENDING',
+          roomCode: this.roomCode
+        }
+        this.putEvent(endingGameEvent)
+      },
       putEvent: function (event) {
         putJudgeEvent(this.roomCode, event).then(res => {
           this.initAcceptableEventType()
@@ -255,6 +270,9 @@
       },
       daytime_voting: function () {
         return this.acceptableEventTypes.filter(event => event === 'DAYTIME_VOTING').length
+      },
+      ending_game: function () {
+        return this.acceptableEventTypes.filter(event => event === 'GAME_ENDING').length
       },
       disband_game: function () {
         return this.acceptableEventTypes.filter(event => event === 'DISBAND_GAME').length

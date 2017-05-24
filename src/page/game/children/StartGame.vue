@@ -1,16 +1,33 @@
 <template>
   <div class="startGame animated bounceInDow">
-    <p>房间人数已满</p>
-    <button class="next" v-on:click="startGame">开始游戏</button>
+    <p>{{text.title}}</p>
+    <button class="next" v-on:click="startGame">{{text.button}}</button>
   </div>
 </template>
 
 <script>
   export default{
     name: 'startGame',
+    props: ['startGame', 'endingGame'],
     methods: {
       startGame: function () {
-        this.$emit('startGame')
+        this.$emit('handleClick', 'startGa)
+      }
+    },
+    computed: {
+      text: function () {
+        if (this.startGame) {
+          return {
+            title: '房间人数已满',
+            button: '开始游戏'
+          }
+        }
+        if (this.endingGame) {
+          return {
+            title: '游戏结束',
+            button: '确定'
+          }
+        }
       }
     }
   }
