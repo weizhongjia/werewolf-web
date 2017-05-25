@@ -27,7 +27,7 @@
     <div class="userName">用户名</div>
     <div class="change">
       <span style="color: white">当前模式：</span>
-      <span style="color: white">法官</span>
+      <span style="color: white">玩家</span>
       <span>切换角色</span>
     </div>
   </div>

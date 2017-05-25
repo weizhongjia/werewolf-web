@@ -25,7 +25,6 @@
 
 <style>
   #begin{
-    /*background-color: lightcoral;*/
     height: 5rem;
   }
   #begin section{

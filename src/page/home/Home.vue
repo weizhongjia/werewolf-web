@@ -3,8 +3,10 @@
     <home-top></home-top>
     <home-head></home-head>
     <match></match>
-    <begin></begin>
+    <begin ></begin>
     <foot></foot>
+
+    <choose v-if="0" ></choose>
   </div>
 </template>
 
@@ -14,6 +16,8 @@
   import Match from './children/Match.vue'
   import Begin from './children/Begin.vue'
   import Foot from './children/Footer.vue'
+
+  import Choose from './children/Choose.vue'
   export default{
     name: 'home',
     components: {
@@ -21,14 +25,17 @@
       HomeHead,
       Match,
       Begin,
-      Foot
-
+      Foot,
+      Choose
     }
+
   }
 </script>
 
 <style>
 .home{
+  width: 6.4rem;
+  /*height: 100%;*/
   background-color: white;
 }
 </style>
