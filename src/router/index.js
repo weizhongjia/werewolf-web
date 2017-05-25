@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Hello from '@/components/Hello'
 import UserGame from '@/page/userGame/UserGame'
 import Game from '@/page/game/Game'
+import Home from '@/page/home/Home'
 
 Vue.use(Router)
 
@@ -20,6 +21,10 @@ export default new Router({
     {
       path: '/game/:roomCode',
       component: Game
+    },
+    {
+      path: '/home',
+      component: Home
     }
   ]
 })

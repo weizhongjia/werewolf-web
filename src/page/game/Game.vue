@@ -17,20 +17,25 @@
     <!--天亮了-->
     <day v-if="daytime_coming" v-on:daytime="daytimeComing"></day>
 
-    <start-game v-on:handleClick="handleClick" v-if="complete_create || ending_game" :endingGame="ending_game" :startGame="complete_create"></start-game>
+    <!--创建游戏-->
     <create-game v-on:createGame="createGame" v-if="create_room"></create-game>
-    <voteResult v-if="daytimeRecord" :daytimeRecord="daytimeRecord"></voteResult>
+
+    <start-game v-on:handleClick="handleClick" v-if="complete_create || ending_game" :endingGame="ending_game" :startGame="complete_create"></start-game>
+
+
+    <!--投票结果-->
+    <!--<voteResult v-if="daytimeRecord" :daytimeRecord="daytimeRecord"></voteResult>-->
   </div>
 
 </template>
 <script>
-  import seat from './children/Seat.vue'
-  import top from './children/Top.vue'
-  import antidote from './children/Antidote.vue'
-  import bottom from './children/Bottom.vue'
-  import judgement from './children/Judgement.vue'
-  import day from './children/Day.vue'
-  import night from './children/Night.vue'
+  import Seat from './children/Seat.vue'
+  import Top from './children/Top.vue'
+  import Antidote from './children/Antidote.vue'
+  import Bottom from './children/Bottom.vue'
+  import Judgement from './children/Judgement.vue'
+  import Day from './children/Day.vue'
+  import Night from './children/Night.vue'
   import StartGame from './children/StartGame.vue'
   import CreateGame from './children/CreateGame.vue'
   import VoteResult from './children/VoteResult.vue'
@@ -39,13 +44,13 @@
   export default {
     name: 'game',
     components: {
-      seat,
-      top,
-      antidote,
-      bottom,
-      judgement,
-      day,
-      night,
+      Seat,
+      Top,
+      Antidote,
+      Bottom,
+      Judgement,
+      Day,
+      Night,
       StartGame,
       CreateGame,
       VoteResult

@@ -11,7 +11,7 @@
     props: ['startGame', 'endingGame'],
     methods: {
       startGame: function () {
-        this.$emit('handleClick', 'startGa)
+        this.$emit('handleClick', 'startGa')
       }
     },
     computed: {
