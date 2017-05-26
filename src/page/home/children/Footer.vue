@@ -1,7 +1,7 @@
 <template>
   <div class="footer">
-    <div id="game">
-      <span class="game gameOn"></span>
+    <div id="game" v-on:click="changeClass">
+      <span v-bind:class="gameClass"></span>
       <span class="text">游戏</span>
     </div>
 
@@ -22,14 +22,25 @@
 
 <script>
   export default{
-    name: 'foot'
+    name: 'foot',
+    data () {
+      return {
+        gameClass: 'gameOn',
+        list: 'list',
+        news: 'news'
+      }
+    },
+    methods: {
+    },
+    computed: {
+    }
   }
 </script>
 
 <style>
   .footer{
     background-color: white;
-    z-index: 100;
+    z-index: 10000;
     border-top: 2px solid #c4c4c4;
     width: 6.4rem;
     display: flex;
@@ -42,6 +53,7 @@
   .footer div{
     width: 2.1rem;
     position: relative;
+    margin: 0 auto;
   }
   .footer p{
     font-size: 0.6rem;

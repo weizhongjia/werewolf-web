@@ -1,10 +1,10 @@
 <template>
   <div id='begin'>
-    <h2 class="h2">开始游戏</h2>
+    <h3 class="h3">开始游戏</h3>
     <section>
       <div class="scan">
         <img src="../../../assets/images/fingerprint.png" alt="">
-        <div>
+        <div v-on:click="">
           <h3>扫码<br>进入房间》</h3>
           <p>请扫描线下俱乐部桌面上的二维码</p>
         </div>
@@ -19,13 +19,16 @@
 
 <script>
   export default{
-    name: 'begin'
+    name: 'begin',
+    methods: {
+
+    }
   }
 </script>
 
 <style>
   #begin{
-    height: 5rem;
+    /*height: 5rem;*/
   }
   #begin section{
     border-radius: 0;

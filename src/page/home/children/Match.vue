@@ -1,6 +1,6 @@
 <template>
   <div id="match">
-    <h2 class="h2">本地赛事</h2>
+    <h3 class="h3">本地赛事</h3>
     <section></section>
   </div>
 </template>
@@ -17,7 +17,7 @@
     margin-top: 0.1rem;
     border-bottom: 1px solid transparent;
   }
-  .h2{
+  .h3{
     font-size: 0.3rem;
     color: white;
     width: 1.5rem;

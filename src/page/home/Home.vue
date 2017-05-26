@@ -1,12 +1,20 @@
 <template>
   <div class="home">
+    <!--头部-->
     <home-top></home-top>
+    <!--信息简介-->
     <home-head></home-head>
+    <!--本地赛事-->
     <match></match>
+    <!--开始游戏-->
     <begin ></begin>
+    <!--底部-->
     <foot></foot>
 
-    <choose v-if="0" ></choose>
+    <!--配置房间-->
+    <choose v-if="choose" ></choose>
+    <!--排行榜-->
+    <list-page></list-page>
   </div>
 </template>
 
@@ -18,6 +26,7 @@
   import Foot from './children/Footer.vue'
 
   import Choose from './children/Choose.vue'
+  import ListPage from './children/ListPage.vue'
   export default{
     name: 'home',
     components: {
@@ -26,9 +35,19 @@
       Match,
       Begin,
       Foot,
-      Choose
+      Choose,
+      ListPage
+    },
+    data () {
+      return {
+        choose: false
+      }
+    },
+    methods: {
+      showChoose: function () {
+        this.choose = !this.choose
+      }
     }
-
   }
 </script>
 
