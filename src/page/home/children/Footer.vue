@@ -1,14 +1,13 @@
 <template>
   <div class="footer">
-    <div id="game" v-on:click="changeClass">
-      <span v-bind:class="gameClass"></span>
+    <div id="game">
+      <span class="gameOn"></span>
       <span class="text">游戏</span>
     </div>
 
     <div id="list">
       <p style="left: 0">|</p>
-      <span class="list
-      "></span>
+      <span class="list"></span>
       <span class="text">榜单</span>
       <p style="right:0">|</p>
     </div>
@@ -22,18 +21,7 @@
 
 <script>
   export default{
-    name: 'foot',
-    data () {
-      return {
-        gameClass: 'gameOn',
-        list: 'list',
-        news: 'news'
-      }
-    },
-    methods: {
-    },
-    computed: {
-    }
+    name: 'foot'
   }
 </script>
 

@@ -14,7 +14,7 @@
     <!--配置房间-->
     <choose v-if="choose" ></choose>
     <!--排行榜-->
-    <list-page></list-page>
+    <list-page v-if="listPage"></list-page>
   </div>
 </template>
 
@@ -40,12 +40,8 @@
     },
     data () {
       return {
-        choose: false
-      }
-    },
-    methods: {
-      showChoose: function () {
-        this.choose = !this.choose
+        choose: false,
+        listPage: false
       }
     }
   }

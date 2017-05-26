@@ -4,7 +4,7 @@
     <section>
       <div class="scan">
         <img src="../../../assets/images/fingerprint.png" alt="">
-        <div v-on:click="">
+        <div >
           <h3>扫码<br>进入房间》</h3>
           <p>请扫描线下俱乐部桌面上的二维码</p>
         </div>
@@ -19,10 +19,7 @@
 
 <script>
   export default{
-    name: 'begin',
-    methods: {
-
-    }
+    name: 'begin'
   }
 </script>
 
@@ -58,7 +55,7 @@
     width: 2rem;
     height: 1.5rem;
   }
-  #begin h3{
+  #begin section h3{
     text-align: left;
     font-size: 0.3rem;
     color: #cc3300;
