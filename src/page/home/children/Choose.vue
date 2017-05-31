@@ -20,17 +20,38 @@
         <p>白狼王</p>
         <p>隐狼</p>
       </div>
+      <div id="wolfNum">
+        <p>狼人数量</p>
+        <div class="more">
+          <span>0</span>
+          <img src="../../../assets/images/more.png" alt="" />
+        </div>
+      </div>
     </div>
     <div class="villagers">
       <h3>村民配置</h3>
+      <div id="vilNum">
+        <p>村民数量</p>
+        <div class="more">
+          <span>0</span>
+          <img src="../../../assets/images/more.png" alt="" />
+        </div>
+      </div>
     </div>
     <div class="btn">
       <button>
         完成配置
       </button>
     </div>
-
+   <!--  <div class="chooseNum">
+      <option value="">0</option>
+      <option value="">1</option>
+      <option value="">2</option>
+      <option value="">3</option>
+      <option value="">4</option>
+    </div> -->
   </div>
+
 </template>
 
 <script>
@@ -107,4 +128,37 @@
     width: 5.8rem;
 
   }
+  #vilNum p,#wolfNum p{
+    border: none;
+    margin:0;
+    line-height: 0.7rem;
+    font-size: 0.32rem;
+  }
+  #vilNum img,#wolfNum img{
+    width: 0.5rem;
+    height: 0.5rem;
+    display: block;
+    margin-top: 0.1rem;
+  }
+  #choose #vilNum,#choose #wolfNum{
+    display: flex;
+    justify-content:space-between;
+    margin-top:0.2rem;
+  }
+  #choose span{
+    display: block;
+    line-height: 0.7rem;
+    height: 0.7rem;
+    font-size: 0.32rem;
+    margin-right: 0.1rem;
+  }
+/*  #choose .chooseNum option{
+    line-height: 0.55rem;
+    text-align: left;
+    border-bottom:1px solid #c4c4c4;
+    font-size: 0.3rem;
+    width: 5.8rem;
+    margin-left: 0.3rem;
+    padding-left: 0.3rem;
+  }*/
 </style>

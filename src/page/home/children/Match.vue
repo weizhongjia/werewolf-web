@@ -24,7 +24,7 @@
     font-weight: 500;
     background-color: #7b7b7b;
   }
-  section{
+  #match section{
     border: 2px solid #c4c4c4;
     width: 6rem;
     margin: 0.1rem auto;

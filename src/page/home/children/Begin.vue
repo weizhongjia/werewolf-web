@@ -28,6 +28,8 @@
     /*height: 5rem;*/
   }
   #begin section{
+    width: 6rem;
+    margin:0.1rem auto;
     border-radius: 0;
     border: none;
     display: flex;

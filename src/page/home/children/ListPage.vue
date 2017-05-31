@@ -46,7 +46,7 @@
     width: 6.4rem;
     height:100%;
     background-color: #f2f2f2;
-    z-index: 1000;
+    z-index: 100;
   }
   #listPage h2{
     height: 0.7rem;

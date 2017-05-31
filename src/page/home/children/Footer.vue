@@ -28,7 +28,7 @@
 <style>
   .footer{
     background-color: white;
-    z-index: 10000;
+    z-index: 1000;
     border-top: 2px solid #c4c4c4;
     width: 6.4rem;
     display: flex;

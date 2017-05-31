@@ -1,5 +1,9 @@
 <template>
   <div class="home">
+
+    <!-- 登录 -->
+    <my-index v-if="myIndex"></my-index>
+
     <!--头部-->
     <home-top></home-top>
     <!--信息简介-->
@@ -19,6 +23,8 @@
 </template>
 
 <script>
+  import MyIndex from './children/MyIndex.vue'
+
   import HomeTop from './children/Top.vue'
   import HomeHead from './children/Head.vue'
   import Match from './children/Match.vue'
@@ -30,6 +36,7 @@
   export default{
     name: 'home',
     components: {
+      MyIndex,
       HomeTop,
       HomeHead,
       Match,
