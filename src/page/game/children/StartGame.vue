@@ -1,7 +1,7 @@
 <template>
   <div class="startGame animated bounceInDow">
     <p>{{text.title}}</p>
-    <button class="next" v-on:click="startGame">{{text.button}}</button>
+    <button class="next" v-on:click="handleClick">{{text.button}}</button>
   </div>
 </template>
 
@@ -10,8 +10,8 @@
     name: 'startGame',
     props: ['startGame', 'endingGame'],
     methods: {
-      startGame: function () {
-        this.$emit('handleClick', 'startGa')
+      handleClick: function () {
+        this.$emit('handleClick')
       }
     },
     computed: {

@@ -22,8 +22,10 @@
 <script>
   export default{
     name: 'voteResult',
-    data: {
-      outNum: 2
+    data () {
+      return {
+        outNum: 2
+      }
     },
     props: ['daytimeRecord']
 
