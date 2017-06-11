@@ -48,6 +48,9 @@
       sheriff_running: function () {
         return this.event.filter(event => event === 'SHERIFF_RUNNING').length > 0
       },
+      sheriff_switch: function () {
+        return this.event.filter(event => event === 'SHERIFF_SWITCH').length
+      },
       title: function () {
         if (this.wolf_kill) {
           return '选择要杀的玩家'
@@ -66,6 +69,9 @@
         }
         if (this.sheriff_running) {
           return '请选择上警的玩家'
+        }
+        if (this.sheriff_switch) {
+          return '请选择警徽移交人'
         }
       },
       tips: function () {

@@ -161,6 +161,9 @@
         if (this.sheriff_running) {
           this.sheriffRunning()
         }
+        if (this.sheriff_switch) {
+          this.sheriffSwtich()
+        }
       },
       wolfKill: function () {
         const wolfKillEvent = {
@@ -261,6 +264,14 @@
         }
         this.putEvent(sherifffPkVoting)
       },
+      sheriffSwtich: function () {
+        const sheriffSwitchEvent = {
+          eventType: 'SHERIFF_SWITCH',
+          roomCode: this.roomCode,
+          sheriffSwitchNumber: this.selectedSeat
+        }
+        this.putEvent(sheriffSwitchEvent)
+      },
       putEvent: function (event) {
         putJudgeEvent(this.roomCode, event).then(res => {
           this.initAcceptableEventType()
@@ -332,6 +343,9 @@
       },
       sheriff_pk_voting: function () {
         return this.acceptableEventTypes.filter(event => event === 'SHERIFF_PK_VOTEING').length
+      },
+      sheriff_switch: function () {
+        return this.acceptableEventTypes.filter(event => event === 'SHERIFF_SWITCH').length
       }
     }
   }
