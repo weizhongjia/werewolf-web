@@ -6,8 +6,9 @@
       <p class="chose" v-if="selectedSeat !== '' && !sheriff_running">{{selectedSeat}}</p>
       <p class="chose" v-if="sheriffSeat !== null && sheriffSeat.length > 0 && sheriff_running"><span v-for="seat in sheriffSeat">{{seat}}</span></p>
       <p class="yes" v-if="selectedSeat === '' && wolf_kill">空刀</p>
+      <p class="yes" v-if="selectedSeat === '' && hunter_shoot" v-on:click="emitEvent(false)">取消</p>
     </div>
-    <div class="right yes" v-on:click="emitEvent">确定</div>
+    <div class="right yes" v-on:click="emitEvent(true)">确定</div>
   </div>
 </template>
 
@@ -16,8 +17,8 @@
     name: 'bottom',
     props: ['event', 'selectedSeat', 'sheriffSeat'],
     methods: {
-      emitEvent: function () {
-        this.$emit('bottomConfirm')
+      emitEvent: function (flag) {
+        this.$emit('bottomConfirm', flag)
       }
     },
     computed: {
@@ -51,6 +52,9 @@
       sheriff_switch: function () {
         return this.event.filter(event => event === 'SHERIFF_SWITCH').length
       },
+      hunter_shoot: function () {
+        return this.event.filter(event => event === 'HUNTER_SHOOT').length
+      },
       title: function () {
         if (this.wolf_kill) {
           return '选择要杀的玩家'
@@ -72,6 +76,9 @@
         }
         if (this.sheriff_switch) {
           return '请选择警徽移交人'
+        }
+        if (this.hunter_shoot) {
+          return '狼人开枪带人'
         }
       },
       tips: function () {

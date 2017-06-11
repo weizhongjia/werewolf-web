@@ -136,7 +136,7 @@
           this.sheriffPkVoting()
         }
       },
-      bottomEventConfirm: function () {
+      bottomEventConfirm: function (flag) {
         if (this.wolf_kill) {
           this.wolfKill()
         }
@@ -163,6 +163,9 @@
         }
         if (this.sheriff_switch) {
           this.sheriffSwtich()
+        }
+        if (this.hunter_shoot) {
+          this.hunterShoot(flag)
         }
       },
       wolfKill: function () {
@@ -272,6 +275,18 @@
         }
         this.putEvent(sheriffSwitchEvent)
       },
+      hunterShoot: function (flag) {
+        let shootNumber = 0
+        if (flag) {
+          shootNumber = this.selectedSeat
+        }
+        const hunterShootEvent = {
+          eventType: 'HUNTER_SHOOT',
+          roomCode: this.roomCode,
+          hunterShoot: shootNumber
+        }
+        this.putEvent(hunterShootEvent)
+      },
       putEvent: function (event) {
         putJudgeEvent(this.roomCode, event).then(res => {
           this.initAcceptableEventType()
@@ -346,6 +361,9 @@
       },
       sheriff_switch: function () {
         return this.acceptableEventTypes.filter(event => event === 'SHERIFF_SWITCH').length
+      },
+      hunter_shoot: function () {
+        return this.acceptableEventTypes.filter(event => event === 'HUNTER_SHOOT').length
       }
     }
   }
