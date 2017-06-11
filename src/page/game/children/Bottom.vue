@@ -3,7 +3,8 @@
     <p >{{title}}</p>
     <div class="left">
       <p class="tips">{{tips}}</p>
-      <p class="chose" v-if="selectedSeat !== ''">{{selectedSeat}}</p>
+      <p class="chose" v-if="selectedSeat !== '' && !sheriff_running">{{selectedSeat}}</p>
+      <p class="chose" v-if="sheriffSeat !== null && sheriffSeat.length > 0 && sheriff_running"><span v-for="seat in sheriffSeat">{{seat}}</span></p>
       <p class="yes" v-if="selectedSeat === '' && wolf_kill">空刀</p>
     </div>
     <div class="right yes" v-on:click="emitEvent">确定</div>
@@ -13,7 +14,7 @@
 <script>
   export default{
     name: 'bottom',
-    props: ['event', 'selectedSeat'],
+    props: ['event', 'selectedSeat', 'sheriffSeat'],
     methods: {
       emitEvent: function () {
         this.$emit('bottomConfirm')
@@ -44,6 +45,9 @@
       fake_witch_save: function () {
         return this.event.filter(event => event === 'FAKE_WITCH_SAVE').length > 0
       },
+      sheriff_running: function () {
+        return this.event.filter(event => event === 'SHERIFF_RUNNING').length > 0
+      },
       title: function () {
         if (this.wolf_kill) {
           return '选择要杀的玩家'
@@ -59,6 +63,9 @@
         }
         if (this.daytime_voting) {
           return '开始投票'
+        }
+        if (this.sheriff_running) {
+          return '请选择上警的玩家'
         }
       },
       tips: function () {

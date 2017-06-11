@@ -8,7 +8,7 @@
 <script>
   export default{
     name: 'startGame',
-    props: ['startGame', 'endingGame'],
+    props: ['startGame', 'endingGame', 'sheriffVoting', 'sheriffPkVoting'],
     methods: {
       handleClick: function () {
         this.$emit('handleClick')
@@ -25,6 +25,18 @@
         if (this.endingGame) {
           return {
             title: '游戏结束',
+            button: '确定'
+          }
+        }
+        if (this.sheriffVoting) {
+          return {
+            title: '开始投票',
+            button: '确定'
+          }
+        }
+        if (this.sheriffPkVoting) {
+          return {
+            title: '开始警长PK',
             button: '确定'
           }
         }

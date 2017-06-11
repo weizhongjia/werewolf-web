@@ -9,6 +9,8 @@
     </div>
     <!--<div class="yes hide">隐藏/显示身份</div>-->
     <vote v-if="daytime_vote" :playerInfoList="playerInfoList" :selfInfo="playerInfo" v-on:vote="daytimeVote"></vote>
+    <sheriff-vote v-if="sheriff_vote" :playerInfoList="playerInfoList" :sheriffVoteList="sheriffRecord.sheriffRegisterList" :selfInfo="playerInfo" v-on:vote="sheriffVote"></sheriff-vote>
+    <sheriff-pk-vote v-if="sheriff_pk_vote" :playerInfoList="playerInfoList" :sheriffPkVote="sheriffRecord.pkVotingRecord" :selfInfo="playerInfo" v-on:vote="sheriffPkVote"></sheriff-pk-vote>
     <voteResult v-if="daytimeRecord" :daytimeRecord="daytimeRecord"></voteResult>
   </div>
 
@@ -21,13 +23,17 @@
   import Vote from './children/Vote.vue'
   import {getPlayerInfo, putPlayerEvent} from '../../store/getData'
   import VoteResult from '../game/children/VoteResult.vue'
+  import SheriffVote from './children/SheriffVote.vue'
+  import SheriffPkVote from './children/SheriffPkVote.vue'
   export default{
     name: 'userGame',
     components: {
       JoinGame,
       Seat,
       Vote,
-      VoteResult
+      VoteResult,
+      SheriffVote,
+      SheriffPkVote
     },
     data () {
       return {
@@ -37,7 +43,8 @@
         playerInfo: {role: 'UNASSIGN'},
         acceptableEventTypeList: [],
         playerInfoList: [],
-        daytimeRecord: []
+        daytimeRecord: [],
+        sheriffRecord: {}
       }
     },
     mounted () {
@@ -48,10 +55,16 @@
     },
     computed: {
       join_room: function () {
-        return this.acceptableEventTypeList.filter(event => event === 'JOIN_GAME').length
+        return this.acceptableEventTypeList.filter(event => event === 'JOIN_ROOM').length
       },
       daytime_vote: function () {
         return this.acceptableEventTypeList.filter(event => event === 'DAYTIME_VOTE').length
+      },
+      sheriff_vote: function () {
+        return this.acceptableEventTypeList.filter(event => event === 'SHERIFF_VOTE').length
+      },
+      sheriff_pk_vote: function () {
+        return this.acceptableEventTypeList.filter(event => event === 'SHERIFF_PK_VOTE').length
       }
     },
     methods: {
@@ -61,6 +74,7 @@
           this.playerInfo = res.data.playerInfo
           this.playerInfoList = res.data.playerSeatInfoList
           this.daytimeRecord = res.data.daytimeRecord
+          this.sheriffRecord = res.data.sheriffRecord
           window.setTimeout(this.getGameInfo, 5000)
         })
       },
@@ -83,6 +97,28 @@
           daytimeVoteNumber: voteNumber
         }
         putPlayerEvent(this.roomCode, this.seatNumber, daytimeVoteEvent).then(res => {
+          this.acceptableEventTypeList = res.data.acceptableEventTypeList
+        })
+      },
+      sheriffVote: function (voteNumber) {
+        const sheriffVoteEvent = {
+          eventType: 'SHERIFF_VOTE',
+          seatNumber: this.seatNumber,
+          userID: this.userId,
+          sheriffVoteNumber: voteNumber
+        }
+        putPlayerEvent(this.roomCode, this.seatNumber, sheriffVoteEvent).then(res => {
+          this.acceptableEventTypeList = res.data.acceptableEventTypeList
+        })
+      },
+      sheriffPkVote: function (voteNumber) {
+        const sheriffVoteEvent = {
+          eventType: 'SHERIFF_PK_VOTE',
+          seatNumber: this.seatNumber,
+          userID: this.userId,
+          sheriffPKVoteNumber: voteNumber
+        }
+        putPlayerEvent(this.roomCode, this.seatNumber, sheriffVoteEvent).then(res => {
           this.acceptableEventTypeList = res.data.acceptableEventTypeList
         })
       }

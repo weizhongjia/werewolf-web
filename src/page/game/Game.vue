@@ -6,7 +6,7 @@
         <seat :info="seat" :selectedSeat="selectedSeat" :wolfKill="wolf_kill" :witchPoison="witch_poison" v-on:seatSelected="chooseSeat"></seat>
       </div>
     </div>
-    <bottom :event="acceptableEventTypes" :selectedSeat="selectedSeat" v-on:bottomConfirm="bottomEventConfirm"></bottom>
+    <bottom :event="acceptableEventTypes" :selectedSeat="selectedSeat" :sheriffSeat="sheriffSeat" v-on:bottomConfirm="bottomEventConfirm"></bottom>
 
     <!--天黑请闭眼-->
     <night v-on:nightComing="nightComing" v-if="night_coming"></night>
@@ -20,7 +20,7 @@
     <!--创建游戏-->
     <create-game v-on:createGame="createGame" v-if="create_room"></create-game>
 
-    <start-game v-on:handleClick="handleClick" v-if="complete_create || ending_game" :endingGame="ending_game" :startGame="complete_create"></start-game>
+    <start-game v-on:handleClick="handleClick" v-if="complete_create || ending_game || sheriff_voting || sheriff_pk_voting" :sheriffVoting="sheriff_voting" :endingGame="ending_game" :startGame="complete_create" :sheriffPkVoting="sheriff_pk_voting"></start-game>
 
 
     <!--投票结果-->
@@ -65,7 +65,8 @@
         seats: [],
         selectedSeat: '',
         acceptableEventTypes: [],
-        daytimeRecord: []
+        daytimeRecord: [],
+        sheriffSeat: []
       }
     },
     methods: {
@@ -95,6 +96,7 @@
             SEER: 1,
             MORON: 1
           },
+          sheriffSwitch: true,
           roomCode: this.roomCode
         }
         this.putEvent(createEvent)
@@ -127,6 +129,12 @@
         if (this.ending_game) {
           this.endingGame()
         }
+        if (this.sheriff_voting) {
+          this.sheriffVoting()
+        }
+        if (this.sheriff_pk_voting) {
+          this.sheriffPkVoting()
+        }
       },
       bottomEventConfirm: function () {
         if (this.wolf_kill) {
@@ -149,6 +157,9 @@
         }
         if (this.fake_seer_verify) {
           this.fakeSeerVerify()
+        }
+        if (this.sheriff_running) {
+          this.sheriffRunning()
         }
       },
       wolfKill: function () {
@@ -228,6 +239,28 @@
         }
         this.putEvent(endingGameEvent)
       },
+      sheriffRunning: function () {
+        const sheriffRunningEvent = {
+          eventType: 'SHERIFF_RUNNING',
+          roomCode: this.roomCode,
+          sheriffApplyList: this.sheriffSeat
+        }
+        this.putEvent(sheriffRunningEvent)
+      },
+      sheriffVoting: function () {
+        const sheriffVotingEvent = {
+          eventType: 'SHERIFF_VOTEING',
+          roomCode: this.roomCode
+        }
+        this.putEvent(sheriffVotingEvent)
+      },
+      sheriffPkVoting: function () {
+        const sherifffPkVoting = {
+          eventType: 'SHERIFF_PK_VOTEING',
+          roomCode: this.roomCode
+        }
+        this.putEvent(sherifffPkVoting)
+      },
       putEvent: function (event) {
         putJudgeEvent(this.roomCode, event).then(res => {
           this.initAcceptableEventType()
@@ -236,7 +269,13 @@
         })
       },
       chooseSeat: function (seatNumber) {
-        this.selectedSeat = seatNumber
+        if (this.sheriff_running) {
+          if (this.sheriffSeat.filter(seat => seatNumber === seat).length === 0) {
+            this.sheriffSeat.push(seatNumber)
+          }
+        } else {
+          this.selectedSeat = seatNumber
+        }
       }
     },
     computed: {
@@ -284,6 +323,15 @@
       },
       restart_game: function () {
         return this.acceptableEventTypes.filter(event => event === 'RESTART_GAME').length
+      },
+      sheriff_running: function () {
+        return this.acceptableEventTypes.filter(event => event === 'SHERIFF_RUNNING').length
+      },
+      sheriff_voting: function () {
+        return this.acceptableEventTypes.filter(event => event === 'SHERIFF_VOTEING').length
+      },
+      sheriff_pk_voting: function () {
+        return this.acceptableEventTypes.filter(event => event === 'SHERIFF_PK_VOTEING').length
       }
     }
   }
