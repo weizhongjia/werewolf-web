@@ -18,7 +18,7 @@
     <!--配置房间-->
     <choose v-if="choose" ></choose>
     <!--排行榜-->
-    <list-page v-if="listPage"></list-page>
+    <!--<list-page v-if="listPage"></list-page>-->
   </div>
 </template>
 
@@ -32,7 +32,7 @@
   import Foot from './children/Footer.vue'
 
   import Choose from './children/Choose.vue'
-  import ListPage from './children/ListPage.vue'
+//  import ListPage from './ListPage.vue'
   export default{
     name: 'home',
     components: {
@@ -42,8 +42,8 @@
       Match,
       Begin,
       Foot,
-      Choose,
-      ListPage
+      Choose
+//      ListPage
     },
     data () {
       return {

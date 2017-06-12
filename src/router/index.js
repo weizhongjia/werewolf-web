@@ -4,6 +4,7 @@ import Hello from '@/components/Hello'
 import UserGame from '@/page/userGame/UserGame'
 import Game from '@/page/game/Game'
 import Home from '@/page/home/Home'
+import ListPage from '@/page/home/ListPage'
 
 Vue.use(Router)
 
@@ -25,6 +26,11 @@ export default new Router({
     {
       path: '/home',
       component: Home
+    },
+    {
+      // name: 'listPage',
+      path: '/home/listPage',
+      component: ListPage
     }
   ]
 })

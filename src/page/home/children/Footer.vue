@@ -1,11 +1,11 @@
 <template>
   <div class="footer">
-    <div id="game">
+    <div id="game" @click="goGame">
       <span class="gameOn"></span>
       <span class="text">游戏</span>
     </div>
 
-    <div id="list">
+    <div id="list" @click="goList">
       <p style="left: 0">|</p>
       <span class="list"></span>
       <span class="text">榜单</span>
@@ -21,7 +21,19 @@
 
 <script>
   export default{
-    name: 'foot'
+    name: 'foot',
+    methods: {
+      goList () {
+        this.$router.push({
+          path: '/home/listPage'
+        })
+      },
+      goGame () {
+        this.$router.push({
+          path: '/home'
+        })
+      }
+    }
   }
 </script>
 

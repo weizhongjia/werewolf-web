@@ -1,5 +1,5 @@
 <template>
-  <div class="seat" v-bind:class="roleImage" v-on:click="seatSelected">
+  <div class="seat " v-bind:class="roleImage" v-on:click="seatSelected">
     <!--<p >{{info.role | getCnName}} </p>-->
     <p class="num">{{info.seatNumber}}</p>
     <!--死亡-->
@@ -12,6 +12,18 @@
       <img src="../../../assets/images/poison.png" alt="">
       <div></div>
    </div>
+    <!--警长-->
+    <div class="sheriff" v-if="0">
+      <img src="../../../assets/images/sheriff.png" alt="">
+    </div>
+    <!--竞选警长-->
+    <div class="strive">
+      <img src="../../../assets/images/strive.png" alt="">
+    </div>
+    <!--放弃竞选-->
+    <div class="quit" v-if="0">
+      <img src="../../../assets/images/quitSheriff.png" alt="">
+    </div>
   </div>
 </template>
 <script>
@@ -39,7 +51,7 @@
 
   }
   .seat {
-    position: relative;
+    /*position: relative;*/
     background-repeat: no-repeat;
     background-size: 100% 100%;
     width: 100%;
@@ -75,7 +87,14 @@
   .die,.poison{
     width:100%;
     height: 100%;
-    position: relative;
+    /*position: relative;*/
+  }
+  .die,.poison{
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-radius: 20px;
+    overflow: hidden;
   }
   .die div,.poison div{
     position: absolute;
@@ -87,7 +106,7 @@
     height: 100%;
     z-index: 1;
   }
-  .poison img{
+  .poison img,.sheriff img,.quit img,.strive img{
     position: absolute;
     top:0;
     left: 0;
@@ -103,15 +122,21 @@
     top: 0;
     left: 0;
   }
+  .sheriff img,.quit img,.strive img{
+    width: 25%;
+    height: 50%;
+    top:5px;
+    left:15%;
+  }
   .num{
     position: absolute;
-    bottom:5px;
-    right:5px;
+    bottom:6px;
+    right:14px;
     font-size: 0.4rem;
     color: white;
   }
   /*选中添加效果*/
   .selected{
-    border:13px solid olivedrab;
+    border:5px solid olivedrab;
   }
 </style>

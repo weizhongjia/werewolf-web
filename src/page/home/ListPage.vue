@@ -5,7 +5,7 @@
       <h3 class="h3">等级排行</h3>
       <div class="member">
         <div>
-          <img src="../../../assets/images/all.png" alt="">
+          <img src="../../assets/images/all.png" alt="">
           <p>用户名</p>
         </div>
       </div>
@@ -14,7 +14,7 @@
       <h3 class="h3">人气排行</h3>
       <div class="member">
         <div>
-          <img src="../../../assets/images/all.png" alt="">
+          <img src="../../assets/images/all.png" alt="">
           <p>用户名</p>
         </div>
 
@@ -24,18 +24,24 @@
       <h3 class="h3">公会排行</h3>
       <div class="member">
         <div>
-            <img src="../../../assets/images/all.png" alt="" style="">
+            <img src="../../assets/images/all.png" alt="" style="">
           <p>用户名</p>
         </div>
       </div>
     </div>
+    <foot></foot>
   </div>
 </template>
 
 <script>
+  import Foot from './children/Footer.vue'
   export default{
-    name: 'list-page'
+    name: 'list-page',
+    components: {
+      Foot
+    }
   }
+
 </script>
 
 <style>
@@ -101,5 +107,16 @@
   }
   ::-webkit-scrollbar{
     /*opacity: 0;*/
+  }
+  #listPage #list .list{
+    background-image: url("../../assets/images/listOn.png");
+  }
+  #listPage #game .gameOn{
+    background-image: url("../../assets/images/game.png");
+  }
+  #listPage .footer{
+    border-top: 2px solid #c4c4c4;
+    margin-bottom: 0;
+    padding-right: 0;
   }
 </style>

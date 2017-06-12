@@ -388,6 +388,7 @@
     /*box-sizing: border-box;*/
     height: 1.5rem;
     margin-top:0.2rem;
+    position: relative;
     margin-left:0.2rem;
     /*padding-top: 30px;*/
     text-align: center;
