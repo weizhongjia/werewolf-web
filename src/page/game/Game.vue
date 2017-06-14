@@ -2,8 +2,8 @@
   <div id="night">
     <top v-on:resetGame="restartGame"></top>
     <div class="room">
-      <div v-for="seat in seats" class="position">
-        <seat :info="seat" :selectedSeat="selectedSeat" :wolfKill="wolf_kill" :witchPoison="witch_poison" v-on:seatSelected="chooseSeat"></seat>
+      <div v-for="(seat,index) in seats" class="position">
+        <seat :info="seat" :selectedSeat="selectedSeat" :wolfKill="wolf_kill" :witchPoison="witch_poison" v-on:seatSelected="chooseSeat" :class="{'isSelected':isSelected[index]}" :key="index"></seat>
       </div>
     </div>
     <bottom :event="acceptableEventTypes" :selectedSeat="selectedSeat" :sheriffSeat="sheriffSeat" v-on:bottomConfirm="bottomEventConfirm"></bottom>
@@ -66,7 +66,8 @@
         selectedSeat: '',
         acceptableEventTypes: [],
         daytimeRecord: [],
-        sheriffSeat: []
+        sheriffSeat: [],
+        isSelected: []
       }
     },
     methods: {
@@ -302,6 +303,18 @@
         } else {
           this.selectedSeat = seatNumber
         }
+        console.log(this.isSelected)
+//        this.isSelected.length>0 && this.isSelected.forEach(i)
+//        {
+//          i = false
+//        }
+//        每次点击现将所有的效果去掉
+        for ( let i = 0;i<this.isSelected.length;i++) {
+//          响应式的更新数据，vue1.0和vue2.0用法有区别
+          this.$set(this.isSelected,i,false);
+        }
+//        之后再给对应的添加效果 可以参考百度商旅mybusiness页面
+        this.$set(this.isSelected,seatNumber-1,!this.isSelected[seatNumber-1]);
       }
     },
     computed: {
@@ -369,6 +382,10 @@
   }
 </script>
 <style>
+  /*选中添加效果*/
+  .isSelected {
+    border:5px solid olivedrab;
+  }
   #night {
     background-color: #1e1f1f;
     position: absolute;

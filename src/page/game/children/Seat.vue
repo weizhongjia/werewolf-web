@@ -1,5 +1,5 @@
 <template>
-  <div class="seat " v-bind:class="roleImage" v-on:click="seatSelected">
+  <div class="seat " v-bind:class="roleImage" v-on:click="seatSelected" >
     <!--<p >{{info.role | getCnName}} </p>-->
     <p class="num">{{info.seatNumber}}</p>
     <!--死亡-->
@@ -135,8 +135,5 @@
     font-size: 0.4rem;
     color: white;
   }
-  /*选中添加效果*/
-  .selected{
-    border:5px solid olivedrab;
-  }
+
 </style>
