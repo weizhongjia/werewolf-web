@@ -3,7 +3,7 @@
     <!--<p >{{info.role | getCnName}} </p>-->
     <p class="num">{{info.seatNumber}}</p>
     <!--死亡-->
-    <div class="die" v-if="!info.alive || (selectedSeat === info.seatNumber && wolfKill)">
+    <div class="die" v-if="!info.alive && !info.seatAvailable">
       <img src="../../../assets/images/die2.png" alt="">
       <div></div>
    </div>
@@ -17,7 +17,7 @@
       <img src="../../../assets/images/sheriff.png" alt="">
     </div>
     <!--竞选警长-->
-    <div class="strive">
+    <div class="strive" v-if="0">
       <img src="../../../assets/images/strive.png" alt="">
     </div>
     <!--放弃竞选-->
@@ -30,10 +30,19 @@
   import '../../../assets/style/reset.css'
   export default {
     name: 'seat',
-    props: ['info', 'wolfKill', 'witchPoison', 'selectedSeat'],
+    props: ['info', 'wolfKill', 'witchPoison', 'selectedSeat', 'hideSwitch'],
+    data () {
+      return {
+        showRole: true
+      }
+    },
     methods: {
       seatSelected: function () {
-        this.$emit('seatSelected', this.info.seatNumber)
+        if (this.hideSwitch) {
+          this.showRole = !this.showRole
+        } else {
+          this.$emit('seatSelected', this.info.seatNumber)
+        }
       }
     },
     computed: {
@@ -41,7 +50,11 @@
 
       },
       roleImage () {
-        return this.info.role.toLowerCase()
+        if (this.showRole) {
+          return this.info.role.toLowerCase()
+        } else {
+          return ''
+        }
       }
     }
   }

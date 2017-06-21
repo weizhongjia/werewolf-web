@@ -4,7 +4,7 @@
       <img src="../../../assets/images/setup.png" alt="" v-on:click="showMenu">
 
     </div>
-    <!--<div class="time">第1天  晚上</div>-->
+    <div class="time">{{statusText}}</div>
     <div class="history"><span>历史</span></div>
     <div v-if="menu" class="reset animated bounceInDown">
       <span>请确定是否重启游戏？</span>
@@ -23,12 +23,68 @@
         menu: false
       }
     },
+    props: ['status'],
     methods: {
       showMenu: function () {
         this.menu = !this.menu
       },
       resetGame: function () {
         this.$emit('resetGame')
+      }
+    },
+    computed: {
+      statusText: function () {
+        if (this.status === 'VACANCY') {
+          return '空闲中'
+        }
+        if (this.status === 'CRATING') {
+          return '创建中'
+        }
+        if (this.status === 'CRATED') {
+          return '创建完成'
+        }
+        if (this.status === 'NIGHT') {
+          return '夜晚'
+        }
+        if (this.status === 'DAYTIME') {
+          return '白天发言'
+        }
+        if (this.status === 'VOTING') {
+          return '投票'
+        }
+        if (this.status === 'PK') {
+          return 'PK发言'
+        }
+        if (this.status === 'PK_VOTING') {
+          return 'PK投票'
+        }
+        if (this.status === 'SHERIFF_REGISTER') {
+          return '警长举手'
+        }
+        if (this.status === 'SHERIFF_RUNNING') {
+          return '警长竞选发言时间'
+        }
+        if (this.status === 'SHERIFF_VOTING') {
+          return '警长竞选投票'
+        }
+        if (this.status === 'SHERIFF_PK') {
+          return '警长PK'
+        }
+        if (this.status === 'SHERIFF_PK_VOTING') {
+          return '警长PK投票'
+        }
+        if (this.status === 'SHERIFF_SWITCH_TIME') {
+          return '警长移交警徽事件'
+        }
+        if (this.status === 'HUNTER_SHOOT') {
+          return '猎人时间'
+        }
+        if (this.status === 'MORON_TIME') {
+          return '白痴被票时间'
+        }
+        if (this.status === 'GAME_OVER') {
+          return '游戏结束'
+        }
       }
     }
   }

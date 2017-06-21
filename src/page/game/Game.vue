@@ -1,26 +1,26 @@
 <template>
   <div id="night">
-    <top v-on:resetGame="restartGame"></top>
+    <top v-on:resetGame="restartGame" :status="status"></top>
     <div class="room">
       <div v-for="(seat,index) in seats" class="position">
         <seat :info="seat" :selectedSeat="selectedSeat" :wolfKill="wolf_kill" :witchPoison="witch_poison" v-on:seatSelected="chooseSeat" :class="{'isSelected':isSelected[index]}" :key="index"></seat>
       </div>
     </div>
-    <bottom :event="acceptableEventTypes" :selectedSeat="selectedSeat" :sheriffSeat="sheriffSeat" v-on:bottomConfirm="bottomEventConfirm"></bottom>
+    <bottom :event="acceptableEventTypes" v-on:bottomConfirm="bottomEventConfirm"></bottom>
 
     <!--天黑请闭眼-->
     <night v-on:nightComing="nightComing" v-if="night_coming"></night>
     <!--预言家看牌结果-->
     <judgement v-if="0"></judgement>
     <!--是否使用解药-->
-    <antidote v-if="witch_save" v-on:witchSave="witchSave"></antidote>
+    <antidote v-if="witch_save" v-on:witchSave="witchSave" :wolfKilledSeat="nightRecord.wolfKilledSeat"></antidote>
     <!--天亮了-->
     <day v-if="daytime_coming" v-on:daytime="daytimeComing"></day>
 
     <!--创建游戏-->
     <create-game v-on:createGame="createGame" v-if="create_room"></create-game>
 
-    <start-game v-on:handleClick="handleClick" v-if="complete_create || ending_game || sheriff_voting || sheriff_pk_voting" :sheriffVoting="sheriff_voting" :endingGame="ending_game" :startGame="complete_create" :sheriffPkVoting="sheriff_pk_voting"></start-game>
+    <start-game v-on:handleClick="handleClick" v-if="complete_create || ending_game || sheriff_pk_voting" :sheriffVoting="sheriff_voting" :endingGame="ending_game" :startGame="complete_create" :sheriffPkVoting="sheriff_pk_voting"></start-game>
 
 
     <!--投票结果-->
@@ -66,8 +66,9 @@
         selectedSeat: '',
         acceptableEventTypes: [],
         daytimeRecord: [],
+        nightRecord: {},
         sheriffSeat: [],
-        isSelected: []
+        status: ''
       }
     },
     methods: {
@@ -83,6 +84,8 @@
           this.seats = res.data.playerSeatInfoList
           this.acceptableEventTypes = res.data.acceptableEventTypes
           this.daytimeRecord = res.data.daytimeRecord
+          this.status = res.data.status
+          this.nightRecord = res.data.nightRecord
           window.setTimeout(this.getGameInfo, 5000)
         })
       },
@@ -160,13 +163,16 @@
           this.fakeSeerVerify()
         }
         if (this.sheriff_running) {
-          this.sheriffRunning()
+          this.sheriffRunning(flag)
         }
         if (this.sheriff_switch) {
           this.sheriffSwtich()
         }
         if (this.hunter_shoot) {
           this.hunterShoot(flag)
+        }
+        if (this.werewolves_explode) {
+          this.werewolvesExplode(flag)
         }
       },
       wolfKill: function () {
@@ -217,11 +223,15 @@
         }
         this.putEvent(fakeWitchPoisonEvent)
       },
-      witchPoison: function () {
+      witchPoison: function (flag) {
+        let poison = 0
+        if (flag) {
+          poison = this.selectedSeat
+        }
         const witchPoisonEvent = {
           eventType: 'WITCH_POISON',
           roomCode: this.roomCode,
-          witchPoisonNumber: this.selectedSeat
+          witchPoisonNumber: poison
         }
         this.putEvent(witchPoisonEvent)
       },
@@ -254,7 +264,8 @@
         }
         this.putEvent(sheriffRunningEvent)
       },
-      sheriffVoting: function () {
+      sheriffVoting: function (flag) {
+        if (flag) return
         const sheriffVotingEvent = {
           eventType: 'SHERIFF_VOTEING',
           roomCode: this.roomCode
@@ -288,11 +299,25 @@
         }
         this.putEvent(hunterShootEvent)
       },
+      werewolvesExplode: function (flag) {
+        if (!flag) return
+        const wereWolfExplodeEvent = {
+          eventType: 'WEREWOLVES_EXPLODE',
+          roomCode: this.roomCode,
+          explodeWereWolf: this.selectedSeat
+        }
+        this.putEvent(wereWolfExplodeEvent)
+      },
       putEvent: function (event) {
         putJudgeEvent(this.roomCode, event).then(res => {
           this.initAcceptableEventType()
           this.seats = res.data.playerSeatInfoList
           this.acceptableEventTypes = res.data.acceptableEventTypes
+          this.daytimeRecord = res.data.daytimeRecord
+          this.nightRecord = res.data.nightRecord
+          this.status = res.data.status
+          this.selectedSeat = ''
+          this.sheriffSeat = []
         })
       },
       chooseSeat: function (seatNumber) {
@@ -303,18 +328,6 @@
         } else {
           this.selectedSeat = seatNumber
         }
-        console.log(this.isSelected)
-//        this.isSelected.length>0 && this.isSelected.forEach(i)
-//        {
-//          i = false
-//        }
-//        每次点击现将所有的效果去掉
-        for ( let i = 0;i<this.isSelected.length;i++) {
-//          响应式的更新数据，vue1.0和vue2.0用法有区别
-          this.$set(this.isSelected,i,false);
-        }
-//        之后再给对应的添加效果 可以参考百度商旅mybusiness页面
-        this.$set(this.isSelected,seatNumber-1,!this.isSelected[seatNumber-1]);
       }
     },
     computed: {
@@ -377,6 +390,16 @@
       },
       hunter_shoot: function () {
         return this.acceptableEventTypes.filter(event => event === 'HUNTER_SHOOT').length
+      },
+      werewolves_explode: function () {
+        return this.acceptableEventTypes.filter(event => event === 'WEREWOLVES_EXPLODE').length
+      },
+      isSelected: function () {
+        let isSelectedArray = []
+        for (let i = 0; i < this.seats.length; i++) {
+          isSelectedArray[i] = i === this.selectedSeat - 1 || this.sheriffSeat.filter(seat => seat === i + 1).length > 0
+        }
+        return isSelectedArray
       }
     }
   }

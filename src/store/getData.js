@@ -2,9 +2,9 @@ import axios from 'axios'
 
 let baseUrl = 'http://werewolf.mrourou.com'
 // if (process.env.NODE_ENV === 'development') {
-//   baseUrl = 'http://werewolf.mrourou.com'
-// } else {
 //   baseUrl = 'http://localhost:8080'
+// } else {
+//   baseUrl = 'http://werewolf.mrourou.com'
 // }
 
 var instance = axios.create({

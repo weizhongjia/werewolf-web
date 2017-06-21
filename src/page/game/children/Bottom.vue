@@ -1,12 +1,9 @@
 <template>
   <div class="bottom">
-    <p >{{title}}</p>
+    <p >{{text.title}}</p>
     <div class="left">
-      <p class="tips">{{tips}}</p>
-      <p class="chose" v-if="selectedSeat !== '' && !sheriff_running">{{selectedSeat}}</p>
-      <p class="chose" v-if="sheriffSeat !== null && sheriffSeat.length > 0 && sheriff_running"><span v-for="seat in sheriffSeat">{{seat}}</span></p>
-      <p class="yes" v-if="selectedSeat === '' && wolf_kill">空刀</p>
-      <p class="yes" v-if="selectedSeat === '' && hunter_shoot" v-on:click="emitEvent(false)">取消</p>
+      <p class="tips">{{text.tips}}</p>
+      <p class="yes" v-if="text.negative" v-on:click="emitEvent(false)">{{text.negative}}</p>
     </div>
     <div class="right yes" v-on:click="emitEvent(true)">确定</div>
   </div>
@@ -15,7 +12,7 @@
 <script>
   export default{
     name: 'bottom',
-    props: ['event', 'selectedSeat', 'sheriffSeat'],
+    props: ['event'],
     methods: {
       emitEvent: function (flag) {
         this.$emit('bottomConfirm', flag)
@@ -55,44 +52,90 @@
       hunter_shoot: function () {
         return this.event.filter(event => event === 'HUNTER_SHOOT').length
       },
-      title: function () {
+      sheriff_unregister: function () {
+        return this.event.filter(event => event === 'SHERIFF_UNREGISTER').length
+      },
+      sheriff_voting: function () {
+        return this.event.filter(event => event === 'SHERIFF_VOTEING').length
+      },
+      werewolves_explode: function () {
+        return this.event.filter(event => event === 'WEREWOLVES_EXPLODE').length
+      },
+      text: function () {
         if (this.wolf_kill) {
-          return '选择要杀的玩家'
+          return {
+            title: '选择要杀的玩家',
+            tips: '无法统一意见为空刀',
+            negative: '空刀'
+          }
         }
-        if (this.seer_verify || this.fake_seer_verify) {
-          return '选择预言家要验的玩家'
+        if (this.seer_verify) {
+          return {
+            title: '选择预言家要验的玩家'
+          }
         }
-        if (this.witch_poison || this.fake_witch_poison) {
-          return '请选择女巫要毒的玩家'
+        if (this.fake_seer_verify) {
+          return {
+            title: '选择预言家要验的玩家',
+            tips: '预言家已经死亡'
+          }
         }
-        if (this.witch_save || this.fake_witch_save) {
-          return '请选择女巫要救的玩家'
+        if (this.witch_poison) {
+          return {
+            title: '请选择女巫要毒的玩家',
+            negative: '跳过'
+          }
+        }
+        if (this.fake_witch_poison) {
+          return {
+            title: '请选择女巫要毒的玩家',
+            tips: '女巫已经无法毒人'
+          }
+        }
+        if (this.witch_save) {
+          return {
+            title: '请选择女巫要救的玩家'
+          }
+        }
+        if (this.fake_witch_save) {
+          return {
+            title: '请选择女巫要救的玩家',
+            tips: '女巫已经无法救人'
+          }
         }
         if (this.daytime_voting) {
-          return '开始投票'
+          return {
+            title: '开始投票'
+          }
         }
         if (this.sheriff_running) {
-          return '请选择上警的玩家'
+          return {
+            title: '请选择上警的玩家'
+          }
         }
         if (this.sheriff_switch) {
-          return '请选择警徽移交人'
+          return {
+            title: '请选择警徽移交人'
+          }
         }
         if (this.hunter_shoot) {
-          return '狼人开枪带人'
+          return {
+            title: '狼人开枪带人'
+          }
         }
-      },
-      tips: function () {
-        if (this.wolf_kill) {
-          return '无法统一意见为空刀'
-        } else if (this.fake_seer_verify) {
-          return '预言家已经死亡'
-        } else if (this.fake_witch_poison) {
-          return '女巫已经无法毒人'
-        } else if (this.fake_witch_save) {
-          return '女巫已经无法救人'
-        } else {
-          return ''
+        if (this.sheriff_unregister) {
+          return {
+            title: '退警'
+          }
         }
+        if (this.werewolves_explode && this.sheriff_voting) {
+          return {
+            title: '请选择自爆狼人',
+            tips: '发言结束请直接投票',
+            negative: '开始投票'
+          }
+        }
+        return {}
       }
     }
   }

@@ -4,7 +4,7 @@
 
     <div class="userImage">
 
-      <seat :info="playerInfo"></seat>
+      <seat :info="playerInfo" :hideSwitch="true"></seat>
       <p>点击头像可显示/隐藏身份牌</p>
     </div>
     <!--<div class="yes hide">隐藏/显示身份</div>-->
@@ -12,6 +12,7 @@
     <sheriff-vote v-if="sheriff_vote" :playerInfoList="playerInfoList" :sheriffVoteList="sheriffRecord.sheriffRegisterList" :selfInfo="playerInfo" v-on:vote="sheriffVote"></sheriff-vote>
     <sheriff-pk-vote v-if="sheriff_pk_vote" :playerInfoList="playerInfoList" :sheriffPkVote="sheriffRecord.pkVotingRecord" :selfInfo="playerInfo" v-on:vote="sheriffPkVote"></sheriff-pk-vote>
     <voteResult v-if="daytimeRecord" :daytimeRecord="daytimeRecord"></voteResult>
+    <bottom :event="acceptableEventTypeList" v-on:bottomConfirm="bottomEventConfirm"></bottom>
   </div>
 
 
@@ -25,9 +26,11 @@
   import VoteResult from '../game/children/VoteResult.vue'
   import SheriffVote from './children/SheriffVote.vue'
   import SheriffPkVote from './children/SheriffPkVote.vue'
+  import Bottom from '../game/children/Bottom.vue'
   export default{
     name: 'userGame',
     components: {
+      Bottom,
       JoinGame,
       Seat,
       Vote,
@@ -65,9 +68,17 @@
       },
       sheriff_pk_vote: function () {
         return this.acceptableEventTypeList.filter(event => event === 'SHERIFF_PK_VOTE').length
+      },
+      sheriff_unregister: function () {
+        return this.acceptableEventTypeList.filter(event => event === 'SHERIFF_UNREGISTER').length
       }
     },
     methods: {
+      bottomEventConfirm: function () {
+        if (this.sheriff_unregister) {
+          this.sheriffUnregister()
+        }
+      },
       getGameInfo: function () {
         getPlayerInfo(this.roomCode, this.seatNumber).then(res => {
           this.acceptableEventTypeList = res.data.acceptableEventTypeList
@@ -119,6 +130,16 @@
           sheriffPKVoteNumber: voteNumber
         }
         putPlayerEvent(this.roomCode, this.seatNumber, sheriffVoteEvent).then(res => {
+          this.acceptableEventTypeList = res.data.acceptableEventTypeList
+        })
+      },
+      sheriffUnregister: function () {
+        const sheriffUnregisterEvent = {
+          eventType: 'SHERIFF_UNREGISTER',
+          seatNumber: this.seatNumber,
+          userID: this.userId
+        }
+        putPlayerEvent(this.roomCode, this.seatNumber, sheriffUnregisterEvent).then(res => {
           this.acceptableEventTypeList = res.data.acceptableEventTypeList
         })
       }

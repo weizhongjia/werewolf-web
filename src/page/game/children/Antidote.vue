@@ -1,12 +1,7 @@
 <template>
   <div class="antidote"  >
-    <p>今晚被杀的是【手势】，是否使用解药</p>
-    <div>
-      <div class="pic all">
-        <p class="num">2</p>
-      </div>
-      <p>请给玩家“2”号手势,让女巫选择</p>
-    </div>
+    <p>今晚被杀的是<span style="font-size: 0.5rem;color: red;">{{wolfKilledSeat}}</span>号玩家</p>
+    <p>是否使用解药</p>
     <div class="drug">
       <div id="save" v-on:click="save(true)"><img src="../../../assets/images/yes.png" alt=""><p>使用解药</p></div>
       <div id="no" class="click" v-on:click="save(false)"><img src="../../../assets/images/no.png" alt=""><p>不救</p></div>
@@ -17,6 +12,7 @@
 <script>
   export default{
     name: 'antidote',
+    props: ['wolfKilledSeat'],
     methods: {
       save: function (flag) {
         this.$emit('witchSave', flag)
