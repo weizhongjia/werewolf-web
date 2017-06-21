@@ -180,7 +180,7 @@
     left: 0;
     width: 3rem;
   }
-  .right{
+  .bottom .right{
     margin: 0;
     position: absolute;
     right: 0.4rem;
@@ -200,6 +200,9 @@
     display: none;
   }
   .left .yes{
-    margin: 0.9rem 0 0.3rem 0.4rem;
+    margin:0;
+    position: absolute;
+    top:0.9rem;
+    left:0.4rem;
   }
 </style>
