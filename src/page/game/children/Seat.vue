@@ -13,15 +13,15 @@
       <div></div>
    </div>
     <!--警长-->
-    <div class="sheriff" v-if="0">
+    <div class="sheriff" v-if="false">
       <img src="../../../assets/images/sheriff.png" alt="">
     </div>
     <!--竞选警长-->
-    <div class="strive" v-if="0">
+    <div class="strive" v-if ="false">
       <img src="../../../assets/images/strive.png" alt="">
     </div>
     <!--放弃竞选-->
-    <div class="quit" v-if="0">
+    <div class="quit" v-if="false">
       <img src="../../../assets/images/quitSheriff.png" alt="">
     </div>
   </div>
