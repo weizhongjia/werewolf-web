@@ -31,6 +31,7 @@
     padding:2rem 0.4rem 0;
     background: #bebdbd;
     font-size: 0.35rem;
+    z-index: 999;
   }
   .antidote>p{
     margin:0.4rem auto;

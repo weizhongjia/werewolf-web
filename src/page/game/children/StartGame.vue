@@ -58,6 +58,7 @@
     font-size: 0.5rem;
     font-weight: bold;
     color: black;
+    z-index: 999;
   }
   .day p{
     font-size: 0.6rem;

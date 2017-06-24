@@ -12,7 +12,7 @@
     <sheriff-vote v-if="sheriff_vote" :playerInfoList="playerInfoList" :sheriffVoteList="sheriffRecord.votingRecord" :selfInfo="playerInfo" v-on:vote="sheriffVote"></sheriff-vote>
     <sheriff-pk-vote v-if="sheriff_pk_vote" :playerInfoList="playerInfoList" :sheriffPkVote="sheriffRecord.pkVotingRecord" :selfInfo="playerInfo" v-on:vote="sheriffPkVote"></sheriff-pk-vote>
     <voteResult v-if="daytimeRecord" :daytimeRecord="daytimeRecord"></voteResult>
-    <bottom :event="acceptableEventTypeList" v-on:bottomConfirm="bottomEventConfirm"></bottom>
+    <user-bottom :event="acceptableEventTypeList" v-on:bottomConfirm="bottomEventConfirm"></user-bottom>
   </div>
 
 
@@ -26,11 +26,11 @@
   import VoteResult from '../game/children/VoteResult.vue'
   import SheriffVote from './children/SheriffVote.vue'
   import SheriffPkVote from './children/SheriffPkVote.vue'
-  import Bottom from '../game/children/Bottom.vue'
+  import UserBottom from './children/UserBottom.vue'
   export default{
     name: 'userGame',
     components: {
-      Bottom,
+      UserBottom,
       JoinGame,
       Seat,
       Vote,

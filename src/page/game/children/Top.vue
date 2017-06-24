@@ -29,6 +29,7 @@
         this.menu = !this.menu
       },
       resetGame: function () {
+        this.menu = !this.menu
         this.$emit('resetGame')
       }
     },
@@ -101,6 +102,7 @@
     justify-content: space-between;
     width:100%;
     height: 0.6rem;
+    z-index: 999;
   }
   .setup{
     margin:auto 0;
@@ -140,7 +142,7 @@
     color: black;
     width:4.6rem;
     height:6rem;
-    z-index: 100;
+    z-index: 200;
     position: absolute;
     top:0;
     left: 0;
@@ -156,7 +158,7 @@
     opacity: 0.9;
     position: absolute;
     top:0;
-    z-index: 1;
+    z-index: 101;
   }
   .reset span{
     position: absolute;
