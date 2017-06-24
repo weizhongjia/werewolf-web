@@ -155,6 +155,7 @@
     height: 100%;
   }
   .userImage{
+    position: relative;
     text-align: center;
     width: 4.2rem;
     height: 4.2rem;
