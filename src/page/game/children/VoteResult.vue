@@ -5,10 +5,14 @@
     <!--投票结果容器-->
     <div class="allVoteResult">
       <!--每个身份投票信息-->
-      <div class="voteResult" v-for="(value, key) in daytimeRecord.votingRecord">
-        <p>{{key}}号：</p>
-        <p><span v-for="n in value">{{ n }}、</span></p>
-      </div>
+      <template v-for="(value, key) in daytimeRecord.votingRecord" >
+        <div class="voteResult">
+          <span v-if="key != 0">{{key}}号&larr;</span>
+          <span v-if="key == 0">弃权&larr;</span>
+          <span v-for="n in value">{{ n }}、</span>
+        </div>
+
+      </template>
     </div>
 
     <div id="outNum">
@@ -54,11 +58,12 @@
     /*margin-bottom: 0.2rem;*/
   }
   #voteResult .voteResult{
-    font-size: 0.35rem;
+    font-size: 0.3rem;
     height: 0.4rem;
     padding-left:0.5rem;
     font-weight: normal;
     width: 5rem;
+    text-align: left;
   }
   .voteResult p{
     float: left;

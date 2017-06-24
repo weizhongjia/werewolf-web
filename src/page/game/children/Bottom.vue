@@ -61,6 +61,9 @@
       werewolves_explode: function () {
         return this.event.filter(event => event === 'WEREWOLVES_EXPLODE').length
       },
+      hunter_state: function () {
+        return this.event.filter(event => event === 'HUNTER_STATE').length
+      },
       text: function () {
         if (this.wolf_kill) {
           return {
@@ -103,9 +106,11 @@
             tips: '女巫已经无法救人'
           }
         }
-        if (this.daytime_voting) {
+        if (this.daytime_voting && this.werewolves_explode) {
           return {
-            title: '开始投票'
+            title: '请选择自爆狼人',
+            tips: '发言结束请直接投票',
+            negative: '开始投票'
           }
         }
         if (this.sheriff_running) {
@@ -133,6 +138,11 @@
             title: '请选择自爆狼人',
             tips: '发言结束请直接投票',
             negative: '开始投票'
+          }
+        }
+        if (this.hunter_state) {
+          return {
+            title: '请通知狼人状态'
           }
         }
         return {}

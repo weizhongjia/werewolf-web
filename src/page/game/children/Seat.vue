@@ -13,7 +13,7 @@
       <div></div>
    </div>
     <!--警长-->
-    <div class="sheriff" v-if="false">
+    <div class="sheriff" v-if="sheriff === info.seatNumber">
       <img src="../../../assets/images/sheriff.png" alt="">
     </div>
     <!--竞选警长-->
@@ -30,7 +30,7 @@
   import '../../../assets/style/reset.css'
   export default {
     name: 'seat',
-    props: ['info', 'wolfKill', 'witchPoison', 'selectedSeat', 'hideSwitch'],
+    props: ['info', 'wolfKill', 'witchPoison', 'selectedSeat', 'hideSwitch', 'sheriff'],
     data () {
       return {
         showRole: true

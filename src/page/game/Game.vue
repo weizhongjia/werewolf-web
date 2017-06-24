@@ -3,7 +3,7 @@
     <top v-on:resetGame="restartGame" :status="status"></top>
     <div class="room">
       <div v-for="(seat,index) in seats" class="position">
-        <seat :info="seat" :selectedSeat="selectedSeat" :wolfKill="wolf_kill" :witchPoison="witch_poison" v-on:seatSelected="chooseSeat" :class="{'isSelected':isSelected[index]}" :key="index"></seat>
+        <seat :info="seat" :selectedSeat="selectedSeat" :sheriff="sheriffRecord.sheriff" :wolfKill="wolf_kill" :witchPoison="witch_poison" v-on:seatSelected="chooseSeat" :class="{'isSelected':isSelected[index]}" :key="index"></seat>
       </div>
     </div>
     <bottom :event="acceptableEventTypes" v-on:bottomConfirm="bottomEventConfirm"></bottom>
@@ -20,7 +20,7 @@
     <!--创建游戏-->
     <create-game v-on:createGame="createGame" v-if="create_room"></create-game>
 
-    <start-game v-on:handleClick="handleClick" v-if="complete_create || ending_game || sheriff_pk_voting" :sheriffVoting="sheriff_voting" :endingGame="ending_game" :startGame="complete_create" :sheriffPkVoting="sheriff_pk_voting"></start-game>
+    <start-game v-on:handleClick="handleClick" v-if="complete_create || ending_game || sheriff_pk_voting" :endingGame="ending_game" :startGame="complete_create" :sheriffPkVoting="sheriff_pk_voting"></start-game>
 
 
     <!--投票结果-->
@@ -68,6 +68,7 @@
         daytimeRecord: [],
         nightRecord: {},
         sheriffSeat: [],
+        sheriffRecord: {},
         status: ''
       }
     },
@@ -86,6 +87,7 @@
           this.daytimeRecord = res.data.daytimeRecord
           this.status = res.data.status
           this.nightRecord = res.data.nightRecord
+          this.sheriffRecord = res.data.sheriffRecord || this.sheriffRecord
           window.setTimeout(this.getGameInfo, 5000)
         })
       },
@@ -133,9 +135,6 @@
         if (this.ending_game) {
           this.endingGame()
         }
-        if (this.sheriff_voting) {
-          this.sheriffVoting()
-        }
         if (this.sheriff_pk_voting) {
           this.sheriffPkVoting()
         }
@@ -148,10 +147,10 @@
           this.seerVerify()
         }
         if (this.witch_poison) {
-          this.witchPoison()
+          this.witchPoison(flag)
         }
         if (this.daytime_voting) {
-          this.daytimeVoting()
+          this.daytimeVoting(flag)
         }
         if (this.fake_witch_save) {
           this.fakeWitchSave()
@@ -165,6 +164,9 @@
         if (this.sheriff_running) {
           this.sheriffRunning(flag)
         }
+        if (this.sheriff_voting) {
+          this.sheriffVoting(flag)
+        }
         if (this.sheriff_switch) {
           this.sheriffSwtich()
         }
@@ -173,6 +175,9 @@
         }
         if (this.werewolves_explode) {
           this.werewolvesExplode(flag)
+        }
+        if (this.hunter_state) {
+          this.hunterState()
         }
       },
       wolfKill: function () {
@@ -242,7 +247,8 @@
         }
         this.putEvent(daytimeComingEvent)
       },
-      daytimeVoting: function () {
+      daytimeVoting: function (flag) {
+        if (flag) return
         const daytimeVotingEvent = {
           eventType: 'DAYTIME_VOTING',
           roomCode: this.roomCode
@@ -308,6 +314,13 @@
         }
         this.putEvent(wereWolfExplodeEvent)
       },
+      hunterState: function () {
+        const hunterStateEvent = {
+          eventType: 'HUNTER_STATE',
+          roomCode: this.roomCode
+        }
+        this.putEvent(hunterStateEvent)
+      },
       putEvent: function (event) {
         putJudgeEvent(this.roomCode, event).then(res => {
           this.initAcceptableEventType()
@@ -316,6 +329,7 @@
           this.daytimeRecord = res.data.daytimeRecord
           this.nightRecord = res.data.nightRecord
           this.status = res.data.status
+          this.sheriffRecord = res.data.sheriffRecord || this.sheriffRecord
           this.selectedSeat = ''
           this.sheriffSeat = []
         })
@@ -393,6 +407,9 @@
       },
       werewolves_explode: function () {
         return this.acceptableEventTypes.filter(event => event === 'WEREWOLVES_EXPLODE').length
+      },
+      hunter_state: function () {
+        return this.acceptableEventTypes.filter(event => event === 'HUNTER_STATE').length
       },
       isSelected: function () {
         let isSelectedArray = []
