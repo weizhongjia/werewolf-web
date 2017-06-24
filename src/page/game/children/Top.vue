@@ -142,7 +142,7 @@
     color: black;
     width:4.6rem;
     height:6rem;
-    z-index: 200;
+    z-index: 2000;
     position: absolute;
     top:0;
     left: 0;
