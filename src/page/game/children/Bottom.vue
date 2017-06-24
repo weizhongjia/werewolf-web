@@ -5,7 +5,7 @@
       <p class="tips">{{text.tips}}</p>
       <p class="yes" v-if="text.negative" v-on:click="emitEvent(false)">{{text.negative}}</p>
     </div>
-    <div class="right yes" v-on:click="emitEvent(true)">确定</div>
+    <div class="right yes" v-if="text.positive" v-on:click="emitEvent(true)">{{text.positive}}</div>
   </div>
 </template>
 
@@ -69,80 +69,94 @@
           return {
             title: '选择要杀的玩家',
             tips: '无法统一意见为空刀',
-            negative: '空刀'
+            negative: '空刀',
+            positive: '确定'
           }
         }
         if (this.seer_verify) {
           return {
-            title: '选择预言家要验的玩家'
+            title: '选择预言家要验的玩家',
+            positive: '确定'
           }
         }
         if (this.fake_seer_verify) {
           return {
             title: '选择预言家要验的玩家',
-            tips: '预言家已经死亡'
+            tips: '预言家已经死亡',
+            positive: '确定'
           }
         }
         if (this.witch_poison) {
           return {
             title: '请选择女巫要毒的玩家',
-            negative: '跳过'
+            negative: '跳过',
+            positive: '确定'
           }
         }
         if (this.fake_witch_poison) {
           return {
             title: '请选择女巫要毒的玩家',
-            tips: '女巫已经无法毒人'
+            tips: '女巫已经无法毒人',
+            positive: '确定'
           }
         }
         if (this.witch_save) {
           return {
-            title: '请选择女巫要救的玩家'
+            title: '请选择女巫要救的玩家',
+            positive: '确定'
           }
         }
         if (this.fake_witch_save) {
           return {
             title: '请选择女巫要救的玩家',
-            tips: '女巫已经无法救人'
+            tips: '女巫已经无法救人',
+            positive: '确定'
           }
         }
         if (this.daytime_voting && this.werewolves_explode) {
           return {
             title: '请选择自爆狼人',
             tips: '发言结束请直接投票',
-            negative: '开始投票'
+            negative: '开始投票',
+            positive: '确定'
           }
         }
         if (this.sheriff_running) {
           return {
-            title: '请选择上警的玩家'
+            title: '请选择上警的玩家',
+            positive: '确定'
           }
         }
         if (this.sheriff_switch) {
           return {
-            title: '请选择警徽移交人'
+            title: '请选择警徽移交人',
+            positive: '确定'
           }
         }
         if (this.hunter_shoot) {
           return {
-            title: '狼人开枪带人'
+            title: '狼人开枪带人',
+            positive: '确定'
           }
         }
         if (this.sheriff_unregister) {
           return {
-            title: '退警'
+            title: '退警',
+            positive: '确定'
           }
         }
         if (this.werewolves_explode && this.sheriff_voting) {
           return {
             title: '请选择自爆狼人',
             tips: '发言结束请直接投票',
-            negative: '开始投票'
+            negative: '开始投票',
+            positive: '确定'
           }
         }
         if (this.hunter_state) {
           return {
-            title: '请通知狼人状态'
+            title: '请通知狼人状态',
+            positive: '确定'
           }
         }
         return {}

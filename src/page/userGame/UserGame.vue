@@ -9,7 +9,7 @@
     </div>
     <!--<div class="yes hide">隐藏/显示身份</div>-->
     <vote v-if="daytime_vote" :playerInfoList="playerInfoList" :selfInfo="playerInfo" v-on:vote="daytimeVote"></vote>
-    <sheriff-vote v-if="sheriff_vote" :playerInfoList="playerInfoList" :sheriffVoteList="sheriffRecord.sheriffRegisterList" :selfInfo="playerInfo" v-on:vote="sheriffVote"></sheriff-vote>
+    <sheriff-vote v-if="sheriff_vote" :playerInfoList="playerInfoList" :sheriffVoteList="sheriffRecord.votingRecord" :selfInfo="playerInfo" v-on:vote="sheriffVote"></sheriff-vote>
     <sheriff-pk-vote v-if="sheriff_pk_vote" :playerInfoList="playerInfoList" :sheriffPkVote="sheriffRecord.pkVotingRecord" :selfInfo="playerInfo" v-on:vote="sheriffPkVote"></sheriff-pk-vote>
     <voteResult v-if="daytimeRecord" :daytimeRecord="daytimeRecord"></voteResult>
     <bottom :event="acceptableEventTypeList" v-on:bottomConfirm="bottomEventConfirm"></bottom>
