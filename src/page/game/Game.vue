@@ -73,12 +73,14 @@
       }
     },
     methods: {
-      initAcceptableEventType: function () {
-        this.create_room = false
-        this.disband_game = false
-        this.restart_game = false
-        this.complete_create = false
-        this.night_coming = false
+      init: function () {
+        this.seats = []
+        this.selectedSeat = ''
+        this.acceptableEventTypes = []
+        this.daytimeRecord = []
+        this.nightRecord = {}
+        this.sheriffSeat = []
+        this.sheriffRecord = {}
       },
       getGameInfo: function () {
         getJudgeInfo(this.roomCode).then(res => {
@@ -108,6 +110,7 @@
         this.putEvent(createEvent)
       },
       restartGame: function () {
+        this.init()
         const restartGameEvent = {
           eventType: 'RESTART_GAME',
           roomCode: this.roomCode
@@ -323,7 +326,6 @@
       },
       putEvent: function (event) {
         putJudgeEvent(this.roomCode, event).then(res => {
-          this.initAcceptableEventType()
           this.seats = res.data.playerSeatInfoList
           this.acceptableEventTypes = res.data.acceptableEventTypes
           this.daytimeRecord = res.data.daytimeRecord
