@@ -10,8 +10,11 @@
     <!--毒药-->
     <div class="poison" v-if="selectedSeat === info.seatNumber && witchPoison">
       <img src="../../../assets/images/poison.png" alt="">
-      <div></div>
    </div>
+    <!--被刀-->
+    <div class="die" v-if="info.alive && nightRecord.wolfKilledSeat === info.seatNumber">
+      <img src="../../../assets/images/die2.png" alt="">
+    </div>
     <!--警长-->
     <div class="sheriff" v-if="sheriff === info.seatNumber">
       <img src="../../../assets/images/sheriff.png" alt="">
@@ -30,7 +33,7 @@
   import '../../../assets/style/reset.css'
   export default {
     name: 'seat',
-    props: ['info', 'wolfKill', 'witchPoison', 'selectedSeat', 'hideSwitch', 'sheriff'],
+    props: ['info', 'wolfKill', 'witchPoison', 'selectedSeat', 'hideSwitch', 'sheriff', 'nightRecord'],
     data () {
       return {
         showRole: true

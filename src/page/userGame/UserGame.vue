@@ -4,7 +4,7 @@
 
     <div class="userImage">
 
-      <seat :info="playerInfo" :hideSwitch="true"></seat>
+      <seat :info="playerInfo" :nightRecord="nightRecord" :hideSwitch="true"></seat>
       <p>点击头像可显示/隐藏身份牌</p>
     </div>
     <!--<div class="yes hide">隐藏/显示身份</div>-->
@@ -47,6 +47,7 @@
         acceptableEventTypeList: [],
         playerInfoList: [],
         daytimeRecord: [],
+        nightRecord: {},
         sheriffRecord: {}
       }
     },
