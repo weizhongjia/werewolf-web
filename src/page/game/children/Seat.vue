@@ -33,10 +33,11 @@
   import '../../../assets/style/reset.css'
   export default {
     name: 'seat',
-    props: ['info', 'wolfKill', 'witchPoison', 'selectedSeat', 'hideSwitch', 'sheriff', 'nightRecord'],
+    props: ['info', 'wolfKill', 'witchPoison', 'selectedSeat', 'hideSwitch', 'sheriff', 'nightRecord','showRo'],
     data () {
       return {
-        showRole: true
+        showRole: true,
+        roleImage:''
       }
     },
     mounted () {
@@ -46,7 +47,9 @@
     },
     methods: {
       seatSelected: function () {
-        if (this.hideSwitch) {
+//        控制刚开始身份牌的显隐
+        if (this.hideSwitch && this.showRo) {
+//          切换图片效果
           this.showRole = !this.showRole
         } else {
           this.$emit('seatSelected', this.info)
@@ -56,12 +59,24 @@
     computed: {
       wolf_kill () {
 
+      }
+//      roleImage () {
+//        if (this.showRole ) {
+//          return this.info.role.toLowerCase();
+//        } else {
+//          return ''
+//        }
+//      }
+    },
+    watch: {
+      showRo: function(val) {
+       this.roleImage = this.info.role.toLowerCase();
       },
-      roleImage () {
-        if (this.showRole) {
-          return this.info.role.toLowerCase()
+      showRole: function (val) {
+        if(val === true){
+          this.roleImage = this.info.role.toLowerCase();
         } else {
-          return ''
+          this.roleImage = ''
         }
       }
     }
@@ -73,6 +88,7 @@
   }
   .seat {
     /*position: relative;*/
+    transition: background 0.8s;
     background-repeat: no-repeat;
     background-size: 100% 100%;
     width: 100%;

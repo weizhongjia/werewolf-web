@@ -4,12 +4,14 @@
 
     <div class="userImage">
 
-      <seat :info="playerInfo" :nightRecord="nightRecord" :hideSwitch="true"></seat>
+      <seat :info="playerInfo" :nightRecord="nightRecord" :hideSwitch="true" :showRo="showRo"></seat>
+
       <transition  name="slide-fade">
         <p v-if="playerInfo.role !== 'UNASSIGN'">点击头像可显示/隐藏身份牌</p>
       </transition>
     </div>
-    <!--<div class="yes hide">隐藏/显示身份</div>-->
+    <div class="random" v-on:click="showR" v-if='!showRo'>抽牌</div>
+    <!--<div class="yes hide"daytime_vote>隐藏/显示身份</div>-->
     <vote v-if="daytime_vote" :playerInfoList="playerInfoList" :selfInfo="playerInfo" v-on:vote="daytimeVote"></vote>
     <sheriff-vote v-if="sheriff_vote" :playerInfoList="playerInfoList" :sheriffVoteList="sheriffRecord.votingRecord" :selfInfo="playerInfo" v-on:vote="sheriffVote"></sheriff-vote>
     <sheriff-pk-vote v-if="sheriff_pk_vote" :playerInfoList="playerInfoList" :sheriffPkVote="sheriffRecord.pkVotingRecord" :selfInfo="playerInfo" v-on:vote="sheriffPkVote"></sheriff-pk-vote>
@@ -50,7 +52,8 @@
         playerInfoList: [],
         daytimeRecord: [],
         nightRecord: {},
-        sheriffRecord: {}
+        sheriffRecord: {},
+        showRo: false
       }
     },
     mounted () {
@@ -145,6 +148,9 @@
         putPlayerEvent(this.roomCode, this.seatNumber, sheriffUnregisterEvent).then(res => {
           this.acceptableEventTypeList = res.data.acceptableEventTypeList
         })
+      },
+      showR: function () {
+        this.showRo = !this.showRo
       }
     }
   }
@@ -164,9 +170,9 @@
     height: 4.2rem;
     margin:0.9rem auto 0
   }
-  .userImage>div{
-    border-radius: 50%;
-  }
+  /*.userImage>div{*/
+    /*border-radius: 50%;*/
+  /*}*/
   .userImage .die{
     border-radius: 50%;
     overflow: hidden;
@@ -189,5 +195,19 @@
   .slide-fade-enter, .slide-fade-leave-active {
     transform: translateX(10px);
     opacity: 0;
+  }
+  .random{
+    width: 2rem;
+    height: 0.6rem;
+    line-height: 0.58rem;
+    background: #f6f5f5;
+    margin:0 auto;
+    border: 2px solid #5f5f5f;
+    border-radius: 5px;
+    font-size: 0.33rem;
+    position: absolute;
+    bottom: 3.5rem;
+    left: 0;
+    right: 0;
   }
 </style>
