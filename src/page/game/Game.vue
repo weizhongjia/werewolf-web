@@ -350,12 +350,20 @@
       },
       chooseSeat: function (info) {
         if (this.sheriff_running) {
-          if (this.sheriffSeat.filter(seat => info.seatNumber === seat).length === 0) {
+          let newSheriffSeat = this.sheriffSeat.filter(seat => info.seatNumber !== seat)
+          if (newSheriffSeat.length === this.sheriffSeat.length) {
             this.sheriffSeat.push(info.seatNumber)
+          } else {
+            this.sheriffSeat = newSheriffSeat
           }
         } else {
-          this.selectedSeat = info.seatNumber
-          this.selectedInfo = info
+          if (this.selectedSeat === info.seatNumber) {
+            this.selectedSeat = ''
+            this.selectedInfo = null
+          } else {
+            this.selectedSeat = info.seatNumber
+            this.selectedInfo = info
+          }
         }
       }
     },
