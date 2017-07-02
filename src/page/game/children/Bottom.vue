@@ -172,7 +172,7 @@
         }
         if (this.hunter_state) {
           return {
-            title: '请通知狼人状态',
+            title: '请通知猎人状态',
             positive: '确定'
           }
         }
