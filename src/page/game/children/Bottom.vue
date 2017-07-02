@@ -12,7 +12,7 @@
 <script>
   export default{
     name: 'bottom',
-    props: ['event'],
+    props: ['event', 'selectedSeat', 'sheriffRecord', 'selectedInfo'],
     methods: {
       emitEvent: function (flag) {
         this.$emit('bottomConfirm', flag)
@@ -63,6 +63,12 @@
       },
       hunter_state: function () {
         return this.event.filter(event => event === 'HUNTER_STATE').length
+      },
+      is_on_sheriff: function () {
+        if (!this.sheriffRecord) {
+          return false
+        }
+        return Object.keys(this.sheriffRecord.votingRecord).filter(number => parseInt(number) === this.selectedSeat).length > 0
       },
       text: function () {
         if (this.wolf_kill) {
@@ -135,23 +141,34 @@
         }
         if (this.hunter_shoot) {
           return {
-            title: '狼人开枪带人',
+            title: '猎人开枪带人',
             positive: '确定'
           }
         }
-        if (this.sheriff_unregister) {
-          return {
-            title: '退警',
-            positive: '确定'
+        if (this.werewolves_explode && this.sheriff_voting && this.sheriff_unregister) {
+          let text = {
+            negative: '开始投票'
           }
-        }
-        if (this.werewolves_explode && this.sheriff_voting) {
-          return {
-            title: '请选择自爆狼人',
-            tips: '发言结束请直接投票',
-            negative: '开始投票',
-            positive: '确定'
+          if (this.is_on_sheriff && this.selectedInfo && this.selectedInfo.role === 'WEREWOLVES' && this.selectedInfo.alive) {
+            text.positive = '退警'
+            text.negative = '狼人自爆'
+            text.title = '请选择该玩家行为'
+            text.tips = '选择其他玩家可开始投票'
+            return text
           }
+          if (this.is_on_sheriff) {
+            text.positive = '退警'
+            text.title = '选中玩家退警或开始投票'
+            return text
+          }
+          if (this.selectedInfo && this.selectedInfo.role === 'WEREWOLVES' && this.selectedInfo.alive) {
+            text.positive = '狼人自爆'
+            text.title = '选中狼人自爆或开始投票'
+            return text
+          }
+          text.title = '选择退警或自爆玩家'
+          text.tips = '发言结束请直接投票'
+          return text
         }
         if (this.hunter_state) {
           return {

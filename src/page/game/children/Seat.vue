@@ -12,7 +12,7 @@
       <img src="../../../assets/images/poison.png" alt="">
    </div>
     <!--被刀-->
-    <div class="die" v-if="info.alive && nightRecord.wolfKilledSeat === info.seatNumber">
+    <div class="die" v-if="info.alive && nightRecord && nightRecord.wolfKilledSeat === info.seatNumber">
       <img src="../../../assets/images/die2.png" alt="">
     </div>
     <!--警长-->
@@ -39,12 +39,17 @@
         showRole: true
       }
     },
+    mounted () {
+      if (this.hideSwitch) {
+        this.showRole = false
+      }
+    },
     methods: {
       seatSelected: function () {
         if (this.hideSwitch) {
           this.showRole = !this.showRole
         } else {
-          this.$emit('seatSelected', this.info.seatNumber)
+          this.$emit('seatSelected', this.info)
         }
       }
     },
@@ -80,22 +85,22 @@
     background-image:url("../../../assets/images/all.png")
   }
   .werewolves{
-     background-image:url("../../../assets/images/werewolf.png")
+     background-image:url("../../../assets/images/werewolf.jpeg")
    }
   .villager{
-    background-image:url("../../../assets/images/villager.png")
+    background-image:url("../../../assets/images/villager1.jpeg")
   }
   .seer{
-    background-image:url("../../../assets/images/seer.png")
+    background-image:url("../../../assets/images/seer1.jpeg")
   }
   .hunter{
-    background-image:url("../../../assets/images/hunter.png")
+    background-image:url("../../../assets/images/hunter1.jpeg")
   }
   .witch{
-    background-image:url("../../../assets/images/witch.png")
+    background-image:url("../../../assets/images/witch1.jpeg")
   }
   .moron{
-    background-image:url("../../../assets/images/moron.png")
+    background-image:url("../../../assets/images/moron1.jpeg")
   }
   .all{
     background-image:url("../../../assets/images/all.png")

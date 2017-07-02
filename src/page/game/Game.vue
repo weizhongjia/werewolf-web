@@ -6,7 +6,7 @@
         <seat :info="seat" :nightRecord="nightRecord" :selectedSeat="selectedSeat" :sheriff="sheriffRecord.sheriff" :wolfKill="wolf_kill" :witchPoison="witch_poison" v-on:seatSelected="chooseSeat" :class="{'isSelected':isSelected[index]}" :key="index"></seat>
       </div>
     </div>
-    <bottom :event="acceptableEventTypes" v-on:bottomConfirm="bottomEventConfirm"></bottom>
+    <bottom :event="acceptableEventTypes" :selectedInfo="selectedInfo" :selectedSeat="selectedSeat" :sheriffRecord="sheriffRecord" v-on:bottomConfirm="bottomEventConfirm"></bottom>
 
     <!--天黑请闭眼-->
     <night v-on:nightComing="nightComing" v-if="night_coming"></night>
@@ -64,6 +64,7 @@
         roomCode: '',
         seats: [],
         selectedSeat: '',
+        selectedInfo: {},
         acceptableEventTypes: [],
         daytimeRecord: [],
         nightRecord: {},
@@ -274,6 +275,7 @@
         this.putEvent(sheriffRunningEvent)
       },
       sheriffVoting: function (flag) {
+        if (this.is_on_sheriff && this.selectedInfo.role === 'WEREWOLF' && this.selectedInfo.alive) return
         if (flag) return
         const sheriffVotingEvent = {
           eventType: 'SHERIFF_VOTEING',
@@ -309,6 +311,7 @@
         this.putEvent(hunterShootEvent)
       },
       werewolvesExplode: function (flag) {
+        if (this.is_on_sheriff && this.selectedInfo.role === 'WEREWOLF' && this.selectedInfo.alive && flag) return
         if (!flag) return
         const wereWolfExplodeEvent = {
           eventType: 'WEREWOLVES_EXPLODE',
@@ -324,6 +327,15 @@
         }
         this.putEvent(hunterStateEvent)
       },
+      sheriffUnregister: function (flag) {
+        if (!flag) return
+        const sheriffUnregisterEvent = {
+          eventType: 'SHERIFF_UNREGISTER',
+          roomCode: this.roomCode,
+          unregisterSheriff: this.selectedSeat
+        }
+        this.putEvent(sheriffUnregisterEvent)
+      },
       putEvent: function (event) {
         putJudgeEvent(this.roomCode, event).then(res => {
           this.seats = res.data.playerSeatInfoList
@@ -336,13 +348,14 @@
           this.sheriffSeat = []
         })
       },
-      chooseSeat: function (seatNumber) {
+      chooseSeat: function (info) {
         if (this.sheriff_running) {
-          if (this.sheriffSeat.filter(seat => seatNumber === seat).length === 0) {
-            this.sheriffSeat.push(seatNumber)
+          if (this.sheriffSeat.filter(seat => info.seatNumber === seat).length === 0) {
+            this.sheriffSeat.push(info.seatNumber)
           }
         } else {
-          this.selectedSeat = seatNumber
+          this.selectedSeat = info.seatNumber
+          this.selectedInfo = info
         }
       }
     },
@@ -419,6 +432,9 @@
           isSelectedArray[i] = i === this.selectedSeat - 1 || this.sheriffSeat.filter(seat => seat === i + 1).length > 0
         }
         return isSelectedArray
+      },
+      is_on_sheriff: function () {
+        return this.sheriffRecord && Object.keys(this.sheriffRecord.votingRecord).filter(number => parseInt(number) === this.selectedSeat).length > 0
       }
     }
   }

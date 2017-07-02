@@ -5,7 +5,9 @@
     <div class="userImage">
 
       <seat :info="playerInfo" :nightRecord="nightRecord" :hideSwitch="true"></seat>
-      <p>点击头像可显示/隐藏身份牌</p>
+      <transition  name="slide-fade">
+        <p v-if="playerInfo.role !== 'UNASSIGN'">点击头像可显示/隐藏身份牌</p>
+      </transition>
     </div>
     <!--<div class="yes hide">隐藏/显示身份</div>-->
     <vote v-if="daytime_vote" :playerInfoList="playerInfoList" :selfInfo="playerInfo" v-on:vote="daytimeVote"></vote>
@@ -177,5 +179,15 @@
     font-size: 0.3rem;
     color: gray;
     margin-top:0.1rem;
+  }
+  .slide-fade-enter-active {
+    transition: all .3s ease;
+  }
+  .slide-fade-leave-active {
+    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  }
+  .slide-fade-enter, .slide-fade-leave-active {
+    transform: translateX(10px);
+    opacity: 0;
   }
 </style>
