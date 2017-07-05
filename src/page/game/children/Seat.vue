@@ -1,5 +1,5 @@
 <template>
-  <div class="seat " v-bind:class="roleImage" v-on:click="seatSelected" >
+  <div class="seat "  v-bind:class="[roleImage]" v-on:click="seatSelected"  >
     <!--<p >{{info.role | getCnName}} </p>-->
     <p class="num">{{info.seatNumber}}</p>
     <!--死亡-->
@@ -33,15 +33,22 @@
   import '../../../assets/style/reset.css'
   export default {
     name: 'seat',
-    props: ['info', 'wolfKill', 'witchPoison', 'selectedSeat', 'hideSwitch', 'sheriff', 'nightRecord', 'showRo'],
+//    showRo可从game或者usergame里面取到
+//    showRo在game里默认为true，在userGame里面默认为false，在userGame里点击切换按钮切换showRo。并且showRole依赖于showRo，
+//    第三方变量showRo3,在game里默认为true，在seat组件中控制showRole默认的显隐，两个父组件的初始状态不同。
+    props: ['showRo3', 'info', 'wolfKill', 'witchPoison', 'selectedSeat', 'hideSwitch', 'sheriff', 'nightRecord', 'showRo'],
     data () {
       return {
         showRole: true,
-        roleImage: ''
+        showRo3: false
       }
     },
     mounted () {
       if (this.hideSwitch) {
+        this.showRole = false
+      }
+      ;
+      if (this.showRo3) {
         this.showRole = false
       }
     },
@@ -64,17 +71,14 @@
       sheriffUnregister () {
         if (!this.sheriff || !this.sheriff.votingRecord) return false
         return Object.keys(this.sheriff.votingRecord).findIndex(el => parseInt(el) === this.info.seatNumber) === -1
-      }
-    },
-    watch: {
-      showRo: function () {
-        this.roleImage = this.info.role.toLowerCase()
       },
-      showRole: function (val) {
-        if (val === true) {
-          this.roleImage = this.info.role.toLowerCase()
-        } else {
-          this.roleImage = ''
+      roleImage () {
+        if (this.showRo) {
+          if (!this.showRole) {
+            return this.info.role.toLowerCase();
+          } else {
+            return ''
+          }
         }
       }
     }
