@@ -3,7 +3,7 @@
     <top v-on:resetGame="restartGame" :status="status"></top>
     <div class="room">
       <div v-for="(seat,index) in seats" class="position">
-        <seat :info="seat" :nightRecord="nightRecord" :selectedSeat="selectedSeat" :sheriff="sheriffRecord.sheriff" :wolfKill="wolf_kill" :witchPoison="witch_poison" v-on:seatSelected="chooseSeat" :class="{'isSelected':isSelected[index]}" :key="index"></seat>
+        <seat :info="seat" :nightRecord="nightRecord" :selectedSeat="selectedSeat" :sheriff="sheriffRecord" :wolfKill="wolf_kill" :witchPoison="witch_poison" v-on:seatSelected="chooseSeat" :class="{'isSelected':isSelected[index]}" :key="index"></seat>
       </div>
     </div>
     <bottom :event="acceptableEventTypes" :selectedInfo="selectedInfo" :selectedSeat="selectedSeat" :sheriffRecord="sheriffRecord" v-on:bottomConfirm="bottomEventConfirm"></bottom>
@@ -183,6 +183,9 @@
         if (this.hunter_state) {
           this.hunterState()
         }
+        if (this.sheriff_unregister) {
+          this.sheriffUnregister(flag)
+        }
       },
       wolfKill: function () {
         const wolfKillEvent = {
@@ -275,7 +278,7 @@
         this.putEvent(sheriffRunningEvent)
       },
       sheriffVoting: function (flag) {
-        if (this.is_on_sheriff && this.selectedInfo.role === 'WEREWOLF' && this.selectedInfo.alive) return
+        if (this.is_on_sheriff && this.selectedInfo.role === 'WEREWOLVES' && this.selectedInfo.alive) return
         if (flag) return
         const sheriffVotingEvent = {
           eventType: 'SHERIFF_VOTEING',
@@ -311,8 +314,8 @@
         this.putEvent(hunterShootEvent)
       },
       werewolvesExplode: function (flag) {
-        if (this.is_on_sheriff && this.selectedInfo.role === 'WEREWOLF' && this.selectedInfo.alive && flag) return
-        if (!flag) return
+        if (this.is_on_sheriff && this.selectedInfo.role === 'WEREWOLVES' && this.selectedInfo.alive && flag) return
+        if (!this.is_on_sheriff && !flag) return
         const wereWolfExplodeEvent = {
           eventType: 'WEREWOLVES_EXPLODE',
           roomCode: this.roomCode,
@@ -430,6 +433,9 @@
       },
       werewolves_explode: function () {
         return this.acceptableEventTypes.filter(event => event === 'WEREWOLVES_EXPLODE').length
+      },
+      sheriff_unregister: function () {
+        return this.acceptableEventTypes.filter(event => event === 'SHERIFF_UNREGISTER').length
       },
       hunter_state: function () {
         return this.acceptableEventTypes.filter(event => event === 'HUNTER_STATE').length

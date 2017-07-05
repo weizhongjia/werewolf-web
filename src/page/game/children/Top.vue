@@ -6,7 +6,7 @@
     </div>
     <div class="time">{{statusText}}</div>
     <div class="history"><span>历史</span></div>
-    <div v-if="menu" class="reset animated bounceInDown">
+    <div v-if="menu" class="reset animated bounceInDown" style="z-index:200;">
       <span>请确定是否重启游戏？</span>
       <p class="yes" v-on:click="resetGame">重启游戏</p>
       <div></div>
@@ -142,7 +142,7 @@
     color: black;
     width:4.6rem;
     height:6rem;
-    z-index: 2000;
+    z-index: 101;
     position: absolute;
     top:0;
     left: 0;

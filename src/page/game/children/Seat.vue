@@ -8,7 +8,7 @@
       <div></div>
    </div>
     <!--毒药-->
-    <div class="poison" v-if="selectedSeat === info.seatNumber && witchPoison">
+    <div class="poison" v-if="info.alive && nightRecord && nightRecord.witchPoisoned === info.seatNumber">
       <img src="../../../assets/images/poison.png" alt="">
    </div>
     <!--被刀-->
@@ -16,15 +16,15 @@
       <img src="../../../assets/images/die2.png" alt="">
     </div>
     <!--警长-->
-    <div class="sheriff" v-if="sheriff === info.seatNumber">
+    <div class="sheriff" v-if="sheriff && sheriff.sheriff === info.seatNumber">
       <img src="../../../assets/images/sheriff.png" alt="">
     </div>
     <!--竞选警长-->
-    <div class="strive" v-if ="false">
+    <div class="strive" v-if ="sheriffRegister && !sheriffUnregister">
       <img src="../../../assets/images/strive.png" alt="">
     </div>
     <!--放弃竞选-->
-    <div class="quit" v-if="false">
+    <div class="quit" v-if="sheriffRegister && sheriffUnregister">
       <img src="../../../assets/images/quitSheriff.png" alt="">
     </div>
   </div>
@@ -33,11 +33,11 @@
   import '../../../assets/style/reset.css'
   export default {
     name: 'seat',
-    props: ['info', 'wolfKill', 'witchPoison', 'selectedSeat', 'hideSwitch', 'sheriff', 'nightRecord','showRo'],
+    props: ['info', 'wolfKill', 'witchPoison', 'selectedSeat', 'hideSwitch', 'sheriff', 'nightRecord', 'showRo'],
     data () {
       return {
         showRole: true,
-        roleImage:''
+        roleImage: ''
       }
     },
     mounted () {
@@ -57,24 +57,22 @@
       }
     },
     computed: {
-      wolf_kill () {
-
+      sheriffRegister () {
+        if (!this.sheriff || !this.sheriff.sheriffRegisterList) return false
+        return this.sheriff.sheriffRegisterList.findIndex(el => parseInt(el) === this.info.seatNumber) !== -1
+      },
+      sheriffUnregister () {
+        if (!this.sheriff || !this.sheriff.votingRecord) return false
+        return Object.keys(this.sheriff.votingRecord).findIndex(el => parseInt(el) === this.info.seatNumber) === -1
       }
-//      roleImage () {
-//        if (this.showRole ) {
-//          return this.info.role.toLowerCase();
-//        } else {
-//          return ''
-//        }
-//      }
     },
     watch: {
-      showRo: function(val) {
-       this.roleImage = this.info.role.toLowerCase();
+      showRo: function () {
+        this.roleImage = this.info.role.toLowerCase()
       },
       showRole: function (val) {
-        if(val === true){
-          this.roleImage = this.info.role.toLowerCase();
+        if (val === true) {
+          this.roleImage = this.info.role.toLowerCase()
         } else {
           this.roleImage = ''
         }
