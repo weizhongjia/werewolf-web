@@ -22,7 +22,11 @@
 
     <start-game v-on:handleClick="handleClick" v-if="complete_create || ending_game || sheriff_pk_voting" :endingGame="ending_game" :startGame="complete_create" :sheriffPkVoting="sheriff_pk_voting"></start-game>
 
+    <!--当晚结果-->
+    <night-result></night-result>
 
+    <!--游戏结束-->
+    <game-over v-if="0"></game-over>
     <!--投票结果-->
     <!--<voteResult v-if="daytimeRecord" :daytimeRecord="daytimeRecord"></voteResult>-->
   </div>
@@ -39,6 +43,8 @@
   import StartGame from './children/StartGame.vue'
   import CreateGame from './children/CreateGame.vue'
   import VoteResult from './children/VoteResult.vue'
+  import NightResult from './children/NightReslt.vue'
+  import GameOver from './children/GameOver.vue'
 //  import { mapState } from 'vuex'
   import {putJudgeEvent, getJudgeInfo} from '../../store/getData'
   export default {
@@ -53,7 +59,9 @@
       Night,
       StartGame,
       CreateGame,
-      VoteResult
+      VoteResult,
+      NightResult,
+      GameOver
     },
     mounted () {
       this.roomCode = this.$route.params.roomCode

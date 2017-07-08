@@ -19,7 +19,7 @@
 <style>
   .day{
     width:100%;
-    height:auto%;
+    height:auto;
     position: absolute;
     top: 0;
     bottom:0;

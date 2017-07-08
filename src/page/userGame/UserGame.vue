@@ -17,6 +17,7 @@
     <sheriff-pk-vote v-if="sheriff_pk_vote" :playerInfoList="playerInfoList" :sheriffPkVote="sheriffRecord.pkVotingRecord" :selfInfo="playerInfo" v-on:vote="sheriffPkVote"></sheriff-pk-vote>
     <voteResult v-if="showVoteResult && daytimeRecord" :daytimeRecord="daytimeRecord" :sheriff="sheriffRecord.sheriff"></voteResult>
     <user-bottom :event="acceptableEventTypeList" v-on:bottomConfirm="bottomEventConfirm"></user-bottom>
+    <user-over v-if="1"></user-over>
   </div>
 
 
@@ -31,6 +32,7 @@
   import SheriffVote from './children/SheriffVote.vue'
   import SheriffPkVote from './children/SheriffPkVote.vue'
   import UserBottom from './children/UserBottom.vue'
+  import UserOver from './children/UserOver.vue'
   export default{
     name: 'userGame',
     components: {
@@ -40,7 +42,8 @@
       Vote,
       VoteResult,
       SheriffVote,
-      SheriffPkVote
+      SheriffPkVote,
+      UserOver
     },
     data () {
       return {
