@@ -23,7 +23,7 @@
     <start-game v-on:handleClick="handleClick" v-if="complete_create || ending_game || sheriff_pk_voting" :endingGame="ending_game" :startGame="complete_create" :sheriffPkVoting="sheriff_pk_voting"></start-game>
 
     <!--当晚结果-->
-    <night-result></night-result>
+    <night-result v-if="0"></night-result>
 
     <!--游戏结束-->
     <game-over v-if="0"></game-over>

@@ -5,7 +5,7 @@
       <!--好人阵营-->
       <div id="goodPerson">
         <!--失败、胜利标识-->
-        <img src="../../../assets/images/win.png" alt="" v-if="1">
+        <img src="../../../assets/images/win.png" alt="" v-if="0">
         <img src="../../../assets/images/lose.png" alt="" v-if="1">
         <div class="h2">
           <div class="gradient"></div>
@@ -29,7 +29,7 @@
       <div id="wereWolf">
         <!--失败、胜利标识-->
         <img src="../../../assets/images/win.png" alt="" v-if="1">
-        <img src="../../../assets/images/lose.png" alt="" v-if="1">
+        <img src="../../../assets/images/lose.png" alt="" v-if="0">
         <div class="h2">
           <div class="gradient"></div>
           <h2>狼人阵营</h2>
@@ -68,6 +68,7 @@
 
 <style>
   #gameOver{
+    z-index: 10000;
     position: absolute;
     top:0;
     bottom: 0;
