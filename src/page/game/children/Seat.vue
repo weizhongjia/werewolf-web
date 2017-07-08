@@ -69,6 +69,9 @@
         if (!this.showRole && this.showRoleSwitch) {
           return this.info.role.toLowerCase()
         } else {
+          if (this.hideSwitch) {
+            return 'user'
+          }
           return ''
         }
       }
@@ -92,6 +95,9 @@
     border:8px solid #290d05;
     border-radius: 20px;
     background-image:url("../../../assets/images/all.png")
+  }
+  .user {
+    background-image:url("../../../assets/images/game.jpeg")
   }
   .werewolves{
      background-image:url("../../../assets/images/werewolf.jpeg")
