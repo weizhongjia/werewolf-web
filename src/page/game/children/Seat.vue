@@ -39,11 +39,6 @@
         showRole: true
       }
     },
-    mounted () {
-      if (this.hideSwitch) {
-        this.showRole = false
-      }
-    },
     methods: {
       seatSelected: function () {
         if (this.hideSwitch) {
@@ -66,7 +61,7 @@
         return this.sheriff && this.sheriff.sheriff === this.info.seatNumber
       },
       roleImage () {
-        if (!this.showRole && this.showRoleSwitch) {
+        if (this.showRole && this.showRoleSwitch && this.info.role !== 'UNASSIGN') {
           return this.info.role.toLowerCase()
         } else {
           if (this.hideSwitch) {

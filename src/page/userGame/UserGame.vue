@@ -15,7 +15,7 @@
     <vote v-if="daytime_vote" :playerInfoList="playerInfoList" :selfInfo="playerInfo" v-on:vote="daytimeVote"></vote>
     <sheriff-vote v-if="sheriff_vote" :playerInfoList="playerInfoList" :sheriffVoteList="sheriffRecord.votingRecord" :selfInfo="playerInfo" v-on:vote="sheriffVote"></sheriff-vote>
     <sheriff-pk-vote v-if="sheriff_pk_vote" :playerInfoList="playerInfoList" :sheriffPkVote="sheriffRecord.pkVotingRecord" :selfInfo="playerInfo" v-on:vote="sheriffPkVote"></sheriff-pk-vote>
-    <voteResult v-if="daytimeRecord" :daytimeRecord="daytimeRecord" sheriff="sheriffRecord.sheriff"></voteResult>
+    <voteResult v-if="showVoteResult && daytimeRecord" :daytimeRecord="daytimeRecord" :sheriff="sheriffRecord.sheriff"></voteResult>
     <user-bottom :event="acceptableEventTypeList" v-on:bottomConfirm="bottomEventConfirm"></user-bottom>
   </div>
 
@@ -54,7 +54,8 @@
         nightRecord: {},
         sheriffRecord: {},
         showRo: true,
-        showRoleButton: false
+        showRoleButton: false,
+        showVoteResult: false
       }
     },
     mounted () {
@@ -105,10 +106,7 @@
           seatNumber: this.seatNumber,
           userID: this.userId
         }
-        putPlayerEvent(this.roomCode, this.seatNumber, createEvent).then(res => {
-          this.acceptableEventTypeList = res.data.acceptableEventTypeList
-          this.playerInfoList = res.data.playerSeatInfoList
-        })
+        this.putEvent(createEvent)
       },
       daytimeVote: function (voteNumber) {
         const daytimeVoteEvent = {
@@ -117,9 +115,7 @@
           userID: this.userId,
           daytimeVoteNumber: voteNumber
         }
-        putPlayerEvent(this.roomCode, this.seatNumber, daytimeVoteEvent).then(res => {
-          this.acceptableEventTypeList = res.data.acceptableEventTypeList
-        })
+        this.putEvent(daytimeVoteEvent)
       },
       sheriffVote: function (voteNumber) {
         const sheriffVoteEvent = {
@@ -128,9 +124,7 @@
           userID: this.userId,
           sheriffVoteNumber: voteNumber
         }
-        putPlayerEvent(this.roomCode, this.seatNumber, sheriffVoteEvent).then(res => {
-          this.acceptableEventTypeList = res.data.acceptableEventTypeList
-        })
+        this.putEvent(sheriffVoteEvent)
       },
       sheriffPkVote: function (voteNumber) {
         const sheriffVoteEvent = {
@@ -139,9 +133,7 @@
           userID: this.userId,
           sheriffPKVoteNumber: voteNumber
         }
-        putPlayerEvent(this.roomCode, this.seatNumber, sheriffVoteEvent).then(res => {
-          this.acceptableEventTypeList = res.data.acceptableEventTypeList
-        })
+        this.putEvent(sheriffVoteEvent)
       },
       sheriffUnregister: function () {
         const sheriffUnregisterEvent = {
@@ -149,9 +141,13 @@
           seatNumber: this.seatNumber,
           userID: this.userId
         }
-        putPlayerEvent(this.roomCode, this.seatNumber, sheriffUnregisterEvent).then(res => {
+        this.putEvent(sheriffUnregisterEvent)
+      },
+      putEvent: function (event) {
+        putPlayerEvent(this.roomCode, this.seatNumber, event).then(res => {
           this.acceptableEventTypeList = res.data.acceptableEventTypeList
-        })
+          this.playerInfoList = res.data.playerSeatInfoList
+        }).catch(err => console.log(err))
       },
       showR: function () {
         this.showRo = true
@@ -166,7 +162,7 @@
         }
       },
       daytime_vote: function (val, oldVal) {
-
+        this.showVoteResult = oldVal
       }
     }
   }
