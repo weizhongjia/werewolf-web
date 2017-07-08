@@ -20,11 +20,11 @@
       <img src="../../../assets/images/sheriff.png" alt="">
     </div>
     <!--竞选警长-->
-    <div class="strive" v-if ="!this.sheriff.sheriff && sheriffRegister && !sheriffUnregister">
+    <div class="strive" v-if ="this.sheriff && !this.sheriff.sheriff && sheriffRegister && !sheriffUnregister">
       <img src="../../../assets/images/strive.png" alt="">
     </div>
     <!--放弃竞选-->
-    <div class="quit" v-if="!this.sheriff.sheriff && sheriffRegister && sheriffUnregister">
+    <div class="quit" v-if="this.sheriff && !this.sheriff.sheriff && sheriffRegister && sheriffUnregister">
       <img src="../../../assets/images/quitSheriff.png" alt="">
     </div>
   </div>
@@ -33,30 +33,20 @@
   import '../../../assets/style/reset.css'
   export default {
     name: 'seat',
-//    showRo可从game或者usergame里面取到
-//    showRo在game里默认为true，在userGame里面默认为false，在userGame里点击切换按钮切换showRo。并且showRole依赖于showRo，
-//    第三方变量showRo3,在game里默认为true，在seat组件中控制showRole默认的显隐，两个父组件的初始状态不同。
-    props: ['showRo3', 'info', 'wolfKill', 'witchPoison', 'selectedSeat', 'hideSwitch', 'sheriff', 'nightRecord', 'showRo'],
+    props: ['info', 'wolfKill', 'witchPoison', 'selectedSeat', 'hideSwitch', 'showRoleSwitch', 'sheriff', 'nightRecord'],
     data () {
       return {
-        showRole: true,
-        showRo3: false
+        showRole: true
       }
     },
     mounted () {
       if (this.hideSwitch) {
         this.showRole = false
       }
-      ;
-      if (this.showRo3) {
-        this.showRole = false
-      }
     },
     methods: {
       seatSelected: function () {
-//        控制刚开始身份牌的显隐
-        if (this.hideSwitch && this.showRo) {
-//          切换图片效果
+        if (this.hideSwitch) {
           this.showRole = !this.showRole
         } else {
           this.$emit('seatSelected', this.info)
@@ -76,12 +66,10 @@
         return this.sheriff && this.sheriff.sheriff === this.info.seatNumber
       },
       roleImage () {
-        if (this.showRo) {
-          if (!this.showRole) {
-            return this.info.role.toLowerCase()
-          } else {
-            return ''
-          }
+        if (!this.showRole && this.showRoleSwitch) {
+          return this.info.role.toLowerCase()
+        } else {
+          return ''
         }
       }
     }

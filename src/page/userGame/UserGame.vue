@@ -4,18 +4,18 @@
 
     <div class="userImage">
 
-      <seat :info="playerInfo" :nightRecord="nightRecord" :hideSwitch="true" :showRo="showRo"></seat>
+      <seat :info="playerInfo" :nightRecord="nightRecord" :hideSwitch="true" :showRoleSwitch="showRo"></seat>
 
       <transition  name="slide-fade">
         <p v-if="playerInfo.role !== 'UNASSIGN'">点击头像可显示/隐藏身份牌</p>
       </transition>
     </div>
-    <div class="random" v-on:click="showR" v-if='!showRo'>抽牌</div>
+    <div class="random" v-on:click="showR" v-if='showRoleButton'>抽牌</div>
     <!--<div class="yes hide"daytime_vote>隐藏/显示身份</div>-->
     <vote v-if="daytime_vote" :playerInfoList="playerInfoList" :selfInfo="playerInfo" v-on:vote="daytimeVote"></vote>
     <sheriff-vote v-if="sheriff_vote" :playerInfoList="playerInfoList" :sheriffVoteList="sheriffRecord.votingRecord" :selfInfo="playerInfo" v-on:vote="sheriffVote"></sheriff-vote>
     <sheriff-pk-vote v-if="sheriff_pk_vote" :playerInfoList="playerInfoList" :sheriffPkVote="sheriffRecord.pkVotingRecord" :selfInfo="playerInfo" v-on:vote="sheriffPkVote"></sheriff-pk-vote>
-    <voteResult v-if="daytimeRecord" :daytimeRecord="daytimeRecord"></voteResult>
+    <voteResult v-if="daytimeRecord" :daytimeRecord="daytimeRecord" sheriff="sheriffRecord.sheriff"></voteResult>
     <user-bottom :event="acceptableEventTypeList" v-on:bottomConfirm="bottomEventConfirm"></user-bottom>
   </div>
 
@@ -53,7 +53,8 @@
         daytimeRecord: [],
         nightRecord: {},
         sheriffRecord: {},
-        showRo: false
+        showRo: true,
+        showRoleButton: false
       }
     },
     mounted () {
@@ -77,6 +78,9 @@
       },
       sheriff_unregister: function () {
         return this.acceptableEventTypeList.filter(event => event === 'SHERIFF_UNREGISTER').length
+      },
+      exit_room: function () {
+        return this.acceptableEventTypeList.filter(event => event === 'Exit_ROOM').length
       }
     },
     methods: {
@@ -150,7 +154,19 @@
         })
       },
       showR: function () {
-        this.showRo = !this.showRo
+        this.showRo = true
+        this.showRoleButton = false
+      }
+    },
+    watch: {
+      exit_room: function (val, oldVal) {
+        if (!val && oldVal) {
+          this.showRoleButton = true
+          this.showRo = false
+        }
+      },
+      daytime_vote: function (val, oldVal) {
+
       }
     }
   }

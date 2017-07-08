@@ -9,7 +9,10 @@
         <div class="voteResult">
           <span v-if="key != 0">{{key}}号&larr;</span>
           <span v-if="key == 0">弃权&larr;</span>
-          <span v-for="n in value">{{ n }}、</span>
+          <template v-for="n in value">
+            <span v-if="n == sheriff" style="color: red;">{{ n }}、</span>
+            <span v-if="n != sheriff">{{ n }}、</span>
+          </template>
         </div>
 
       </template>
@@ -31,8 +34,7 @@
         outNum: 2
       }
     },
-    props: ['daytimeRecord']
-
+    props: ['daytimeRecord', 'sheriff']
   }
 </script>
 

@@ -3,7 +3,7 @@
     <top v-on:resetGame="restartGame" v-on:disbandGame="disbandGame" :status="status"></top>
     <div class="room">
       <div v-for="(seat,index) in seats" class="position">
-        <seat showRo3="true" showRo="true" :info="seat" :nightRecord="nightRecord" :selectedSeat="selectedSeat" :sheriff="sheriffRecord" :wolfKill="wolf_kill" :witchPoison="witch_poison" v-on:seatSelected="chooseSeat" :class="{'isSelected':isSelected[index]}" :key="index"></seat>
+        <seat showRoleSwitch="true" showRo="true" :info="seat" :nightRecord="nightRecord" :selectedSeat="selectedSeat" :sheriff="sheriffRecord" :wolfKill="wolf_kill" :witchPoison="witch_poison" v-on:seatSelected="chooseSeat" :class="{'isSelected':isSelected[index]}" :key="index"></seat>
       </div>
     </div>
     <bottom :event="acceptableEventTypes" :selectedInfo="selectedInfo" :selectedSeat="selectedSeat" :sheriffRecord="sheriffRecord" v-on:bottomConfirm="bottomEventConfirm"></bottom>
