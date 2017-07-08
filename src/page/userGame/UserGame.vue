@@ -174,7 +174,7 @@
     /*border-radius: 50%;*/
   /*}*/
   .userImage .die{
-    border-radius: 50%;
+    /*border-radius: 50%;*/
     overflow: hidden;
   }
   #night .hide{
