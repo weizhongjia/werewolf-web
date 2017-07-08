@@ -7,8 +7,9 @@
     <div class="time">{{statusText}}</div>
     <div class="history"><span>历史</span></div>
     <div v-if="menu" class="reset animated bounceInDown" style="z-index:200;">
-      <span>请确定是否重启游戏？</span>
-      <p class="yes" v-on:click="resetGame">重启游戏</p>
+      <span>重启游戏或解散游戏？</span>
+      <p class="yes" v-on:click="resetGame" style="top:3.5rem;">重启游戏</p>
+      <p class="yes" v-on:click="disbandGame">解散游戏</p>
       <div></div>
 
     </div>
@@ -31,6 +32,10 @@
       resetGame: function () {
         this.menu = !this.menu
         this.$emit('resetGame')
+      },
+      disbandGame: function () {
+        this.menu = !this.menu
+        this.$emit('disbandGame')
       }
     },
     computed: {

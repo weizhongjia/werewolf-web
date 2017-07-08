@@ -1,10 +1,11 @@
 <template>
   <div id="night">
-    <top v-on:resetGame="restartGame" :status="status"></top>
+    <top v-on:resetGame="restartGame" v-on:disbandGame="disbandGame" :status="status"></top>
     <div class="room">
       <div v-for="(seat,index) in seats" class="position">
         <seat showRo3="true" showRo="true" :info="seat" :nightRecord="nightRecord" :selectedSeat="selectedSeat" :sheriff="sheriffRecord" :wolfKill="wolf_kill" :witchPoison="witch_poison" v-on:seatSelected="chooseSeat" :class="{'isSelected':isSelected[index]}" :key="index"></seat>
-    </div>
+      </div>
+      </div>
     <bottom :event="acceptableEventTypes" :selectedInfo="selectedInfo" :selectedSeat="selectedSeat" :sheriffRecord="sheriffRecord" v-on:bottomConfirm="bottomEventConfirm"></bottom>
 
     <!--天黑请闭眼-->
@@ -117,6 +118,14 @@
         }
         this.putEvent(restartGameEvent)
       },
+      disbandGame: function () {
+        this.init()
+        const disbandGameEvent = {
+          eventType: 'DISBAND_GAME',
+          roomCode: this.roomCode
+        }
+        this.putEvent(disbandGameEvent)
+      },
       startGame: function () {
         const createEvent = {
           eventType: 'COMPLETE_CREATE',
@@ -181,6 +190,9 @@
         }
         if (this.hunter_state) {
           this.hunterState()
+        }
+        if (this.moron_show) {
+          this.moronShow(flag)
         }
         if (this.sheriff_unregister) {
           this.sheriffUnregister(flag)
@@ -329,6 +341,14 @@
         }
         this.putEvent(hunterStateEvent)
       },
+      moronShow: function (flag) {
+        const moronShowEvent = {
+          eventType: 'MORON_SHOW',
+          roomCode: this.roomCode,
+          moronShow: flag
+        }
+        this.putEvent(moronShowEvent)
+      },
       sheriffUnregister: function (flag) {
         if (!flag) return
         const sheriffUnregisterEvent = {
@@ -348,7 +368,7 @@
           this.sheriffRecord = res.data.sheriffRecord || this.sheriffRecord
           this.selectedSeat = ''
           this.sheriffSeat = []
-        })
+        }).catch(err => console.log(err))
       },
       chooseSeat: function (info) {
         if (this.sheriff_running) {
@@ -438,6 +458,9 @@
       },
       hunter_state: function () {
         return this.acceptableEventTypes.filter(event => event === 'HUNTER_STATE').length
+      },
+      moron_show: function () {
+        return this.acceptableEventTypes.filter(event => event === 'MORON_SHOW').length
       },
       isSelected: function () {
         let isSelectedArray = []

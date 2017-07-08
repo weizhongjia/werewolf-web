@@ -6,25 +6,25 @@
     <div class="die" v-if="!info.alive && !info.seatAvailable">
       <img src="../../../assets/images/die2.png" alt="">
       <div></div>
-   </div>
+    </div>
     <!--毒药-->
     <div class="poison" v-if="info.alive && nightRecord && nightRecord.witchPoisoned === info.seatNumber">
       <img src="../../../assets/images/poison.png" alt="">
-   </div>
+    </div>
     <!--被刀-->
-    <div class="die" v-if="info.alive && nightRecord && nightRecord.wolfKilledSeat === info.seatNumber">
+    <div class="die" v-if="info.alive && nightRecord && nightRecord.wolfKilledSeat === info.seatNumber && nightRecord.witchSaved !== info.seatNumber">
       <img src="../../../assets/images/die2.png" alt="">
     </div>
     <!--警长-->
-    <div class="sheriff" v-if="sheriff && sheriff.sheriff === info.seatNumber">
+    <div class="sheriff" v-if="isSheriff">
       <img src="../../../assets/images/sheriff.png" alt="">
     </div>
     <!--竞选警长-->
-    <div class="strive" v-if ="sheriffRegister && !sheriffUnregister">
+    <div class="strive" v-if ="!this.sheriff.sheriff && sheriffRegister && !sheriffUnregister">
       <img src="../../../assets/images/strive.png" alt="">
     </div>
     <!--放弃竞选-->
-    <div class="quit" v-if="sheriffRegister && sheriffUnregister">
+    <div class="quit" v-if="!this.sheriff.sheriff && sheriffRegister && sheriffUnregister">
       <img src="../../../assets/images/quitSheriff.png" alt="">
     </div>
   </div>
@@ -72,10 +72,13 @@
         if (!this.sheriff || !this.sheriff.votingRecord) return false
         return Object.keys(this.sheriff.votingRecord).findIndex(el => parseInt(el) === this.info.seatNumber) === -1
       },
+      isSheriff () {
+        return this.sheriff && this.sheriff.sheriff === this.info.seatNumber
+      },
       roleImage () {
         if (this.showRo) {
           if (!this.showRole) {
-            return this.info.role.toLowerCase();
+            return this.info.role.toLowerCase()
           } else {
             return ''
           }

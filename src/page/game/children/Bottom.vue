@@ -64,6 +64,9 @@
       hunter_state: function () {
         return this.event.filter(event => event === 'HUNTER_STATE').length
       },
+      moron_show: function () {
+        return this.event.filter(event => event === 'MORON_SHOW').length
+      },
       is_on_sheriff: function () {
         if (!this.sheriffRecord) {
           return false
@@ -143,6 +146,13 @@
           return {
             title: '猎人开枪带人',
             positive: '确定'
+          }
+        }
+        if (this.moron_show) {
+          return {
+            title: '傻瓜是否翻牌',
+            positive: '确定',
+            negative: '放弃'
           }
         }
         if (this.werewolves_explode && this.sheriff_voting && this.sheriff_unregister) {
