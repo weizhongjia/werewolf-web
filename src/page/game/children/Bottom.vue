@@ -150,7 +150,7 @@
         }
         if (this.moron_show) {
           return {
-            title: '傻瓜是否翻牌',
+            title: '白痴是否翻牌',
             positive: '确定',
             negative: '放弃'
           }

@@ -39,12 +39,24 @@
         showRole: true
       }
     },
+    mounted () {
+      if (this.hideSwitch) {
+        this.showRole = false
+      }
+    },
     methods: {
       seatSelected: function () {
         if (this.hideSwitch) {
           this.showRole = !this.showRole
         } else {
           this.$emit('seatSelected', this.info)
+        }
+      }
+    },
+    watch: {
+      showRoleSwitch: function (val, oldVal) {
+        if (oldVal && !val) {
+          this.showRole = true
         }
       }
     },

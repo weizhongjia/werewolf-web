@@ -2,19 +2,20 @@
   <div id="userOver">
     <p>游戏结束</p>
     <div id="result">
-      <p class="win" v-if="0">WIN</p>
-      <p class="lose" v-if="01">LOSE</p>
+      <p class="win" v-if="result === 'winner'">WIN</p>
+      <p class="lose" v-if="result === 'loser'">LOSE</p>
     </div>
     <div id="score">
       <p>本局得分:</p>
-      <p>400</p>
+      <p>{{score}}</p>
     </div>
   </div>
 </template>
 
 <script>
   export default{
-    name : 'userOver'
+    name: 'userOver',
+    props: ['result', 'score']
   }
 </script>
 
@@ -25,8 +26,8 @@
     position: absolute;
     top:1.5rem;
     left: 0.7rem;
-    background: #030000;
-    /*background: #c4c4c4;*/
+    /*background: #030000;*/
+    background: #c4c4c4;
     font-size: 0.35rem;
     z-index: 1000;
   }

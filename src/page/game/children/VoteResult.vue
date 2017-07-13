@@ -5,7 +5,7 @@
     <!--投票结果容器-->
     <div class="allVoteResult">
       <!--每个身份投票信息-->
-      <template v-for="(value, key) in daytimeRecord.votingRecord" >
+      <template v-if="showVotingResult === 'daytime_voting'" v-for="(value, key) in daytimeRecord.votingRecord" >
         <div class="voteResult">
           <span v-if="key != 0">{{key}}号&larr;</span>
           <span v-if="key == 0">弃权&larr;</span>
@@ -16,13 +16,40 @@
         </div>
 
       </template>
+
+      <template v-if="showVotingResult === 'sheriff_voting'" v-for="(value, key) in sheriffRecord.votingRecord" >
+        <div class="voteResult">
+          <span v-if="key != 0">{{key}}号&larr;</span>
+          <span v-if="key == 0">弃权&larr;</span>
+          <template v-for="n in value">
+            <span v-if="n == sheriff" style="color: red;">{{ n }}、</span>
+            <span v-if="n != sheriff">{{ n }}、</span>
+          </template>
+        </div>
+
+      </template>
+
+      <template v-if="showVotingResult === 'sheriff_pk_voting'" v-for="(value, key) in sheriffRecord.pkVotingRecord" >
+        <div class="voteResult">
+          <span v-if="key != 0">{{key}}号&larr;</span>
+          <span v-if="key == 0">弃权&larr;</span>
+          <template v-if="value.length !== 0" v-for="n in value">
+            <span v-if="n == sheriff" style="color: red;">{{ n }}、</span>
+            <span v-if="n != sheriff">{{ n }}、</span>
+          </template>
+          <span v-if="!value">无人投票</span>
+        </div>
+      </template>
     </div>
 
     <div id="outNum">
       <p>最终结果：</p>
-      <p class="outNum">{{daytimeRecord.diedNumber}}</p>
-      <p>&nbsp;号出局</p>
+      <p class="outNum" v-if="showVotingResult === 'daytime_voting'">{{daytimeRecord.diedNumber}}</p>
+      <p class="outNum" v-if="showVotingResult === 'sheriff_voting' || showVotingResult === 'sheriff_pk_voting'">{{sheriffRecord.sheriff}}</p>
+      <p v-if="showVotingResult === 'daytime_voting'">&nbsp;号出局</p>
+      <p v-if="showVotingResult === 'sheriff_voting' || showVotingResult === 'sheriff_pk_voting'">&nbsp;号当选</p>
     </div>
+    <div style="position: absolute;bottom: 0;text-align: center;left: 1.5rem;" class="yes" v-on:click="handleClick">确&nbsp;定</div>
   </div>
 </template>
 
@@ -34,7 +61,12 @@
         outNum: 2
       }
     },
-    props: ['daytimeRecord', 'sheriff']
+    props: ['daytimeRecord', 'sheriff', 'showVotingResult', 'sheriffRecord'],
+    methods: {
+      handleClick: function () {
+        this.$emit('hideVoteResult')
+      }
+    }
   }
 </script>
 
@@ -75,7 +107,7 @@
     text-align: center;
     font-size: 0.38rem;
     position: absolute;
-    bottom: 0.2rem;
+    bottom: 1.2rem;
     padding-left: 0.72rem;
   }
   #outNum p{
@@ -90,7 +122,7 @@
   }
   .allVoteResult{
     width:5rem;
-    height: 5.6rem;
+    height: 4.6rem;
     position: absolute;
     display: flex;
     top:1.2rem;

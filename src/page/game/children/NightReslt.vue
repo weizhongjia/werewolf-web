@@ -2,17 +2,25 @@
   <div id="nightResult">
     <h1>当晚结果</h1>
     <div>
-      <p>刀：<span>5</span>号</p>
-      <p>救：<span>5</span>号</p>
-      <p>毒：<span>16</span>号</p>
+      <p v-if="nightResult.wolfKilledSeat !== 0">刀：<span>{{nightResult.wolfKilledSeat}}</span>号</p>
+      <p v-if="nightResult.witchSaved !== 0">救：<span>{{nightResult.witchSaved}}</span>号</p>
+      <p v-if="nightResult.witchPoisoned !== 0">毒：<span>{{nightResult.witchPoisoned}}</span>号</p>
+      <!--<p v-if="nightResult.wolfKilledSeat !== nightResult.witchSaved">死：<span>{{nightResult.diedNumber}}</span>号</p>-->
+      <!--<p v-if="nightResult.wolfKilledSeat === nightResult.witchSaved">平安夜</p>-->
     </div>
-    <div class="yes">确&nbsp;定</div>
+    <div class="yes" v-on:click="handleClick">确&nbsp;定</div>
   </div>
 </template>
 
 <script>
   export default{
-    name: 'nightResult'
+    name: 'nightResult',
+    props: ['nightResult'],
+    methods: {
+      handleClick: function () {
+        this.$emit('hideNightResult')
+      }
+    }
   }
 </script>
 

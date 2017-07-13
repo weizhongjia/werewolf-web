@@ -1,7 +1,9 @@
 <template>
   <div class="startGame animated bounceInDow">
-    <p>{{text.title}}</p>
-    <button class="next" v-on:click="handleClick">{{text.button}}</button>
+    <p v-if="timeout">{{text.title}}</p>
+    <p v-if="!timeout">{{text.timeout}}</p>
+    <button v-if="timeout" class="next" v-on:click="handleClick">{{text.button}}</button>
+    <button v-if="!timeout" class="next">请稍后</button>
   </div>
 </template>
 
@@ -9,17 +11,30 @@
   export default{
     name: 'startGame',
     props: ['startGame', 'endingGame', 'sheriffVoting', 'sheriffPkVoting'],
+    data () {
+      return {
+        timeout: false
+      }
+    },
     methods: {
       handleClick: function () {
         this.$emit('handleClick')
       }
+    },
+    mounted () {
+      setTimeout(function () {
+        if (this.startGame) {
+          this.timeout = true
+        }
+      }.bind(this), 5000)
     },
     computed: {
       text: function () {
         if (this.startGame) {
           return {
             title: '房间人数已满',
-            button: '开始游戏'
+            button: '开始游戏',
+            timeout: '正在创建游戏'
           }
         }
         if (this.endingGame) {

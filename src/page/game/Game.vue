@@ -9,7 +9,7 @@
     <bottom :event="acceptableEventTypes" :selectedInfo="selectedInfo" :selectedSeat="selectedSeat" :sheriffRecord="sheriffRecord" v-on:bottomConfirm="bottomEventConfirm"></bottom>
 
     <!--天黑请闭眼-->
-    <night v-on:nightComing="nightComing" v-if="night_coming"></night>
+    <night v-on:nightComing="nightComing" v-if="night_coming && !showVoteResult"></night>
     <!--预言家看牌结果-->
     <judgement v-if="0"></judgement>
     <!--是否使用解药-->
@@ -23,12 +23,12 @@
     <start-game v-on:handleClick="handleClick" v-if="complete_create || ending_game || sheriff_pk_voting" :endingGame="ending_game" :startGame="complete_create" :sheriffPkVoting="sheriff_pk_voting"></start-game>
 
     <!--当晚结果-->
-    <night-result v-if="0"></night-result>
+    <night-result v-if="showNightResult" :nightResult="nightRecord" v-on:hideNightResult="hideNightResult"></night-result>
 
     <!--游戏结束-->
     <game-over v-if="0"></game-over>
     <!--投票结果-->
-    <!--<voteResult v-if="daytimeRecord" :daytimeRecord="daytimeRecord"></voteResult>-->
+    <vote-result v-on:hideVoteResult="hideVoteResult" v-if="showVotingResult" :showVotingResult="showVotingResult" :daytimeRecord="daytimeRecord" :sheriffRecord="sheriffRecord"></vote-result>
   </div>
 
 </template>
@@ -78,7 +78,9 @@
         nightRecord: {},
         sheriffSeat: [],
         sheriffRecord: {},
-        status: ''
+        status: '',
+        showNightResult: false,
+        showVoteResult: ''
       }
     },
     methods: {
@@ -161,7 +163,7 @@
       },
       bottomEventConfirm: function (flag) {
         if (this.wolf_kill) {
-          this.wolfKill()
+          this.wolfKill(flag)
         }
         if (this.seer_verify) {
           this.seerVerify()
@@ -206,11 +208,15 @@
           this.sheriffUnregister(flag)
         }
       },
-      wolfKill: function () {
+      wolfKill: function (flag) {
+        let killNumber = 0
+        if (flag) {
+          killNumber = this.selectedSeat
+        }
         const wolfKillEvent = {
           eventType: 'WOLF_KILL',
           roomCode: this.roomCode,
-          wolfKillNumber: this.selectedSeat
+          wolfKillNumber: killNumber
         }
         this.putEvent(wolfKillEvent)
       },
@@ -395,6 +401,32 @@
             this.selectedInfo = info
           }
         }
+      },
+      hideNightResult: function () {
+        this.showNightResult = false
+      },
+      hideVoteResult: function () {
+        this.showVoteResult = ''
+      }
+    },
+    watch: {
+      sheriff_voting: function (val, oldVal) {
+        if (oldVal) {
+          this.showVoteResult = 'sheriff_voting'
+        }
+      },
+      sheriff_pk_voting: function (val, oldVal) {
+        if (oldVal) {
+          this.showVoteResult = 'sheriff_pk_voting'
+        }
+      },
+      daytime_voting: function (val, oldVal) {
+        if (oldVal) {
+          this.showVoteResult = 'daytime_voting'
+        }
+      },
+      daytime_coming: function (val, oldVal) {
+        this.showNightResult = oldVal
       }
     },
     computed: {
@@ -479,6 +511,14 @@
       },
       is_on_sheriff: function () {
         return this.sheriffRecord && Object.keys(this.sheriffRecord.votingRecord).filter(number => parseInt(number) === this.selectedSeat).length > 0
+      },
+      showVotingResult: function () {
+        console.log(this.showVoteResult === 'daytime_voting' && this.daytimeRecord && Object.keys(this.daytimeRecord.votingRecord))
+        if ((this.showVoteResult === 'daytime_voting' && this.daytimeRecord && Object.keys(this.daytimeRecord.votingRecord).length > 0) || ((this.showVoteResult === 'sheriff_voting' || this.showVoteResult === 'sheriff_pk_voting') && (this.sheriffRecord && (this.sheriffRecord.votingRecord || this.sheriffRecord.pkVotingRecord)))) {
+          return this.showVoteResult
+        } else {
+          return false
+        }
       }
     }
   }
