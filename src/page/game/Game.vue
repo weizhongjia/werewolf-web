@@ -26,7 +26,7 @@
     <night-result v-if="showNightResult" :nightResult="nightRecord" v-on:hideNightResult="hideNightResult"></night-result>
 
     <!--游戏结束-->
-    <game-over v-if="0"></game-over>
+    <game-over v-if="10"></game-over>
     <!--投票结果-->
     <vote-result v-on:hideVoteResult="hideVoteResult" v-if="showVotingResult" :showVotingResult="showVotingResult" :daytimeRecord="daytimeRecord" :sheriffRecord="sheriffRecord"></vote-result>
   </div>

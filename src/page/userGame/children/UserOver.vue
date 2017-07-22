@@ -1,9 +1,11 @@
 <template>
   <div id="userOver">
-    <p>游戏结束</p>
+    <h1>游戏结束</h1>
     <div id="result">
-      <p class="win" v-if="result === 'winner'">WIN</p>
-      <p class="lose" v-if="result === 'loser'">LOSE</p>
+      <img class="win" v-if="0" src="../../../assets/images/win2.png" alt="" >
+      <img class="lose"  v-if="10" src="../../../assets/images/lose2.png" alt="">
+      <!--<p class="win" v-if="result === 'winner'">WIN</p>-->
+      <!--<p class="lose" v-if="result === 'loser'">LOSE</p>-->
     </div>
     <div id="score">
       <p>本局得分:</p>
@@ -21,20 +23,25 @@
 
 <style>
   #userOver{
-    width: 5rem;
+    color: #3c3c3c;
+    width: 6.4rem;
+    /*width: 5rem;*/
     height:auto;
     position: absolute;
-    top:1.5rem;
-    left: 0.7rem;
+    top:0;
+    bottom: 0;
+    /*top:1.5rem;*/
+    /*left: 0.7rem;*/
     /*background: #030000;*/
-    background: #c4c4c4;
+    background: #d6d6d6;
     font-size: 0.35rem;
     z-index: 1000;
   }
-    #userOver>p{
+    #userOver>h1{
       font-size: 0.9rem;
-      color: yellow;
-      text-shadow:0 2px 10px #cccc33;
+      font-style: italic;
+      /*color: yellow;*/
+      /*text-shadow:0 2px 10px #cccc33;*/
       margin: 1rem auto;
     }
    #userOver #result{
@@ -42,13 +49,12 @@
      font-weight: 600;
      margin-top: 1rem;
    }
-  #userOver .win{
-    color: red;
-    text-shadow: 0 1px 10px #cc3333;
-  }
-  #userOver .lose{
-    color:#999999;
-    text-shadow: 0 0 3px #cccccc;
+  #userOver img{
+    display: block;
+    width: 2.8rem;
+    height:1.5rem;
+    opacity: 0.8;
+    margin: 0 auto;
   }
   #userOver #score{
     margin: 1rem auto 1.2rem;
