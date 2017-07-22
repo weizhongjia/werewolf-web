@@ -1,3 +1,4 @@
 build/*.js
 config/*.js
 src/store/fetch.js
+src/util/store.js

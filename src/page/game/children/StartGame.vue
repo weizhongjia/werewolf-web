@@ -22,11 +22,13 @@
       }
     },
     mounted () {
-      setTimeout(function () {
-        if (this.startGame) {
+      if (this.startGame) {
+        setTimeout(function () {
           this.timeout = true
-        }
-      }.bind(this), 5000)
+        }.bind(this), 5000)
+      } else {
+        this.timeout = true
+      }
     },
     computed: {
       text: function () {
