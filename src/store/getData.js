@@ -13,15 +13,15 @@ var instance = axios.create({
 })
 
 instance.interceptors.response.use(function (response) {
-  return response;
+  return response
 }, function (error) {
   console.log('interceptors:')
   if (error.response.status === 404) {
     store.remove('userinfo')
     window.history.go(0)
   }
-  return Promise.reject(error);
-});
+  return Promise.reject(error)
+})
 /**
  * 发送法官事件
  */
