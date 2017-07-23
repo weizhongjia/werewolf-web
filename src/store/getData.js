@@ -16,9 +16,12 @@ instance.interceptors.response.use(function (response) {
   return response
 }, function (error) {
   console.log('interceptors:')
-  if (error.response.status === 404) {
+  if (error.response.status === 403 || error.response.status == 401) {
     store.remove('userinfo')
     window.history.go(0)
+  }
+  if (error.response.status === 500) {
+    alert(error.response.data.message)
   }
   return Promise.reject(error)
 })
