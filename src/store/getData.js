@@ -2,11 +2,11 @@ import axios from 'axios'
 import store from '../util/store'
 
 let baseUrl = 'http://werewolf.mrourou.com'
-// if (process.env.NODE_ENV === 'development') {
-//   baseUrl = 'http://localhost:8080'
-// } else {
-//   baseUrl = 'http://werewolf.mrourou.com'
-// }
+if (process.env.NODE_ENV === 'development') {
+  baseUrl = 'http://localhost:8080'
+} else {
+  baseUrl = 'http://werewolf.mrourou.com'
+}
 
 var instance = axios.create({
   baseURL: baseUrl
