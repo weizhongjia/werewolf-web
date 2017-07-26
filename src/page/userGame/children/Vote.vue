@@ -31,13 +31,13 @@
         }
       },
       selectSeat: function (player) {
-        let isSelf = this.selfInfo.seatNumber === player.seatNumber || !player.alive
+        let isSelf = !player.alive
         if (!isSelf) {
           this.selected = player.seatNumber
         }
       },
       getClass: function (player) {
-        let isSelf = this.selfInfo.seatNumber === player.seatNumber || !player.alive
+        let isSelf = !player.alive
         let isOn = this.selected === player.seatNumber && !isSelf
         return {
           self: isSelf,

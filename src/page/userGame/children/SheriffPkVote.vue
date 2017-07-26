@@ -31,13 +31,13 @@
         }
       },
       selectSeat: function (player) {
-        let isSelf = this.selfInfo.seatNumber === player.seatNumber || Object.keys(this.sheriffPkVote[this.sheriffPkVote.length - 1]).filter(number => parseInt(number) === player.seatNumber).length === 0
+        let isSelf = Object.keys(this.sheriffPkVote[this.sheriffPkVote.length - 1]).filter(number => parseInt(number) === player.seatNumber).length === 0
         if (!isSelf) {
           this.selected = player.seatNumber
         }
       },
       getClass: function (player) {
-        let isSelf = this.selfInfo.seatNumber === player.seatNumber || Object.keys(this.sheriffPkVote[this.sheriffPkVote.length - 1]).filter(number => parseInt(number) === player.seatNumber).length === 0
+        let isSelf = Object.keys(this.sheriffPkVote[this.sheriffPkVote.length - 1]).filter(number => parseInt(number) === player.seatNumber).length === 0
         let isOn = this.selected === player.seatNumber && !isSelf
         return {
           self: isSelf,

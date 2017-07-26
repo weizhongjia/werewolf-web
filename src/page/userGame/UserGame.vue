@@ -15,9 +15,9 @@
     <vote v-if="daytime_vote" :playerInfoList="playerInfoList" :selfInfo="playerInfo" v-on:vote="daytimeVote"></vote>
     <sheriff-vote v-if="sheriff_vote" :playerInfoList="playerInfoList" :sheriffVoteList="sheriffRecord.votingRecord" :selfInfo="playerInfo" v-on:vote="sheriffVote"></sheriff-vote>
     <sheriff-pk-vote v-if="sheriff_pk_vote" :playerInfoList="playerInfoList" :sheriffPkVote="sheriffRecord.pkVotingRecord" :selfInfo="playerInfo" v-on:vote="sheriffPkVote"></sheriff-pk-vote>
-    <voteResult v-if="showVoteResult && daytimeRecord" :daytimeRecord="daytimeRecord" :sheriff="sheriffRecord.sheriff"></voteResult>
+    <voteResult v-on:hideVoteResult="hideVoteResult" v-if="showVoteResult && daytimeRecord" :daytimeRecord="daytimeRecord" :sheriff="sheriffRecord.sheriff" :showVotingResult="showVoteResult" :sheriffRecord="sheriffRecord"></voteResult>
     <user-bottom :event="acceptableEventTypeList" v-on:bottomConfirm="bottomEventConfirm"></user-bottom>
-    <game-over v-if="gameResult" :result="gameResult" :score="playerInfo.finalScore"></game-over>
+    <user-over v-if="gameResult" :result="gameResult" :score="playerInfo.finalScore"></user-over>
   </div>
 
 
@@ -32,7 +32,7 @@
   import SheriffVote from './children/SheriffVote.vue'
   import SheriffPkVote from './children/SheriffPkVote.vue'
   import UserBottom from './children/UserBottom.vue'
-  import GameOver from '../game/children/GameOver.vue'
+  import UserOver from './children/UserOver.vue'
   export default{
     name: 'userGame',
     components: {
@@ -43,7 +43,7 @@
       VoteResult,
       SheriffVote,
       SheriffPkVote,
-      GameOver
+      UserOver
     },
     data () {
       return {
@@ -157,6 +157,9 @@
       showR: function () {
         this.showRo = true
         this.showRoleButton = false
+      },
+      hideVoteResult: function () {
+        this.showVoteResult = ''
       }
     },
     watch: {
@@ -166,8 +169,20 @@
           this.showRo = false
         }
       },
+      sheriff_vote: function (val, oldVal) {
+        if (!oldVal) {
+          this.showVoteResult = 'sheriff_voting'
+        }
+      },
+      sheriff_pk_vote: function (val, oldVal) {
+        if (!oldVal) {
+          this.showVoteResult = 'sheriff_pk_voting'
+        }
+      },
       daytime_vote: function (val, oldVal) {
-        this.showVoteResult = oldVal
+        if (!oldVal) {
+          this.showVoteResult = 'daytime_voting'
+        }
       }
     }
   }

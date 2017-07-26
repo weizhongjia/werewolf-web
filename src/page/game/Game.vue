@@ -26,7 +26,7 @@
     <night-result v-if="showNightResult" :nightResult="nightRecord" v-on:hideNightResult="hideNightResult"></night-result>
 
     <!--游戏结束-->
-    <game-over v-if="0"></game-over>
+    <game-over v-if="status === 'GAME_OVER'" :result="resultMap" :players="seats" v-on:resetGame="restartGame" v-on:disbandGame="disbandGame"></game-over>
     <!--投票结果-->
     <vote-result v-on:hideVoteResult="hideVoteResult" v-if="showVotingResult" :showVotingResult="showVotingResult" :daytimeRecord="daytimeRecord" :sheriffRecord="sheriffRecord"></vote-result>
   </div>
@@ -80,7 +80,8 @@
         sheriffRecord: {},
         status: '',
         showNightResult: false,
-        showVoteResult: ''
+        showVoteResult: '',
+        resultMap: {}
       }
     },
     methods: {
@@ -101,6 +102,7 @@
           this.status = res.data.status
           this.nightRecord = res.data.nightRecord
           this.sheriffRecord = res.data.sheriffRecord || this.sheriffRecord
+          this.resultMap = res.data.resultMap
           window.setTimeout(this.getGameInfo, 5000)
         })
       },
@@ -382,6 +384,7 @@
           this.sheriffRecord = res.data.sheriffRecord || this.sheriffRecord
           this.selectedSeat = ''
           this.sheriffSeat = []
+          this.resultMap = res.data.resultMap
         }).catch(err => console.log(err))
       },
       chooseSeat: function (info) {
@@ -424,10 +427,12 @@
         if (oldVal) {
           this.showVoteResult = 'daytime_voting'
         }
-      },
-      daytime_coming: function (val, oldVal) {
-        this.showNightResult = oldVal
+
+        if (val) {
+          this.showNightResult = true
+        }
       }
+
     },
     computed: {
       create_room: function () {

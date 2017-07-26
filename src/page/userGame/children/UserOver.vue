@@ -2,8 +2,8 @@
   <div id="userOver">
     <h1>游戏结束</h1>
     <div id="result">
-      <img class="win" v-if="0" src="../../../assets/images/win2.png" alt="" >
-      <img class="lose"  v-if="10" src="../../../assets/images/lose2.png" alt="">
+      <img class="win" v-if="result === 'winner'" src="../../../assets/images/win2.png" alt="" >
+      <img class="lose"  v-if="result === 'looser'" src="../../../assets/images/lose2.png" alt="">
       <!--<p class="win" v-if="result === 'winner'">WIN</p>-->
       <!--<p class="lose" v-if="result === 'loser'">LOSE</p>-->
     </div>

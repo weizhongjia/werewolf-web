@@ -5,20 +5,19 @@
       <!--好人阵营-->
       <div id="goodPerson">
         <!--失败、胜利标识-->
-        <img src="../../../assets/images/win.png" alt="" v-if="0">
-        <img src="../../../assets/images/lose.png" alt="" v-if="1">
+        <img src="../../../assets/images/win.png" alt="" v-if="result && result.winner.length === 8">
+        <img src="../../../assets/images/lose.png" alt="" v-if="result && result.winner.length === 4">
         <div class="h2">
           <div class="gradient"></div>
           <h2>好人阵营</h2>
         </div>
         <div class="content">
           <!--每玩家-->
-          <div class="every">
+          <div class="every" v-for="seat in normal">
             <div class="touX"></div>
-            <p class="num">2</p>
-            <img src="../../../assets/images/waring2.png" alt="" class="waring">
+            <p class="num" style="color:black">{{seat}}</p>
             <div class="role">
-              <img src="../../../assets/images/daoPai.png" alt="" class="daoPai">
+              <img v-if="!players[seat-1].alive" src="../../../assets/images/daoPai.png" alt="" class="daoPai">
             </div>
             <span class="nickName">nickName</span>
           </div>
@@ -28,22 +27,21 @@
       <!--狼人阵营-->
       <div id="wereWolf">
         <!--失败、胜利标识-->
-        <img src="../../../assets/images/win.png" alt="" v-if="1">
-        <img src="../../../assets/images/lose.png" alt="" v-if="0">
+        <img src="../../../assets/images/win.png" alt="" v-if="result && result.winner.length === 4">
+        <img src="../../../assets/images/lose.png" alt="" v-if="result && result.winner.length === 8">
         <div class="h2">
           <div class="gradient"></div>
           <h2>狼人阵营</h2>
         </div>
         <div class="content">
-          <div class="every">
+          <div class="every" v-for="seat in werewolf">
             <!--头像-->
             <div class="touX"></div>
-            <p class="num">2</p>
-            <img src="../../../assets/images/waring2.png" alt="" class="waring">
+            <p class="num" style="color:black">{{seat}}</p>
             <!--右下角角色-->
             <div class="role">
               <!--倒牌-->
-              <img src="../../../assets/images/daoPai.png" alt="" class="daoPai" v-if="1">
+              <img src="../../../assets/images/daoPai.png" alt="" class="daoPai" v-if="!players[seat-1].alive">
             </div>
             <span class="nickName">nickName</span>
           </div>
@@ -52,8 +50,8 @@
 
       <!--<div class="yes again">再来一局</div>-->
       <div class="btmBtn">
-        <div class="yes blue">重启游戏</div>
-        <div class="yes blue">解散游戏</div>
+        <div class="yes blue" v-on:click="resetGame">重启游戏</div>
+        <div class="yes blue" v-on:click="disbandGame">解散游戏</div>
         <!--<div class="yes flaunt">炫耀一下</div>-->
       </div>
     </div>
@@ -62,7 +60,35 @@
 
 <script>
   export default{
-    name: 'gameOver'
+    name: 'gameOver',
+    props: ['result', 'players'],
+    methods: {
+      resetGame: function () {
+        this.$emit('resetGame')
+      },
+      disbandGame: function () {
+        this.$emit('disbandGame')
+      }
+    },
+    computed: {
+      winner: function () {
+        return this.result.winner.length === 4 ? 'werewolf' : 'normal'
+      },
+      werewolf: function () {
+        if (this.winner === 'werewolf') {
+          return this.result.winner.sort()
+        } else {
+          return this.result.looser.sort()
+        }
+      },
+      normal: function () {
+        if (this.winner === 'normal') {
+          return this.result.winner.sort()
+        } else {
+          return this.result.looser.sort()
+        }
+      }
+    }
   }
 </script>
 
